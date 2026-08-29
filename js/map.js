@@ -196,3 +196,55 @@
       console.error(err);
     });
 })();
+
+<script>
+(() => {
+  const slider = document.getElementById('micronSlider');
+  const valEl = document.getElementById('micronValue');
+
+  const marker = document.getElementById('humanMarker');
+  const line = marker.querySelector('.human-line');
+  const label = document.getElementById('humanLabel');
+
+  const wrap = slider.closest('.micron-ui');
+
+  const domainMin = Number(wrap.dataset.domainMin ?? slider.min);
+  const domainMax = Number(wrap.dataset.domainMax ?? slider.max);
+
+  // Human hair is ~70–100 microns; set to 90 for a clear comparison
+  const humanHairMicron = 90;
+
+  function clamp(n, a, b) { return Math.max(a, Math.min(b, n)); }
+
+  function posFromValue(v) {
+    const t = (v - domainMin) / (domainMax - domainMin);
+    return clamp(t, 0, 1);
+  }
+
+  function setHumanMarker() {
+    const p = posFromValue(humanHairMicron);
+    const pct = (p * 100);
+
+    line.style.left = pct + '%';
+    label.style.left = pct + '%';
+
+    const isOffScale = (humanHairMicron < domainMin || humanHairMicron > domainMax);
+    marker.style.opacity = isOffScale ? '1' : '0.85';
+  }
+
+  function updateValue() {
+    const v = Number(slider.value);
+    valEl.textContent = v.toFixed(1).replace(/\.0$/, '.0');
+  }
+
+  // Events
+  slider.addEventListener('input', () => {
+    updateValue();
+    // (Optional) if you want marker to track slider, we can do that too—currently it stays fixed at human hair.
+  });
+
+  // Init
+  updateValue();
+  setHumanMarker();
+})();
+</script>
