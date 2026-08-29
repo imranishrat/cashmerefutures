@@ -10,7 +10,7 @@
   var swatch = document.getElementById("thread-swatch");
 
   var MIN = 14, MAX = 20;       // scale domain, matches the tick labels
-  var HUMAN_HAIR = 75;          // microns, approximate — for comparison only
+  var HUMAN_HAIR = 90;          // microns, approximate — for comparison only
   var THREAD_MIN_PX = 2, THREAD_MAX_PX = 7;
 
   var reducedMotion = window.matchMedia &&
