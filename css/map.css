@@ -140,6 +140,32 @@
   color: var(--ink-soft);
   line-height: 1.6;
 }
+.volume-block{ margin-top: 22px; }
+.volume-label{
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.volume-bar{
+  display: flex;
+  gap: 3px;
+  margin-top: 8px;
+}
+.volume-bar .seg{
+  flex: 1;
+  height: 8px;
+  background: var(--fiber-deep);
+}
+.volume-note{
+  font-family: 'Archivo', sans-serif;
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  margin-top: 8px;
+  line-height: 1.5;
+}
+
 .tag-row{
   display: flex;
   flex-wrap: wrap;
