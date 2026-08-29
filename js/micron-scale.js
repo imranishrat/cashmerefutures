@@ -37,7 +37,7 @@
     useEl.textContent = g.use;
 
     var ratio = (HUMAN_HAIR / v).toFixed(1);
-    hairEl.textContent = "~" + ratio + "× finer than a human hair (\u224875\u03bc)";
+    hairEl.textContent = "~" + ratio + "× finer than a human hair (\u2248" + HUMAN_HAIR + "\u03bc)";
 
     var px = THREAD_MIN_PX + ((v - MIN) / (MAX - MIN)) * (THREAD_MAX_PX - THREAD_MIN_PX);
     swatch.style.height = px.toFixed(1) + "px";
