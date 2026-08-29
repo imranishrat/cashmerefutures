@@ -32,6 +32,7 @@ a{ color: inherit; text-decoration: none; }
 /* ---------- Header ---------- */
 .site-header{
   padding-top: 28px;
+  padding-bottom: 4px;
   border-bottom: 1px solid var(--line);
 }
 .nav-container{
@@ -78,52 +79,31 @@ a{ color: inherit; text-decoration: none; }
 .main-nav a[aria-current="page"]{ border-color: var(--madder); color: var(--madder); }
 
 /* ---------- Micron scale (signature device — interactive) ---------- */
-.micron-scale{ padding-bottom: 4px; }
+.micron-scale{ padding: 14px 0 18px; }
+
 .scale-track-wrap{
   position: relative;
-  height: 46px;
-  display: flex;
-  align-items: flex-end;
+  height: 22px;
+  margin-bottom: 8px;
 }
 .scale-track{
   position: absolute;
-  left: 0; right: 0; bottom: 0;
+  left: 0; right: 0; top: 50%;
   height: 1px;
   background: var(--ink);
-  opacity: 0.5;
-}
-.scale-ticks{
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  position: relative;
-}
-.tick{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-}
-.tick .bar{ width: 1px; background: var(--ink); opacity: 0.55; }
-.tick.major .bar{ height: 14px; opacity: 0.8; }
-.tick.minor .bar{ height: 7px; }
-.tick .lbl{
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 10px;
-  color: var(--ink-soft);
-  white-space: nowrap;
+  opacity: 0.35;
 }
 .scale-handle{
   position: absolute;
-  bottom: -1px;
+  top: 50%;
   left: 0%;
-  width: 15px;
-  height: 15px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
   background: var(--madder);
-  border: 2px solid var(--fiber);
+  border: 3px solid var(--fiber);
   box-shadow: 0 0 0 1px var(--madder);
-  transform: translate(-50%, 50%);
+  transform: translate(-50%, -50%);
   cursor: grab;
   touch-action: none;
   z-index: 2;
@@ -133,16 +113,38 @@ a{ color: inherit; text-decoration: none; }
   outline: 2px solid var(--indigo);
   outline-offset: 3px;
 }
+
+.scale-ticks{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.tick{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.tick .bar{ width: 1px; background: var(--ink); opacity: 0.55; }
+.tick.major .bar{ height: 12px; opacity: 0.8; }
+.tick.minor .bar{ height: 6px; }
+.tick .lbl{
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+
 .scale-caption{
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-top: 10px;
+  margin-top: 16px;
   font-family: 'IBM Plex Mono', monospace;
   font-size: 11px;
   letter-spacing: 0.01em;
   color: var(--ink-soft);
-  padding-bottom: 4px;
+  line-height: 1.6;
 }
 .scale-caption .value{ color: var(--ink); font-weight: 600; }
 .thread-swatch{
@@ -158,6 +160,8 @@ a{ color: inherit; text-decoration: none; }
 }
 @media (max-width: 560px){
   .scale-caption{ flex-wrap: wrap; }
+  .scale-ticks .lbl{ display: none; }
+  .tick.major .lbl{ display: block; font-size: 9px; }
 }
 
 /* ---------- Hero ---------- */
