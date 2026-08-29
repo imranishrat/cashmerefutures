@@ -1,1 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Explore the countries and regions that shape the global cashmere sector.">
+  <title>Global Map — Cashmere Futures</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/map.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-container">
+      <a class="brand" href="index.html" aria-label="Cashmere Futures home">
+        <span class="brand-name">Cashmere Futures</span>
+        <span class="brand-subtitle">Cashmere Futures Lab</span>
+      </a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="communities.html">Communities</a>
+        <a href="research.html">Research</a>
+        <a href="map.html" aria-current="page">Global Map</a>
+        <a href="collaborate.html">Collaborate</a>
+      </nav>
+    </div>
+    <div class="container">
+      <div class="micron-scale" aria-hidden="true">
+        <div class="scale-track"></div>
+        <div class="scale-ticks">
+          <div class="tick major"><span class="bar"></span><span class="lbl">14μ</span></div>
+          <div class="tick minor"><span class="bar"></span></div>
+          <div class="tick minor"><span class="bar"></span></div>
+          <div class="tick major"><span class="bar"></span><span class="lbl">15.5μ</span></div>
+          <div class="tick minor"><span class="bar"></span></div>
+          <div class="tick minor"><span class="bar"></span></div>
+          <div class="tick major"><span class="bar"></span><span class="lbl">17μ</span></div>
+          <div class="tick minor"><span class="bar"></span></div>
+          <div class="tick minor"><span class="bar"></span></div>
+          <div class="tick major"><span class="bar"></span><span class="lbl">18.5μ</span></div>
+          <div class="tick minor"><span class="bar"></span></div>
+          <div class="tick minor"><span class="bar"></span></div>
+          <div class="tick major"><span class="bar"></span><span class="lbl">20μ+</span></div>
+        </div>
+      </div>
+    </div>
+  </header>
 
+  <main>
+    <section class="map-page-hero">
+      <div class="container">
+        <p class="eyebrow">Global Map</p>
+        <h1>Where cashmere comes from.</h1>
+        <p class="hero-intro">An interactive look at the countries shaping the global cashmere sector — from herding communities and historic origin regions to processing and finishing hubs. Select a region on the map or from the list to learn more.</p>
+      </div>
+    </section>
+
+    <section class="map-section">
+      <div class="container map-layout">
+
+        <div class="map-col">
+          <div class="legend" aria-hidden="true">
+            <span class="legend-item"><span class="swatch producer"></span>Leading producer</span>
+            <span class="legend-item"><span class="swatch origin"></span>Historic origin</span>
+            <span class="legend-item"><span class="swatch emerging"></span>Emerging focus</span>
+            <span class="legend-item"><span class="swatch hub"></span>Processing hub</span>
+          </div>
+          <div id="map-status" class="map-status" role="status">Loading map…</div>
+          <svg id="world-map" viewBox="0 0 960 500" role="img" aria-label="World map with cashmere-producing regions highlighted"></svg>
+
+          <div class="region-list" aria-label="Focus regions">
+            <button class="region-chip" data-id="496">Mongolia</button>
+            <button class="region-chip" data-id="156">China</button>
+            <button class="region-chip" data-id="356">India</button>
+            <button class="region-chip" data-id="586">Pakistan</button>
+            <button class="region-chip" data-id="004">Afghanistan</button>
+            <button class="region-chip" data-id="364">Iran</button>
+            <button class="region-chip" data-id="417">Kyrgyzstan</button>
+            <button class="region-chip" data-id="762">Tajikistan</button>
+            <button class="region-chip" data-id="380">Italy</button>
+          </div>
+        </div>
+
+        <aside class="info-panel" id="info-panel" aria-live="polite">
+          <div class="info-empty" id="info-empty">
+            <span class="idx">No selection</span>
+            <h2>Select a region</h2>
+            <p>Click a highlighted country on the map, or choose one from the list, to see a short summary.</p>
+          </div>
+          <div class="info-content" id="info-content" hidden>
+            <span class="idx" id="info-category"></span>
+            <h2 id="info-name"></h2>
+            <p id="info-summary"></p>
+            <div class="tag-row" id="info-tags"></div>
+          </div>
+        </aside>
+
+      </div>
+    </section>
+
+    <section class="cta">
+      <div class="container cta-grid">
+        <div>
+          <h2>Know a region we're missing?</h2>
+          <p>This map reflects an early, evolving picture of the sector. If you work in a cashmere-producing or processing region and want it represented accurately, we'd like to hear from you.</p>
+        </div>
+        <div class="cta-actions">
+          <a href="collaborate.html" class="btn primary">Get in touch →</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container foot-row">
+      <p><strong>Cashmere Futures</strong> · Cashmere Futures Lab (CFL)</p>
+      <div class="foot-links">
+        <a href="about.html">About</a>
+        <a href="research.html">Research</a>
+        <a href="collaborate.html">Collaborate</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>
