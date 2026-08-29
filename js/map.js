@@ -152,6 +152,13 @@
     });
   });
 
+  // Deep-linking: map.html?region=<id> preselects that country
+  var params = new URLSearchParams(window.location.search);
+  var linkedRegion = params.get("region");
+  if (linkedRegion && REGIONS[linkedRegion]) {
+    showRegion(linkedRegion);
+  }
+
   d3.json("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json")
     .then(function (world) {
       var countries = topojson.feature(world, world.objects.countries).features;
@@ -190,6 +197,11 @@
         });
 
       statusEl.textContent = "Map loaded — select a highlighted region.";
+
+      // Re-apply deep-linked selection now that the map paths exist, so the highlight shows too
+      if (linkedRegion && REGIONS[linkedRegion]) {
+        showRegion(linkedRegion);
+      }
     })
     .catch(function (err) {
       statusEl.textContent = "Map couldn't load — use the region list below instead.";
