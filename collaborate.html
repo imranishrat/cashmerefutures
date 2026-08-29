@@ -5,6 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Collaborate with Cashmere Futures — across research, communities, industry, government, NGOs and international organisations.">
   <title>Collaborate | Cashmere Futures</title>
+  <link rel="canonical" href="https://cashmerefutures.com/collaborate.html">
+  <meta name="theme-color" content="#263846">
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" href="assets/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Cashmere Futures">
+  <meta property="og:title" content="Collaborate | Cashmere Futures">
+  <meta property="og:description" content="Collaborate with Cashmere Futures — across research, communities, industry, government, NGOs and international organisations.">
+  <meta property="og:url" content="https://cashmerefutures.com/collaborate.html">
+  <meta property="og:image" content="https://cashmerefutures.com/assets/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Collaborate | Cashmere Futures">
+  <meta name="twitter:description" content="Collaborate with Cashmere Futures — across research, communities, industry, government, NGOs and international organisations.">
+  <meta name="twitter:image" content="https://cashmerefutures.com/assets/og-image.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
@@ -69,7 +84,7 @@
       </div>
     </section>
 
-    <section class="areas" aria-label="Who we work with">
+    <section class="areas reveal" aria-label="Who we work with">
       <div class="container">
         <div class="section-head">
           <h2>Who we're looking to work with</h2>
@@ -115,15 +130,60 @@
       </div>
     </section>
 
-    <section class="cta" style="border-bottom:none;">
-      <div class="container cta-grid">
-        <div>
+    <section class="areas reveal" aria-label="Get in touch" style="border-bottom:none;">
+      <div class="container">
+        <div class="section-head">
           <h2>Get in touch</h2>
-          <p><em>[Draft — replace with your real contact details]</em> Whatever your connection to cashmere, we'd like to hear from you — email us and tell us a little about what you're working on.</p>
+          <span class="num">Collaborate</span>
         </div>
-        <div class="cta-actions">
-          <a href="mailto:hello@cashmerefutures.com" class="btn primary">Email hello@cashmerefutures.com →</a>
-        </div>
+        <p class="hero-intro" style="margin-bottom:32px; max-width:60ch;">
+          <em>[Draft]</em> Whatever your connection to cashmere, we'd like to hear from you — tell us a little about what you're working on and we'll get back to you.
+        </p>
+
+        <form class="contact-form" id="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+          <div class="form-row">
+            <div class="form-field">
+              <label for="cf-name">Name</label>
+              <input type="text" id="cf-name" name="name" required>
+            </div>
+            <div class="form-field">
+              <label for="cf-email">Email</label>
+              <input type="email" id="cf-email" name="email" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-field">
+              <label for="cf-org">Organisation (optional)</label>
+              <input type="text" id="cf-org" name="organisation">
+            </div>
+            <div class="form-field">
+              <label for="cf-role">I'm reaching out as</label>
+              <select id="cf-role" name="role">
+                <option>Community / herder representative</option>
+                <option>Researcher / academic</option>
+                <option>Industry / brand</option>
+                <option>Government / policymaker</option>
+                <option>NGO / international organisation</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-field">
+            <label for="cf-message">Message</label>
+            <textarea id="cf-message" name="message" required></textarea>
+          </div>
+          <!-- Honeypot spam trap — hidden from real visitors, left blank by them, filled by bots -->
+          <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+          <div class="form-submit-row">
+            <button type="submit" class="btn primary">Send message →</button>
+            <span class="form-status" id="form-status"></span>
+          </div>
+        </form>
+
+        <p class="form-note" style="margin-top:20px;">
+          Prefer email? Reach us directly at
+          <a href="mailto:hello@cashmerefutures.com" style="color:var(--indigo); border-bottom:1px solid var(--indigo);">hello@cashmerefutures.com</a>.
+        </p>
       </div>
     </section>
   </main>
@@ -140,6 +200,8 @@
   </footer>
 
   <script src="js/micron-scale.js"></script>
+  <script src="js/reveal.js"></script>
+  <script src="js/contact-form.js"></script>
   <script src="js/script.js"></script>
 </body>
 </html>
