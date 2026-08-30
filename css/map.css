@@ -88,10 +88,20 @@
   outline-offset: 1px;
 }
 
-/* ---------- On-map country name labels ---------- */
+/* ---------- On-map country name labels (pin + leader line + flag) ---------- */
 /* Pure SVG overlay drawn inside the existing viewBox — this never resizes
    the SVG or its container, so it cannot affect surrounding page layout. */
 .map-labels{ pointer-events: none; }
+.map-label-line{
+  stroke-width: 1.25;
+}
+.map-label-line.hover{ stroke: var(--ink); opacity: 0.55; }
+.map-label-line.active{ stroke: var(--indigo-deep); opacity: 0.85; }
+.map-label-pin{
+  stroke-width: 1.5;
+}
+.map-label-pin.hover{ fill: var(--fiber); stroke: var(--ink); }
+.map-label-pin.active{ fill: var(--indigo-deep); stroke: var(--fiber); }
 .map-label-bg{
   stroke-width: 1;
 }
