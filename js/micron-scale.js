@@ -7,13 +7,9 @@
   var gradeEl = document.getElementById("scale-grade");
   var useEl = document.getElementById("scale-use");
   var hairEl = document.getElementById("scale-hair");
-  var swatch = document.getElementById("thread-swatch");
 
   var MIN = 14, MAX = 20;       // scale domain, matches the tick labels
   var HUMAN_HAIR = 90;          // microns, approximate — for comparison only
-  var THREAD_MIN_PX = 2;
-  var HAIR_PX = 56;             // fixed reference swatch height
-  var PX_PER_MICRON = (HAIR_PX - THREAD_MIN_PX) / (HUMAN_HAIR - MIN); // shared rate keeps both swatches to true scale
 
   var reducedMotion = window.matchMedia &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -41,9 +37,6 @@
     var ratio = (HUMAN_HAIR / v).toFixed(1);
     hairEl.textContent = "~" + ratio + "× finer than a human hair (\u2248" + HUMAN_HAIR + "\u03bc)";
 
-    var px = THREAD_MIN_PX + PX_PER_MICRON * (v - MIN);
-    swatch.style.height = px.toFixed(1) + "px";
-    swatch.style.background = g.color;
     handle.style.background = g.color;
     handle.style.boxShadow = "0 0 0 1px " + g.color;
   }
