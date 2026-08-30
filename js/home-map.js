@@ -10,6 +10,9 @@
     { id: "417", name: "Kyrgyzstan", category: "emerging", tier: "Minor volume", level: 1 },
     { id: "762", name: "Tajikistan", category: "emerging", tier: "Minor volume", level: 1 },
     { id: "554", name: "New Zealand", category: "emerging", tier: "Minor volume", level: 1 },
+    { id: "398", name: "Kazakhstan", category: "emerging", tier: "Smaller volume", level: 2 },
+    { id: "792", name: "Turkey", category: "emerging", tier: "Minor volume", level: 1 },
+    { id: "524", name: "Nepal", category: "emerging", tier: "Minor volume", level: 1 },
     { id: "380", name: "Italy", category: "hub", tier: "Processing hub", level: 0 }
   ];
 
