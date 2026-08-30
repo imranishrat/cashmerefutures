@@ -21,7 +21,7 @@
     {
       name: "Spinning",
       who: ["Industry"],
-      summary: "Graded fibre is spun into yarn, twisting individual fibres together into a continuous, workable thread. Finer grades are typically spun into thinner, more tightly controlled yarns destined for luxury knitwear; coarser grades go into heavier yarns for outerwear and blends.",
+      summary: "Graded fibre is spun into yarn, twisting individual fibres together into a continuous, workable thread. Finer grades typically go into thinner yarns for luxury knitwear, coarser grades into heavier yarns for outerwear. Most spinning today is industrial, but hand-spinning traditions persist in places like Kashmir, where artisans still draw yarn entirely by hand on a traditional wheel called a yinder — a method so slow that a single spinner produces only around 50 grams of thread in a month.",
       related: null
     },
     {
@@ -33,7 +33,7 @@
     {
       name: "Weaving & Knitting",
       who: ["Artisans", "Industry"],
-      summary: "Yarn becomes fabric or a finished garment. This ranges from fully industrial knitting machines producing garments at scale, to hand-weaving traditions — like Kashmiri pashmina — where a single shawl can take weeks of skilled, manual work.",
+      summary: "Yarn becomes fabric or a finished garment. This ranges from fully industrial knitting machines producing garments at scale, to hand-weaving traditions like Kashmiri pashmina, where a shawl is set on a wooden handloom and can take 180\u2013250 hours to complete. Some techniques, like the Kani weave from the village of Kanihama, weave the pattern directly into the cloth using small hand-carved bobbins, rather than adding it afterward.",
       related: { label: "Learn about artisan communities →", href: "communities.html" }
     },
     {
