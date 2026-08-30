@@ -134,24 +134,46 @@
   var hoverLabelLayer = null;
   var activeId = null;
 
-  // Renders a small name tag (background rect + text) at a fixed SVG coordinate.
+  // Renders a "pin + flag" callout: a small dot at the country's true location,
+  // a thin leader line, and the name box offset into open space. The offset
+  // direction auto-flips near map edges so the box never runs off the SVG.
   // Pure SVG overlay inside the existing viewBox — never changes the SVG's own
   // size or the page layout around it, so it can't "squash" the map.
   function renderLabel(layer, cx, cy, text, cls) {
     layer.selectAll("*").remove();
     var fontSize = 13;
-    var padX = 8, padY = 5;
+    var padX = 9, padY = 5;
     var approxWidth = text.length * (fontSize * 0.6) + padX * 2;
     var boxHeight = fontSize + padY * 2;
 
-    // Flip below the point if there isn't room above (keeps labels for
-    // countries near the top edge, like Mongolia or Kazakhstan, from clipping)
-    var above = cy - boxHeight - 14 > 4;
-    var boxY = above ? cy - boxHeight - 12 : cy + 12;
-    var textY = boxY + boxHeight / 2 + fontSize * 0.32;
+    // Default: offset up and to the right of the pin
+    var dx = 34, dy = -40;
+    // Flip vertically if the box would run off the top edge
+    if (cy + dy - boxHeight / 2 < 10) dy = 40;
+    // Flip horizontally if the box would run off the right edge
+    if (cx + dx + approxWidth / 2 > width - 10) dx = -34;
+    // Flip horizontally if the box would run off the left edge
+    if (cx + dx - approxWidth / 2 < 10) dx = 34;
+
+    var boxCx = cx + dx;
+    var boxCy = cy + dy;
+    var boxX = boxCx - approxWidth / 2;
+    var boxY = boxCy - boxHeight / 2;
+    var textY = boxCy + fontSize * 0.32;
+
+    // Leader line from the pin to the box (drawn first, so the box sits on top)
+    layer.append("line")
+      .attr("x1", cx).attr("y1", cy)
+      .attr("x2", boxCx).attr("y2", boxCy)
+      .attr("class", "map-label-line " + cls);
+
+    // Pin marking the country's actual location
+    layer.append("circle")
+      .attr("cx", cx).attr("cy", cy).attr("r", 3.5)
+      .attr("class", "map-label-pin " + cls);
 
     layer.append("rect")
-      .attr("x", cx - approxWidth / 2)
+      .attr("x", boxX)
       .attr("y", boxY)
       .attr("width", approxWidth)
       .attr("height", boxHeight)
@@ -159,7 +181,7 @@
       .attr("class", "map-label-bg " + cls);
 
     layer.append("text")
-      .attr("x", cx)
+      .attr("x", boxCx)
       .attr("y", textY)
       .attr("text-anchor", "middle")
       .attr("class", "map-label-text " + cls)
