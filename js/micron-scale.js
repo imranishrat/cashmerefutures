@@ -11,15 +11,17 @@
 
   var MIN = 14, MAX = 20;       // scale domain, matches the tick labels
   var HUMAN_HAIR = 90;          // microns, approximate — for comparison only
-  var THREAD_MIN_PX = 2, THREAD_MAX_PX = 7;
+  var THREAD_MIN_PX = 2;
+  var HAIR_PX = 56;             // fixed reference swatch height
+  var PX_PER_MICRON = (HAIR_PX - THREAD_MIN_PX) / (HUMAN_HAIR - MIN); // shared rate keeps both swatches to true scale
 
   var reducedMotion = window.matchMedia &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   function gradeFor(v) {
-    if (v < 16.5) return { grade: "Grade A", use: "luxury knitwear" };
-    if (v < 19) return { grade: "Grade B", use: "soft, everyday wear" };
-    return { grade: "Grade C", use: "outerwear & blankets" };
+    if (v < 16.5) return { grade: "Grade A", use: "luxury knitwear", color: "var(--indigo)" };
+    if (v < 19) return { grade: "Grade B", use: "soft, everyday wear", color: "var(--grass)" };
+    return { grade: "Grade C", use: "outerwear & blankets", color: "var(--madder)" };
   }
 
   function setValue(v) {
@@ -39,8 +41,11 @@
     var ratio = (HUMAN_HAIR / v).toFixed(1);
     hairEl.textContent = "~" + ratio + "× finer than a human hair (\u2248" + HUMAN_HAIR + "\u03bc)";
 
-    var px = THREAD_MIN_PX + ((v - MIN) / (MAX - MIN)) * (THREAD_MAX_PX - THREAD_MIN_PX);
+    var px = THREAD_MIN_PX + PX_PER_MICRON * (v - MIN);
     swatch.style.height = px.toFixed(1) + "px";
+    swatch.style.background = g.color;
+    handle.style.background = g.color;
+    handle.style.boxShadow = "0 0 0 1px " + g.color;
   }
 
   function valueFromClientX(clientX) {
