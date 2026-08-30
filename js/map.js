@@ -22,8 +22,8 @@
       name: "India",
       category: "origin",
       categoryLabel: "Historic origin",
-      summary: "The source of the word \"cashmere\" itself. Kashmiri artisans have hand-spun and hand-woven pashmina for centuries, while Changpa herders in Ladakh raise the goats at high altitude.",
-      tags: ["Kashmir", "Ladakh", "Hand-weaving"],
+      summary: "The source of the word \"cashmere\" itself. In Kashmir, artisans hand-spin cleaned pashm into yarn on a traditional wheel called a yinder, then hand-weave it on a wooden loom — a single shawl can take 180\u2013250 hours. Changpa herders in neighbouring Ladakh raise the Changthangi goats whose fibre makes this possible, and the finished craft carries Geographical Indication (GI) protection.",
+      tags: ["Kashmir", "Yinder hand-spinning", "GI-protected"],
       volume: { level: 2, tier: "Smaller volume", note: "A modest share of current global volume — production is real but small next to China and Mongolia." }
     },
     "586": {
