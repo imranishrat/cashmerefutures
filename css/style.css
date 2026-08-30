@@ -89,10 +89,10 @@ a{ color: inherit; text-decoration: none; }
 .scale-track{
   position: absolute;
   left: 0; right: 0; top: 50%;
-  height: 3px;
+  height: 6px;
   transform: translateY(-50%);
-  border-radius: 2px;
-  opacity: 0.55;
+  border-radius: 3px;
+  opacity: 0.92;
   background: linear-gradient(to right,
     var(--indigo) 0%, var(--indigo) 41.667%,
     var(--grass) 41.667%, var(--grass) 83.333%,
@@ -145,8 +145,8 @@ a{ color: inherit; text-decoration: none; }
 
 .scale-caption{
   display: flex;
-  align-items: flex-end;
-  gap: 16px;
+  align-items: center;
+  gap: 10px;
   margin-top: 16px;
   font-family: 'IBM Plex Mono', monospace;
   font-size: 11px;
@@ -156,40 +156,7 @@ a{ color: inherit; text-decoration: none; }
   flex-wrap: wrap;
 }
 .scale-caption .value{ color: var(--ink); font-weight: 600; }
-
-.compare-group{
-  display: flex;
-  align-items: flex-end;
-  gap: 14px;
-  flex-shrink: 0;
-}
-.compare-col{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 5px;
-  width: 42px;
-}
-.compare-swatch{
-  display: block;
-  width: 42px;
-  height: 2px;
-  background: var(--madder);
-  border-radius: 1px;
-}
-@media (prefers-reduced-motion: no-preference){
-  .compare-swatch{ transition: height 0.12s ease, background 0.15s ease; }
-}
-.compare-swatch.hair{ height: 56px; background: var(--ink-soft); }
-.compare-lbl{
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 9px;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  color: var(--ink-soft);
-  text-align: center;
-  line-height: 1.2;
-}
+.scale-caption strong{ color: var(--ink); font-weight: 700; }
 
 @media (max-width: 560px){
   .scale-caption{ flex-wrap: wrap; }
