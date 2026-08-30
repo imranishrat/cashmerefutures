@@ -116,6 +116,27 @@
   background: var(--fiber-deep);
   color: var(--ink-soft);
 }
+.chain-transform-block{
+  margin-top: 22px;
+  padding: 16px 18px;
+  border-left: 3px solid var(--grass);
+  background: var(--fiber-deep);
+}
+.chain-transform-label{
+  display: block;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--grass);
+  margin-bottom: 8px;
+}
+.chain-transform-text{
+  font-size: 14px;
+  color: var(--ink);
+  line-height: 1.6;
+  max-width: 64ch;
+}
 .chain-related{
   display: inline-block;
   margin-top: 20px;
