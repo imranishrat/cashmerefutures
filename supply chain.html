@@ -1,1 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="An interactive look at the cashmere supply chain, from herding and combing through to finished garments reaching the market.">
+  <title>Supply Chain | Cashmere Futures</title>
+  <link rel="canonical" href="https://cashmerefutures.com/supply-chain.html">
+  <meta name="theme-color" content="#263846">
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" href="assets/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Cashmere Futures">
+  <meta property="og:title" content="Supply Chain | Cashmere Futures">
+  <meta property="og:description" content="An interactive look at the cashmere supply chain, from herding and combing through to finished garments reaching the market.">
+  <meta property="og:url" content="https://cashmerefutures.com/supply-chain.html">
+  <meta property="og:image" content="https://cashmerefutures.com/assets/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Supply Chain | Cashmere Futures">
+  <meta name="twitter:description" content="An interactive look at the cashmere supply chain, from herding and combing through to finished garments reaching the market.">
+  <meta name="twitter:image" content="https://cashmerefutures.com/assets/og-image.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/supply-chain.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-container">
+      <a class="brand" href="index.html" aria-label="Cashmere Futures home">
+        <span class="brand-name">Cashmere Futures</span>
+        <span class="brand-subtitle">Cashmere Futures Lab</span>
+      </a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="communities.html">Communities</a>
+        <a href="research.html">Research</a>
+        <a href="supply-chain.html" aria-current="page">Supply Chain</a>
+        <a href="map.html">Global Map</a>
+        <a href="collaborate.html">Collaborate</a>
+      </nav>
+    </div>
+    <div class="container">
+      <div class="micron-scale">
+        <div class="scale-track-wrap" id="scale-track-wrap">
+          <div class="scale-track"></div>
+          <div class="scale-ticks" aria-hidden="true">
+            <div class="tick major"><span class="bar"></span><span class="lbl">14μ</span></div>
+            <div class="tick minor"><span class="bar"></span></div>
+            <div class="tick minor"><span class="bar"></span></div>
+            <div class="tick major"><span class="bar"></span><span class="lbl">15.5μ</span></div>
+            <div class="tick minor"><span class="bar"></span></div>
+            <div class="tick minor"><span class="bar"></span></div>
+            <div class="tick major"><span class="bar"></span><span class="lbl">17μ</span></div>
+            <div class="tick minor"><span class="bar"></span></div>
+            <div class="tick minor"><span class="bar"></span></div>
+            <div class="tick major"><span class="bar"></span><span class="lbl">18.5μ</span></div>
+            <div class="tick minor"><span class="bar"></span></div>
+            <div class="tick minor"><span class="bar"></span></div>
+            <div class="tick major"><span class="bar"></span><span class="lbl">20μ+</span></div>
+          </div>
+          <div class="scale-handle" id="scale-handle" role="slider" tabindex="0"
+               aria-label="Cashmere fibre fineness, in microns"
+               aria-valuemin="14" aria-valuemax="20" aria-valuenow="15.5"></div>
+        </div>
+        <p class="scale-caption" id="scale-caption">
+          <span class="thread-swatch" id="thread-swatch" aria-hidden="true"></span>
+          <span><span class="value" id="scale-value">15.5μ</span> — <span id="scale-grade">Grade A</span>, <span id="scale-use">luxury knitwear</span> · <span id="scale-hair">~5.8× finer than a human hair (≈90μ)</span></span>
+        </p>
+      </div>
+    </div>
+  </header>
 
+  <main>
+    <section class="chain-hero">
+      <div class="container">
+        <p class="eyebrow">Supply Chain</p>
+        <h1>From highland pasture to finished garment.</h1>
+        <p class="hero-intro">Eight stages carry cashmere from a goat's winter undercoat to a finished piece on a shelf — each one changing who's involved, what skill it demands, and how much of the final value actually reaches the people at the start of the chain. Select a stage to explore it, or use the arrows to step through in order.</p>
+      </div>
+    </section>
+
+    <section class="chain-section reveal">
+      <div class="container">
+        <div class="chain-track-wrap">
+          <div class="chain-line"></div>
+          <div class="chain-line-fill" id="chain-line-fill"></div>
+          <div class="chain-nodes" id="chain-nodes" role="tablist" aria-label="Supply chain stages"></div>
+        </div>
+
+        <div class="chain-panel" aria-live="polite">
+          <span class="idx" id="chain-idx">Stage 1 of 8</span>
+          <h2 id="chain-name"></h2>
+          <p id="chain-summary"></p>
+          <div class="chain-who" id="chain-who"></div>
+          <a class="chain-related" id="chain-related" href="#"></a>
+
+          <div class="chain-controls">
+            <button type="button" id="chain-prev">← Previous stage</button>
+            <button type="button" id="chain-next">Next stage →</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta reveal">
+      <div class="container cta-grid">
+        <div>
+          <h2>Working somewhere along this chain?</h2>
+          <p>Whether you're a herder, an artisan, a processor, or a brand — if part of this picture is incomplete or inaccurate, we want to fix it with your input.</p>
+        </div>
+        <div class="cta-actions">
+          <a href="collaborate.html" class="btn primary">Collaborate with us →</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container foot-row">
+      <p><strong>Cashmere Futures</strong> · Cashmere Futures Lab (CFL)</p>
+      <div class="foot-links">
+        <a href="about.html">About</a>
+        <a href="research.html">Research</a>
+        <a href="collaborate.html">Collaborate</a>
+        <a href="privacy.html">Privacy</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/micron-scale.js"></script>
+  <script src="js/supply-chain.js"></script>
+  <script src="js/reveal.js"></script>
+  <script src="js/script.js"></script>
+  <script data-goatcounter="https://YOUR-CODE.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
