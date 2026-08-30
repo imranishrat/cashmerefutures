@@ -68,6 +68,7 @@
   border: 1px solid var(--line);
   background: var(--fiber);
   display: block;
+  overflow: visible;
 }
 #world-map .country{
   fill: var(--fiber-deep);
@@ -86,6 +87,30 @@
   outline: 2px solid var(--indigo-deep);
   outline-offset: 1px;
 }
+
+/* ---------- On-map country name labels ---------- */
+/* Pure SVG overlay drawn inside the existing viewBox — this never resizes
+   the SVG or its container, so it cannot affect surrounding page layout. */
+.map-labels{ pointer-events: none; }
+.map-label-bg{
+  stroke-width: 1;
+}
+.map-label-bg.hover{
+  fill: var(--fiber);
+  stroke: var(--ink);
+  opacity: 0.95;
+}
+.map-label-bg.active{
+  fill: var(--indigo-deep);
+  stroke: var(--indigo-deep);
+}
+.map-label-text{
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  letter-spacing: 0.01em;
+}
+.map-label-text.hover{ fill: var(--ink); }
+.map-label-text.active{ fill: var(--fiber); font-weight: 600; }
 
 /* ---------- Region chip list (accessible alt to map clicks) ---------- */
 .region-list{
