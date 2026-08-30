@@ -255,11 +255,6 @@
     .then(function (world) {
       var countries = topojson.feature(world, world.objects.countries).features;
 
-      // Label layers, added once, drawn above the country paths but still
-      // inside the same fixed viewBox
-      hoverLabelLayer = svg.append("g").attr("class", "map-labels hover-layer").attr("aria-hidden", "true");
-      activeLabelLayer = svg.append("g").attr("class", "map-labels active-layer").attr("aria-hidden", "true");
-
       countries.forEach(function (feature) {
         var id = String(feature.id);
         if (REGIONS[id]) centroids[id] = path.centroid(feature);
@@ -306,6 +301,12 @@
         .on("mouseleave", function () {
           hoverLabelLayer.selectAll("*").remove();
         });
+
+      // Label layers, added after the country paths so they paint on top
+      // (SVG renders later DOM elements above earlier ones) — still inside
+      // the same fixed viewBox, so this can't affect page layout.
+      hoverLabelLayer = svg.append("g").attr("class", "map-labels hover-layer").attr("aria-hidden", "true");
+      activeLabelLayer = svg.append("g").attr("class", "map-labels active-layer").attr("aria-hidden", "true");
 
       statusEl.textContent = "Map loaded — select a highlighted region.";
 
