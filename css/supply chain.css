@@ -1,1 +1,157 @@
+/* ---------- Supply chain hero ---------- */
+.chain-hero{ padding: 56px 0 40px; border-bottom: 1px solid var(--line); }
+.chain-hero h1{
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: clamp(32px, 4.4vw, 48px);
+  letter-spacing: -0.015em;
+  margin-bottom: 16px;
+  max-width: 18ch;
+}
+.chain-hero .hero-intro{ font-size: 16px; color: var(--ink-soft); max-width: 62ch; }
 
+/* ---------- Flow track ---------- */
+.chain-section{ padding: 56px 0 64px; border-bottom: 1px solid var(--line); }
+.chain-track-wrap{
+  position: relative;
+  padding: 0 0 40px;
+  margin-bottom: 8px;
+}
+.chain-line{
+  position: absolute;
+  left: 0; right: 0; top: 15px;
+  height: 1px;
+  background: var(--line);
+}
+.chain-line-fill{
+  position: absolute;
+  left: 0; top: 15px;
+  height: 1px;
+  background: var(--indigo);
+  transition: width 0.25s ease;
+}
+.chain-nodes{
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  flex-wrap: wrap;
+  row-gap: 28px;
+}
+.chain-node{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0 4px;
+  flex: 1 1 0;
+  min-width: 80px;
+}
+.chain-node .dot{
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: var(--fiber-deep);
+  border: 2px solid var(--fiber);
+  box-shadow: 0 0 0 1px var(--line);
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+.chain-node .lbl{
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  text-align: center;
+  line-height: 1.3;
+}
+.chain-node.active .dot{
+  background: var(--madder);
+  box-shadow: 0 0 0 1px var(--madder);
+}
+.chain-node.active .lbl{ color: var(--ink); font-weight: 600; }
+.chain-node:focus-visible{ outline: 2px solid var(--indigo); outline-offset: 3px; }
+.chain-node:hover .dot{ background: var(--indigo); box-shadow: 0 0 0 1px var(--indigo); }
+.chain-node.active:hover .dot{ background: var(--madder); box-shadow: 0 0 0 1px var(--madder); }
+
+/* ---------- Detail panel ---------- */
+.chain-panel{
+  border: 1px solid var(--line);
+  padding: 32px;
+  min-height: 220px;
+}
+.chain-panel .idx{
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--madder);
+}
+.chain-panel h2{
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 26px;
+  margin-top: 10px;
+  margin-bottom: 14px;
+}
+.chain-panel p{
+  font-size: 15px;
+  color: var(--ink-soft);
+  line-height: 1.65;
+  max-width: 68ch;
+}
+.chain-who{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+}
+.chain-who .tag{
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  padding: 5px 10px;
+  background: var(--fiber-deep);
+  color: var(--ink-soft);
+}
+.chain-related{
+  display: inline-block;
+  margin-top: 20px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--indigo);
+  border-bottom: 1px solid var(--indigo);
+  padding-bottom: 2px;
+}
+
+/* ---------- Prev/next controls ---------- */
+.chain-controls{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+.chain-controls button{
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  background: none;
+  border: 1px solid var(--line);
+  padding: 10px 16px;
+  cursor: pointer;
+  color: var(--ink);
+  transition: border-color 0.15s ease;
+}
+.chain-controls button:hover{ border-color: var(--indigo); }
+.chain-controls button:disabled{ opacity: 0.35; cursor: default; }
+.chain-controls button:disabled:hover{ border-color: var(--line); }
+
+@media (max-width: 700px){
+  .chain-nodes{ justify-content: flex-start; gap: 22px 18px; }
+  .chain-node{ flex: 0 0 auto; min-width: 70px; }
+  .chain-line, .chain-line-fill{ display: none; }
+}
