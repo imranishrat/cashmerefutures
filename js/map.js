@@ -81,6 +81,30 @@
       summary: "A smaller-scale but established producer, with cashmere goats farmed alongside sheep on pastoral land. New Zealand's fibre is often noted for its fine micron count and traceability.",
       tags: ["Pastoral farming", "Fine micron", "Traceability"],
       volume: { level: 1, tier: "Minor volume", note: "Produced at much smaller scale than the major Asian producers." }
+    },
+    "398": {
+      name: "Kazakhstan",
+      category: "emerging",
+      categoryLabel: "Emerging focus",
+      summary: "Herding communities across Kazakhstan's steppe regions raise cashmere goats alongside other livestock. The country is regularly named among the more significant secondary producers, though reliable, consistent production figures are hard to come by.",
+      tags: ["Steppe herding", "Central Asia"],
+      volume: { level: 2, tier: "Smaller volume", note: "Frequently named among the next tier of producers after China and Mongolia, though its precise share of global volume isn't well documented in available sources." }
+    },
+    "792": {
+      name: "Turkey",
+      category: "emerging",
+      categoryLabel: "Emerging focus",
+      summary: "Turkey has a long history with fine goat fibres — most famously mohair from the Angora goat — and is also cited as a smaller cashmere producer, though it's better known globally for textile processing and manufacturing than raw cashmere volume.",
+      tags: ["Smaller-scale producer", "Textile manufacturing"],
+      volume: { level: 1, tier: "Minor volume", note: "Named in several industry overviews as a producer, without the volume or profile of the larger Central and East Asian sources." }
+    },
+    "524": {
+      name: "Nepal",
+      category: "emerging",
+      categoryLabel: "Emerging focus",
+      summary: "Nepal's Himalayan Chyangra goats, raised above 3,000 metres across roughly 15 high-altitude districts, produce a genuinely fine fibre — commonly cited around 15 microns. Combing, spinning and weaving are still frequently done by hand, and \"Chyangra Pashmina\" is a government-backed trademark protecting genuine Nepali fibre from being substituted with cheaper material.",
+      tags: ["Chyangra goat", "Hand-spun", "Trademark-protected"],
+      volume: { level: 1, tier: "Minor volume", note: "A small producer in global volume terms — around 130,000 goats, against tens of millions in China — but notable for fibre quality and craft tradition." }
     }
   };
 
@@ -105,10 +129,55 @@
 
   var chips = document.querySelectorAll(".region-chip");
   var countryPaths = null;
+  var centroids = {};
+  var activeLabelLayer = null;
+  var hoverLabelLayer = null;
+  var activeId = null;
+
+  // Renders a small name tag (background rect + text) at a fixed SVG coordinate.
+  // Pure SVG overlay inside the existing viewBox — never changes the SVG's own
+  // size or the page layout around it, so it can't "squash" the map.
+  function renderLabel(layer, cx, cy, text, cls) {
+    layer.selectAll("*").remove();
+    var fontSize = 13;
+    var padX = 8, padY = 5;
+    var approxWidth = text.length * (fontSize * 0.6) + padX * 2;
+    var boxHeight = fontSize + padY * 2;
+
+    // Flip below the point if there isn't room above (keeps labels for
+    // countries near the top edge, like Mongolia or Kazakhstan, from clipping)
+    var above = cy - boxHeight - 14 > 4;
+    var boxY = above ? cy - boxHeight - 12 : cy + 12;
+    var textY = boxY + boxHeight / 2 + fontSize * 0.32;
+
+    layer.append("rect")
+      .attr("x", cx - approxWidth / 2)
+      .attr("y", boxY)
+      .attr("width", approxWidth)
+      .attr("height", boxHeight)
+      .attr("rx", 2)
+      .attr("class", "map-label-bg " + cls);
+
+    layer.append("text")
+      .attr("x", cx)
+      .attr("y", textY)
+      .attr("text-anchor", "middle")
+      .attr("class", "map-label-text " + cls)
+      .text(text);
+  }
+
+  function updateActiveLabel(id) {
+    if (!activeLabelLayer) return;
+    activeLabelLayer.selectAll("*").remove();
+    var c = centroids[id];
+    if (!c) return;
+    renderLabel(activeLabelLayer, c[0], c[1], REGIONS[id].name, "active");
+  }
 
   function showRegion(id) {
     var region = REGIONS[id];
     if (!region) return;
+    activeId = id;
 
     infoEmpty.hidden = true;
     infoContent.hidden = false;
@@ -144,6 +213,7 @@
         return String(d.id) === id;
       });
     }
+    updateActiveLabel(id);
   }
 
   chips.forEach(function (chip) {
@@ -162,6 +232,16 @@
   d3.json("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json")
     .then(function (world) {
       var countries = topojson.feature(world, world.objects.countries).features;
+
+      // Label layers, added once, drawn above the country paths but still
+      // inside the same fixed viewBox
+      hoverLabelLayer = svg.append("g").attr("class", "map-labels hover-layer").attr("aria-hidden", "true");
+      activeLabelLayer = svg.append("g").attr("class", "map-labels active-layer").attr("aria-hidden", "true");
+
+      countries.forEach(function (feature) {
+        var id = String(feature.id);
+        if (REGIONS[id]) centroids[id] = path.centroid(feature);
+      });
 
       countryPaths = svg.selectAll("path.country")
         .data(countries)
@@ -194,6 +274,15 @@
               showRegion(id);
             }
           }
+        })
+        .on("mouseenter", function (event, d) {
+          var id = String(d.id);
+          if (!REGIONS[id] || id === activeId) return;
+          var c = centroids[id];
+          if (c) renderLabel(hoverLabelLayer, c[0], c[1], REGIONS[id].name, "hover");
+        })
+        .on("mouseleave", function () {
+          hoverLabelLayer.selectAll("*").remove();
         });
 
       statusEl.textContent = "Map loaded — select a highlighted region.";
