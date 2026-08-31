@@ -30,7 +30,13 @@
       var row = document.querySelector('.region-row[data-id="356"]');
       var selector = document.getElementById('region-selector');
       if (!params.get('region') && row) row.click();
-      if (selector) selector.value = params.get('region') || '356';
+      if (selector) {
+        selector.value = params.get('region') || '356';
+        selector.addEventListener('change', function () {
+          var selectedRow = document.querySelector('.region-row[data-id="' + this.value + '"]');
+          if (selectedRow) selectedRow.click();
+        });
+      }
     });
   </script>
   <script src="js/reveal.js"></script><script src="js/script.js"></script><script data-goatcounter="https://YOUR-CODE.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
