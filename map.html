@@ -76,7 +76,7 @@
       <div class="container">
         <p class="eyebrow">Global Map</p>
         <h1>Where cashmere comes from.</h1>
-        <p class="hero-intro">An interactive look at the countries shaping the global cashmere sector — from herding communities and historic origin regions to processing and finishing hubs. Select a region on the map or from the list to learn more.</p>
+        <p class="hero-intro">An interactive look at the countries shaping the global cashmere sector — from herding communities and historic origin regions to emerging producers. Select a region on the map or from the list below to learn more.</p>
       </div>
     </section>
 
@@ -88,26 +88,15 @@
             <span class="legend-item"><span class="swatch producer"></span>Leading producer</span>
             <span class="legend-item"><span class="swatch origin"></span>Historic origin</span>
             <span class="legend-item"><span class="swatch emerging"></span>Emerging focus</span>
-            <span class="legend-item"><span class="swatch hub"></span>Processing hub</span>
           </div>
           <div id="map-status" class="map-status" role="status">Loading map…</div>
           <svg id="world-map" viewBox="0 0 960 500" role="img" aria-label="World map with cashmere-producing regions highlighted"></svg>
 
-          <div class="region-list" aria-label="Focus regions">
-            <button class="region-chip" data-id="496">Mongolia</button>
-            <button class="region-chip" data-id="156">China</button>
-            <button class="region-chip" data-id="356">India</button>
-            <button class="region-chip" data-id="586">Pakistan</button>
-            <button class="region-chip" data-id="004">Afghanistan</button>
-            <button class="region-chip" data-id="364">Iran</button>
-            <button class="region-chip" data-id="417">Kyrgyzstan</button>
-            <button class="region-chip" data-id="762">Tajikistan</button>
-            <button class="region-chip" data-id="380">Italy</button>
-            <button class="region-chip" data-id="554">New Zealand</button>
-            <button class="region-chip" data-id="398">Kazakhstan</button>
-            <button class="region-chip" data-id="792">Turkey</button>
-            <button class="region-chip" data-id="524">Nepal</button>
+          <div class="region-list-head">
+            <h2>Where it's grown</h2>
+            <span class="num">All regions</span>
           </div>
+          <div class="region-rows" id="region-rows" aria-label="Focus regions"></div>
         </div>
 
         <aside class="info-panel" id="info-panel" aria-live="polite">
