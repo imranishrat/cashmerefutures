@@ -43,31 +43,10 @@
       </nav>
     </div>
     <div class="container">
-      <div class="micron-scale">
-        <div class="scale-track-wrap" id="scale-track-wrap">
-          <div class="scale-track"></div>
-          <div class="scale-ticks" aria-hidden="true">
-            <div class="tick major"><span class="bar"></span><span class="lbl">14μ</span></div>
-            <div class="tick minor"><span class="bar"></span></div>
-            <div class="tick major"><span class="bar"></span><span class="lbl">15μ</span></div>
-            <div class="tick minor"><span class="bar"></span></div>
-            <div class="tick major"><span class="bar"></span><span class="lbl">16μ</span></div>
-            <div class="tick minor"><span class="bar"></span></div>
-            <div class="tick major"><span class="bar"></span><span class="lbl">17μ</span></div>
-            <div class="tick minor"><span class="bar"></span></div>
-            <div class="tick major"><span class="bar"></span><span class="lbl">18μ</span></div>
-            <div class="tick minor"><span class="bar"></span></div>
-            <div class="tick major"><span class="bar"></span><span class="lbl">19μ</span></div>
-            <div class="tick minor"><span class="bar"></span></div>
-            <div class="tick major"><span class="bar"></span><span class="lbl">20μ+</span></div>
-          </div>
-          <div class="scale-handle" id="scale-handle" role="slider" tabindex="0"
-               aria-label="Cashmere fibre fineness, in microns"
-               aria-valuemin="14" aria-valuemax="20" aria-valuenow="15.5"></div>
-        </div>
-        <p class="scale-caption" id="scale-caption">
-          <span class="value" id="scale-value">15.5μ</span> — <span id="scale-grade">Grade A</span>, <span id="scale-use">luxury knitwear</span> · <strong id="scale-hair">~5.8× finer than a human hair (≈90μ)</strong>
-        </p>
+      <div class="chain-track-wrap chain-track-header">
+        <div class="chain-line"></div>
+        <div class="chain-line-fill" id="chain-line-fill"></div>
+        <div class="chain-nodes" id="chain-nodes" role="tablist" aria-label="Supply chain stages"></div>
       </div>
     </div>
   </header>
@@ -77,18 +56,12 @@
       <div class="container">
         <p class="eyebrow">Supply Chain</p>
         <h1>From highland pasture to finished garment.</h1>
-        <p class="hero-intro">Eight stages carry cashmere from a goat's winter undercoat to a finished piece on a shelf — each one changing who's involved, what skill it demands, and how much of the final value actually reaches the people at the start of the chain. This isn't just a description of how things are: each stage is also a point where the chain could genuinely be rebuilt, not just made greener. Select a stage to explore both, or use the arrows to step through in order.</p>
+        <p class="hero-intro">Eight stages carry cashmere from a goat's winter undercoat to a finished piece on a shelf — each one changing who's involved, what skill it demands, and how much of the final value actually reaches the people at the start of the chain. This isn't just a description of how things are: each stage is also a point where the chain could genuinely be rebuilt, not just made greener. Select a stage above to explore both, or use the arrows below to step through in order.</p>
       </div>
     </section>
 
     <section class="chain-section reveal">
       <div class="container">
-        <div class="chain-track-wrap">
-          <div class="chain-line"></div>
-          <div class="chain-line-fill" id="chain-line-fill"></div>
-          <div class="chain-nodes" id="chain-nodes" role="tablist" aria-label="Supply chain stages"></div>
-        </div>
-
         <div class="chain-panel" aria-live="polite">
           <span class="idx" id="chain-idx">Stage 1 of 8</span>
           <h2 id="chain-name"></h2>
@@ -135,7 +108,6 @@
     </div>
   </footer>
 
-  <script src="js/micron-scale.js"></script>
   <script src="js/supply-chain.js"></script>
   <script src="js/reveal.js"></script>
   <script src="js/script.js"></script>
