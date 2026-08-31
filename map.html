@@ -14,191 +14,25 @@
   <link rel="stylesheet" href="css/map.css">
 </head>
 <body>
-  <header class="site-header">
-    <div class="container nav-container">
-      <a class="brand" href="index.html" aria-label="Cashmere Futures home">
-        <span class="brand-name">Cashmere Futures</span>
-        <span class="brand-subtitle">Cashmere Futures Lab</span>
-      </a>
-      <nav class="main-nav" aria-label="Main navigation">
-        <a href="index.html">Home</a>
-        <a href="about.html">About</a>
-        <a href="supply-chain.html">Supply Chain</a>
-        <a href="communities.html">Communities</a>
-        <a href="map.html" aria-current="page">Map</a>
-        <a href="collaborate.html">Collaborate</a>
-      </nav>
-    </div>
-    <div class="container">
-      <div class="micron-scale">
-        <div class="scale-track-wrap" id="scale-track-wrap">
-          <div class="scale-track"></div>
-          <div class="scale-ticks" aria-hidden="true">
-            <div class="tick major"><span class="bar"></span><span class="lbl">14μ</span></div>
-            <div class="tick minor"><span class="bar"></span></div>
-            <div class="tick major"><span class="bar"></span><span class="lbl">15μ</span></div>
-            <div class="tick minor"><span class="bar"></span></div>
-            <div class="tick major"><span class="bar"></span><span class="lbl">16μ</span></div>
-            <div class="tick minor"><span class="bar"></span></div>
-            <div class="tick major"><span class="bar"></span><span class="lbl">17μ</span></div>
-            <div class="tick minor"><span class="bar"></span></div>
-            <div class="tick major"><span class="bar"></span><span class="lbl">18μ</span></div>
-            <div class="tick minor"><span class="bar"></span></div>
-            <div class="tick major"><span class="bar"></span><span class="lbl">19μ</span></div>
-            <div class="tick minor"><span class="bar"></span></div>
-            <div class="tick major"><span class="bar"></span><span class="lbl">20μ+</span></div>
-          </div>
-          <div class="scale-handle" id="scale-handle" role="slider" tabindex="0" aria-label="Cashmere fibre fineness, in microns" aria-valuemin="14" aria-valuemax="20" aria-valuenow="15.5"></div>
-        </div>
-        <p class="scale-caption" id="scale-caption"><span class="value" id="scale-value">15.5μ</span> — <span id="scale-grade">Grade A</span>, <span id="scale-use">luxury knitwear</span> · <strong id="scale-hair">~5.8× finer than a human hair (≈90μ)</strong></p>
-      </div>
-    </div>
-  </header>
-
+  <header class="site-header"><div class="container nav-container"><a class="brand" href="index.html" aria-label="Cashmere Futures home"><span class="brand-name">Cashmere Futures</span><span class="brand-subtitle">Cashmere Futures Lab</span></a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">Home</a><a href="about.html">About</a><a href="supply-chain.html">Supply Chain</a><a href="communities.html">Communities</a><a href="map.html" aria-current="page">Map</a><a href="collaborate.html">Collaborate</a></nav></div><div class="container"><div class="micron-scale"><div class="scale-track-wrap" id="scale-track-wrap"><div class="scale-track"></div><div class="scale-ticks" aria-hidden="true"><div class="tick major"><span class="bar"></span><span class="lbl">14μ</span></div><div class="tick minor"><span class="bar"></span></div><div class="tick major"><span class="bar"></span><span class="lbl">15μ</span></div><div class="tick minor"><span class="bar"></span></div><div class="tick major"><span class="bar"></span><span class="lbl">16μ</span></div><div class="tick minor"><span class="bar"></span></div><div class="tick major"><span class="bar"></span><span class="lbl">17μ</span></div><div class="tick minor"><span class="bar"></span></div><div class="tick major"><span class="bar"></span><span class="lbl">18μ</span></div><div class="tick minor"><span class="bar"></span></div><div class="tick major"><span class="bar"></span><span class="lbl">19μ</span></div><div class="tick minor"><span class="bar"></span></div><div class="tick major"><span class="bar"></span><span class="lbl">20μ+</span></div></div><div class="scale-handle" id="scale-handle" role="slider" tabindex="0" aria-label="Cashmere fibre fineness, in microns" aria-valuemin="14" aria-valuemax="20" aria-valuenow="15.5"></div></div><p class="scale-caption" id="scale-caption"><span class="value" id="scale-value">15.5μ</span> — <span id="scale-grade">Grade A</span>, <span id="scale-use">luxury knitwear</span> · <strong id="scale-hair">~5.8× finer than a human hair (≈90μ)</strong></p></div></div></header>
   <main>
-    <section class="map-page-hero">
-      <div class="container">
-        <p class="eyebrow">Global Map</p>
-        <h1>Where cashmere comes from.</h1>
-        <p class="hero-intro">An interactive look at the countries shaping the global cashmere sector — from herding communities and historic origin regions to emerging producers. Select a region on the map or from the list below to learn more.</p>
-      </div>
-    </section>
-
-    <section class="map-section reveal">
-      <div class="container map-layout">
-        <div class="map-col">
-          <div class="legend" aria-hidden="true">
-            <span class="legend-item"><span class="swatch producer"></span>Leading producer</span>
-            <span class="legend-item"><span class="swatch origin"></span>Historic origin</span>
-            <span class="legend-item"><span class="swatch emerging"></span>Emerging focus</span>
-          </div>
-          <div id="map-status" class="map-status" role="status">Loading map…</div>
-          <svg id="world-map" viewBox="0 0 960 500" role="img" aria-label="World map with cashmere-producing regions highlighted"></svg>
-
-          <div class="region-list-head">
-            <h2>Where it's grown</h2>
-            <span class="num">All regions</span>
-          </div>
-          <div class="region-rows" id="region-rows" aria-label="Focus regions"></div>
-        </div>
-
-        <aside class="info-panel" id="info-panel" aria-live="polite">
-          <div class="info-empty" id="info-empty">
-            <span class="idx">Featured region</span>
-            <h2>Kashmir</h2>
-            <p>The name <em>cashmere</em> derives from Kashmir, whose centuries-old pashmina craft helped establish the fibre's identity as a luxury textile.</p>
-          </div>
-          <div class="info-content" id="info-content" hidden>
-            <span class="idx" id="info-category"></span>
-            <h2 id="info-name"></h2>
-            <p id="info-summary"></p>
-            <div class="volume-block" id="info-volume">
-              <span class="volume-label" id="volume-label"></span>
-              <div class="volume-bar" id="volume-bar"></div>
-              <p class="volume-note" id="volume-note"></p>
-            </div>
-            <div class="tag-row" id="info-tags"></div>
-          </div>
-          <div class="region-switcher">
-            <label for="region-selector">Explore another region</label>
-            <select id="region-selector" aria-label="Select another cashmere region">
-              <option value="356">Kashmir</option>
-              <option value="156">China</option>
-              <option value="496">Mongolia</option>
-              <option value="586">Pakistan</option>
-              <option value="004">Afghanistan</option>
-              <option value="398">Kazakhstan</option>
-              <option value="364">Iran</option>
-              <option value="417">Kyrgyzstan</option>
-              <option value="762">Tajikistan</option>
-              <option value="524">Nepal</option>
-              <option value="554">New Zealand</option>
-              <option value="792">Turkey</option>
-            </select>
-          </div>
-        </aside>
-      </div>
-    </section>
-
-    <section class="cta reveal">
-      <div class="container cta-grid">
-        <div>
-          <h2>Know a region we're missing?</h2>
-          <p>This map reflects an evolving picture of the sector. If you work in a cashmere-producing or processing region and want it represented accurately, we'd like to hear from you.</p>
-        </div>
-        <div class="cta-actions"><a href="collaborate.html" class="btn primary">Get in touch →</a></div>
-      </div>
-    </section>
+    <section class="map-page-hero"><div class="container"><p class="eyebrow">Global Map</p><h1>Where cashmere comes from.</h1><p class="hero-intro">An interactive look at the countries shaping the global cashmere sector — from herding communities and historic origin regions to emerging producers. Select a country on the map or from the list below to learn more.</p></div></section>
+    <section class="map-section reveal"><div class="container map-layout"><div class="map-col"><div class="legend" aria-hidden="true"><span class="legend-item"><span class="swatch producer"></span>Leading producer</span><span class="legend-item"><span class="swatch origin"></span>Historic origin</span><span class="legend-item"><span class="swatch emerging"></span>Emerging focus</span></div><div id="map-status" class="map-status" role="status">Loading map…</div><svg id="world-map" viewBox="0 0 960 500" role="img" aria-label="World map with cashmere-producing countries highlighted"></svg><div class="region-list-head"><h2>Where it's grown</h2><span class="num">All countries</span></div><div class="region-rows" id="region-rows" aria-label="Cashmere-producing countries"></div></div>
+      <aside class="info-panel" id="info-panel" aria-live="polite"><div class="info-empty" id="info-empty"><span class="idx">Featured country</span><h2>India</h2><p>India's Kashmir region is renowned for its historic pashmina craft, while the country's Himalayan regions contribute to the wider cashmere system.</p></div><div class="info-content" id="info-content" hidden><span class="idx" id="info-category"></span><h2 id="info-name"></h2><p id="info-summary"></p><div class="volume-block" id="info-volume"><span class="volume-label" id="volume-label"></span><div class="volume-bar" id="volume-bar"></div><p class="volume-note" id="volume-note"></p></div><div class="tag-row" id="info-tags"></div></div><div class="region-switcher"><label for="region-selector">Explore another country</label><select id="region-selector" aria-label="Select another cashmere-producing country"><option value="356">India</option><option value="156">China</option><option value="496">Mongolia</option><option value="586">Pakistan</option><option value="004">Afghanistan</option><option value="398">Kazakhstan</option><option value="364">Iran</option><option value="417">Kyrgyzstan</option><option value="762">Tajikistan</option><option value="524">Nepal</option><option value="554">New Zealand</option><option value="792">Turkey</option></select></div></aside>
+    </div></section>
+    <section class="cta reveal"><div class="container cta-grid"><div><h2>Know a country or region we're missing?</h2><p>This map reflects an evolving picture of the sector. If you work in a cashmere-producing or processing region and want it represented accurately, we'd like to hear from you.</p></div><div class="cta-actions"><a href="collaborate.html" class="btn primary">Get in touch →</a></div></div></section>
   </main>
-
-  <footer class="site-footer">
-    <div class="container foot-row">
-      <p><strong>Cashmere Futures</strong> · Cashmere Futures Lab (CFL)</p>
-      <div class="foot-links">
-        <a href="about.html">About</a><a href="collaborate.html">Collaborate</a><a href="privacy.html">Privacy</a>
-      </div>
-    </div>
-  </footer>
-
-  <script src="js/micron-scale.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
-  <script src="js/map.js"></script>
+  <footer class="site-footer"><div class="container foot-row"><p><strong>Cashmere Futures</strong> · Cashmere Futures Lab (CFL)</p><div class="foot-links"><a href="about.html">About</a><a href="collaborate.html">Collaborate</a><a href="privacy.html">Privacy</a></div></div></footer>
+  <script src="js/micron-scale.js"></script><script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script><script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script><script src="js/map.js"></script>
   <script>
-    // Kashmir is the featured/default region. The existing map interaction
-    // uses India's mapped territory for the Kashmir focus, while the panel
-    // presents Kashmir as the cultural and historical cashmere reference point.
     window.addEventListener('load', function () {
       var params = new URLSearchParams(window.location.search);
       var row = document.querySelector('.region-row[data-id="356"]');
       var selector = document.getElementById('region-selector');
-
-      function selectRegion(id) {
-        var target = document.querySelector('.region-row[data-id="' + id + '"]');
-        if (target) target.click();
-      }
-
-      if (!params.get('region') && row) {
-        selectRegion('356');
-        var name = document.getElementById('info-name');
-        var category = document.getElementById('info-category');
-        var summary = document.getElementById('info-summary');
-        var tags = document.getElementById('info-tags');
-        if (name) name.textContent = 'Kashmir';
-        if (category) category.textContent = 'Historic origin';
-        if (summary) summary.textContent = "Kashmir gave cashmere its name and became renowned for its pashmina craft. The region's artisans developed a highly refined tradition of hand-spinning and hand-weaving that helped establish cashmere as a global luxury textile.";
-        if (tags) tags.innerHTML = '<span class="tag">Pashmina craft</span><span class="tag">Historic origin</span><span class="tag">Hand weaving</span>';
-        var label = document.querySelector('.map-label-text.active');
-        if (label) label.textContent = 'Kashmir';
-        var activeRow = document.querySelector('.region-row.active .row-name');
-        if (activeRow) activeRow.textContent = 'Kashmir';
-      }
-
-      if (selector) {
-        selector.addEventListener('change', function () {
-          selectRegion(this.value);
-          if (this.value === '356') {
-            setTimeout(function () {
-              var name = document.getElementById('info-name');
-              var category = document.getElementById('info-category');
-              var summary = document.getElementById('info-summary');
-              var tags = document.getElementById('info-tags');
-              if (name) name.textContent = 'Kashmir';
-              if (category) category.textContent = 'Historic origin';
-              if (summary) summary.textContent = "Kashmir gave cashmere its name and became renowned for its pashmina craft. The region's artisans developed a highly refined tradition of hand-spinning and hand-weaving that helped establish cashmere as a global luxury textile.";
-              if (tags) tags.innerHTML = '<span class="tag">Pashmina craft</span><span class="tag">Historic origin</span><span class="tag">Hand weaving</span>';
-              var label = document.querySelector('.map-label-text.active');
-              if (label) label.textContent = 'Kashmir';
-              var activeRow = document.querySelector('.region-row.active .row-name');
-              if (activeRow) activeRow.textContent = 'Kashmir';
-            }, 0);
-          }
-        });
-      }
+      if (!params.get('region') && row) row.click();
+      if (selector) selector.value = params.get('region') || '356';
     });
   </script>
-  <script src="js/reveal.js"></script>
-  <script src="js/script.js"></script>
-  <script data-goatcounter="https://YOUR-CODE.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <script src="js/reveal.js"></script><script src="js/script.js"></script><script data-goatcounter="https://YOUR-CODE.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
