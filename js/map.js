@@ -66,14 +66,6 @@
       tags: ["Central Asia", "Herding"],
       volume: { level: 1, tier: "Minor volume", note: "A minor but growing share of global volume." }
     },
-    "380": {
-      name: "Italy",
-      category: "hub",
-      categoryLabel: "Processing hub",
-      summary: "A centre for high-end spinning, weaving and finishing, converting raw fibre sourced from producer regions into finished cashmere textiles and garments.",
-      tags: ["Spinning & weaving", "Finishing", "Design"],
-      volume: { level: 0, tier: "Not a raw producer", note: "Primarily a processing and finishing hub — very little raw fibre is farmed here." }
-    },
     "554": {
       name: "New Zealand",
       category: "emerging",
@@ -127,7 +119,12 @@
   var volumeBar = document.getElementById("volume-bar");
   var volumeNote = document.getElementById("volume-note");
 
-  var chips = document.querySelectorAll(".region-chip");
+  // Display order for the region list — leading producers first, matches
+  // the priority used elsewhere on the site (object key order can't be
+  // relied on since numeric-string keys auto-sort ascending in JS)
+  var REGION_ORDER = ["156","496","356","586","004","364","417","762","554","398","792","524"];
+
+  var regionRowsEl = document.getElementById("region-rows");
   var countryPaths = null;
   var centroids = {};
   var activeLabelLayer = null;
@@ -227,8 +224,9 @@
     }
     volumeNote.textContent = vol.note;
 
-    chips.forEach(function (c) {
-      c.classList.toggle("active", c.getAttribute("data-id") === id);
+    var rowEls = regionRowsEl ? regionRowsEl.querySelectorAll(".region-row") : [];
+    rowEls.forEach(function (r) {
+      r.classList.toggle("active", r.getAttribute("data-id") === id);
     });
     if (countryPaths) {
       countryPaths.classed("active", function (d) {
@@ -238,11 +236,42 @@
     updateActiveLabel(id);
   }
 
-  chips.forEach(function (chip) {
-    chip.addEventListener("click", function () {
-      showRegion(chip.getAttribute("data-id"));
+  // Build the region list dynamically from REGIONS — single source of
+  // truth shared with the map itself, no separate duplicated dataset.
+  if (regionRowsEl) {
+    REGION_ORDER.forEach(function (id) {
+      var region = REGIONS[id];
+      if (!region) return;
+
+      var row = document.createElement("button");
+      row.type = "button";
+      row.className = "region-row";
+      row.setAttribute("data-id", id);
+      row.setAttribute("aria-label", region.name + " — " + (region.volume ? region.volume.tier : ""));
+
+      var nameSpan = document.createElement("span");
+      nameSpan.className = "row-name";
+      nameSpan.textContent = region.name;
+
+      var bar = document.createElement("span");
+      bar.className = "mini-bar";
+      bar.setAttribute("aria-hidden", "true");
+      var level = region.volume ? region.volume.level : 0;
+      var barColor = region.category === "producer" ? "var(--madder)" :
+                      region.category === "origin" ? "var(--indigo)" : "var(--grass)";
+      for (var i = 0; i < 5; i++) {
+        var seg = document.createElement("span");
+        seg.className = "seg";
+        if (i < level) seg.style.background = barColor;
+        bar.appendChild(seg);
+      }
+
+      row.appendChild(nameSpan);
+      row.appendChild(bar);
+      row.addEventListener("click", function () { showRegion(id); });
+      regionRowsEl.appendChild(row);
     });
-  });
+  }
 
   // Deep-linking: map.html?region=<id> preselects that country
   var params = new URLSearchParams(window.location.search);
