@@ -333,40 +333,8 @@ a{ color: inherit; text-decoration: none; }
 }
 .editorial .body p:last-child{ margin-bottom: 0; }
 
-/* ---------- Map teaser (mini) ---------- */
+/* ---------- Map teaser (used on Communities page) ---------- */
 .map-teaser{ padding: 64px 0; }
-.map-teaser-grid{
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 48px;
-  align-items: center;
-}
-.regions{ display: flex; flex-direction: column; }
-.region-row{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-  padding: 12px 0;
-  border-bottom: 1px solid var(--line);
-  font-size: 14px;
-  color: var(--ink);
-  transition: background 0.15s ease;
-}
-.region-row:first-child{ border-top: 1px solid var(--line); }
-.region-row:hover{ background: var(--fiber-deep); }
-.region-row .row-name{ flex-shrink: 0; }
-.mini-bar{
-  display: flex;
-  gap: 2px;
-  width: 70px;
-  flex-shrink: 0;
-}
-.mini-bar .seg{
-  flex: 1;
-  height: 6px;
-  background: var(--fiber-deep);
-}
 .text-link{
   display: inline-block;
   margin-top: 20px;
@@ -377,30 +345,6 @@ a{ color: inherit; text-decoration: none; }
   color: var(--indigo);
   border-bottom: 1px solid var(--indigo);
   padding-bottom: 2px;
-}
-.map-visual-wrap{
-  border: 1px solid var(--line);
-  aspect-ratio: 1 / 0.6;
-  overflow: hidden;
-}
-#mini-world-map{
-  width: 100%;
-  height: 100%;
-  display: block;
-  background: var(--fiber);
-}
-#mini-world-map .mini-country{
-  fill: var(--fiber-deep);
-  stroke: var(--fiber);
-  stroke-width: 0.5;
-}
-#mini-world-map .mini-country.producer{ fill: var(--madder); }
-#mini-world-map .mini-country.origin{ fill: var(--indigo); }
-#mini-world-map .mini-country.emerging{ fill: var(--grass); }
-#mini-world-map .mini-country.hub{ fill: var(--ink-soft); }
-
-@media (max-width: 900px){
-  .map-teaser-grid{ grid-template-columns: 1fr; }
 }
 
 /* ---------- CTA ---------- */
@@ -480,7 +424,6 @@ a:focus-visible, .area-card:focus-visible{
   .area-card{ border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
   .area-card:nth-child(2n){ border-right: none; }
   .editorial-grid{ grid-template-columns: 1fr; gap: 28px; }
-  .map-teaser-grid{ grid-template-columns: 1fr; }
   .cta-grid{ grid-template-columns: 1fr; }
   .cta-actions{ align-items: flex-start; margin-top: 8px; }
 }
