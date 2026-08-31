@@ -19,7 +19,7 @@
       who: ["Industry"],
       summary: "Cleaned fibre is sorted by micron (diameter), staple length, and colour. This is where a batch becomes Grade A, B, or C — the single biggest determinant of where it ends up in the market, from ultra-fine knitwear down to coarser outerwear blends.",
       transform: "Grading is often controlled entirely by buyers. Independent, transparent grading standards — verifiable by producers themselves — could shift real negotiating power back toward the start of the chain.",
-      related: { label: "See the interactive micron scale, above ↑", href: "#scale-track-wrap" }
+      related: { label: "See the interactive micron scale on the homepage →", href: "index.html#scale-track-wrap" }
     },
     {
       name: "Spinning",
