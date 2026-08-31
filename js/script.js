@@ -1,13 +1,12 @@
-// Cashmere Futures — shared site navigation consistency.
-// Every main page uses the same primary navigation sequence.
+// Cashmere Futures — shared site navigation.
+// Keep the primary navigation identical across every page.
 document.addEventListener('DOMContentLoaded', () => {
   const order = [
     ['index.html', 'Home'],
-    ['research.html', 'Research'],
+    ['about.html', 'About'],
     ['supply-chain.html', 'Supply Chain'],
     ['communities.html', 'Communities'],
-    ['about.html', 'About'],
-    ['map.html', 'Global Map'],
+    ['map.html', 'Map'],
     ['collaborate.html', 'Collaborate']
   ];
 
@@ -18,13 +17,13 @@ document.addEventListener('DOMContentLoaded', () => {
       if (href) existing.set(href, link);
     });
 
-    // Remove primary navigation links from their old positions.
+    // Remove all primary navigation links from their existing positions.
     order.forEach(([href]) => {
       const link = existing.get(href);
       if (link) link.remove();
     });
 
-    // Rebuild the primary navigation in one consistent sequence.
+    // Rebuild the navigation in the approved sequence.
     order.forEach(([href, label]) => {
       let link = existing.get(href);
       if (!link) {
@@ -36,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
       nav.appendChild(link);
     });
 
-    // Preserve the active-page indicator.
+    // Mark the current page as active.
     const current = window.location.pathname.split('/').pop() || 'index.html';
     const active = nav.querySelector(`a[href="${current}"]`);
     if (active) active.setAttribute('aria-current', 'page');
