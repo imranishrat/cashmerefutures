@@ -17,13 +17,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (href) existing.set(href, link);
     });
 
-    // Remove all primary navigation links from their existing positions.
-    order.forEach(([href]) => {
-      const link = existing.get(href);
-      if (link) link.remove();
-    });
+    // Remove every existing primary-navigation item, including Research,
+    // before rebuilding the approved six-item navigation.
+    nav.querySelectorAll('a').forEach((link) => link.remove());
 
-    // Rebuild the navigation in the approved sequence.
     order.forEach(([href, label]) => {
       let link = existing.get(href);
       if (!link) {
