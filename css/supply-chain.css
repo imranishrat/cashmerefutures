@@ -11,11 +11,15 @@
 .chain-hero .hero-intro{ font-size: 16px; color: var(--ink-soft); max-width: 62ch; }
 
 /* ---------- Flow track ---------- */
-.chain-section{ padding: 56px 0 64px; border-bottom: 1px solid var(--line); }
+.chain-section{ padding: 40px 0 64px; border-bottom: 1px solid var(--line); }
 .chain-track-wrap{
   position: relative;
   padding: 0 0 40px;
   margin-bottom: 8px;
+}
+.chain-track-header{
+  padding: 18px 0 22px;
+  margin-bottom: 0;
 }
 .chain-line{
   position: absolute;
