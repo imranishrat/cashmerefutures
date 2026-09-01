@@ -109,10 +109,10 @@
   var projection = d3.geoNaturalEarth1().scale(165).translate([width / 2, height / 2 + 10]);
   var path = d3.geoPath().projection(projection);
 
-  var infoEmpty = document.getElementById("info-empty");
   var infoContent = document.getElementById("info-content");
   var infoCategory = document.getElementById("info-category");
   var infoName = document.getElementById("info-name");
+  var infoDefaultNote = document.getElementById("info-default-note");
   var infoSummary = document.getElementById("info-summary");
   var infoTags = document.getElementById("info-tags");
   var volumeLabel = document.getElementById("volume-label");
@@ -193,15 +193,23 @@
     renderLabel(activeLabelLayer, c[0], c[1], REGIONS[id].name, "active");
   }
 
-  function showRegion(id) {
+  var DEFAULT_REGION = "356"; // India — Kashmir's pashmina tradition, the site's richest story
+  var DEFAULT_NOTE = "Starting with Kashmir, home to cashmere's most iconic hand-spun, hand-woven tradition — explore any other region below or on the map.";
+
+  function showRegion(id, isDefault) {
     var region = REGIONS[id];
     if (!region) return;
     activeId = id;
 
-    infoEmpty.hidden = true;
     infoContent.hidden = false;
     infoCategory.textContent = region.categoryLabel;
     infoName.textContent = region.name;
+    if (isDefault) {
+      infoDefaultNote.textContent = DEFAULT_NOTE;
+      infoDefaultNote.hidden = false;
+    } else {
+      infoDefaultNote.hidden = true;
+    }
     infoSummary.textContent = region.summary;
     infoTags.innerHTML = "";
     region.tags.forEach(function (t) {
@@ -273,11 +281,14 @@
     });
   }
 
-  // Deep-linking: map.html?region=<id> preselects that country
+  // Deep-linking: map.html?region=<id> preselects that country.
+  // With no link, default to Kashmir/India — the site's richest story.
   var params = new URLSearchParams(window.location.search);
   var linkedRegion = params.get("region");
   if (linkedRegion && REGIONS[linkedRegion]) {
     showRegion(linkedRegion);
+  } else {
+    showRegion(DEFAULT_REGION, true);
   }
 
   d3.json("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json")
@@ -339,9 +350,11 @@
 
       statusEl.textContent = "Map loaded — select a highlighted region.";
 
-      // Re-apply deep-linked selection now that the map paths exist, so the highlight shows too
+      // Re-apply the current selection now that the map paths exist, so the highlight shows too
       if (linkedRegion && REGIONS[linkedRegion]) {
         showRegion(linkedRegion);
+      } else {
+        showRegion(DEFAULT_REGION, true);
       }
     })
     .catch(function (err) {
