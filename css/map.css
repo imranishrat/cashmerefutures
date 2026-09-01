@@ -194,17 +194,26 @@
   text-transform: uppercase;
   color: var(--madder);
 }
-.info-empty h2, .info-content h2{
+.info-content h2{
   font-family: 'Fraunces', serif;
   font-weight: 500;
   font-size: 22px;
   margin-top: 10px;
   margin-bottom: 12px;
 }
-.info-empty p, .info-content p{
+.info-content p{
   font-size: 14px;
   color: var(--ink-soft);
   line-height: 1.6;
+}
+.info-default-note{
+  font-size: 13px;
+  color: var(--indigo-deep);
+  background: var(--fiber-deep);
+  border-left: 3px solid var(--indigo);
+  padding: 10px 12px;
+  margin-bottom: 14px;
+  line-height: 1.5;
 }
 .volume-block{ margin-top: 22px; }
 .volume-label{
