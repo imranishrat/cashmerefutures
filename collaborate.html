@@ -139,50 +139,10 @@
           Whatever your connection to cashmere, we'd like to hear from you — tell us a little about what you're working on and we'll get back to you.
         </p>
 
-        <form class="contact-form" id="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-          <div class="form-row">
-            <div class="form-field">
-              <label for="cf-name">Name</label>
-              <input type="text" id="cf-name" name="name" required>
-            </div>
-            <div class="form-field">
-              <label for="cf-email">Email</label>
-              <input type="email" id="cf-email" name="email" required>
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-field">
-              <label for="cf-org">Organisation (optional)</label>
-              <input type="text" id="cf-org" name="organisation">
-            </div>
-            <div class="form-field">
-              <label for="cf-role">I'm reaching out as</label>
-              <select id="cf-role" name="role">
-                <option>Community / herder representative</option>
-                <option>Researcher / academic</option>
-                <option>Industry / brand</option>
-                <option>Government / policymaker</option>
-                <option>NGO / international organisation</option>
-                <option>Other</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-field">
-            <label for="cf-message">Message</label>
-            <textarea id="cf-message" name="message" required></textarea>
-          </div>
-          <!-- Honeypot spam trap — hidden from real visitors, left blank by them, filled by bots -->
-          <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
-          <div class="form-submit-row">
-            <button type="submit" class="btn primary">Send message →</button>
-            <span class="form-status" id="form-status"></span>
-          </div>
-        </form>
-
-        <p class="form-note" style="margin-top:20px;">
-          Prefer email? Reach us directly at
-          <a href="mailto:hello@cashmerefutures.com" style="color:var(--indigo); border-bottom:1px solid var(--indigo);">hello@cashmerefutures.com</a>.
-        </p>
+        <div class="contact-form" style="max-width:720px;">
+          <p style="margin:0 0 18px;">For research enquiries, collaboration proposals, community connections, industry engagement, or other enquiries, please email us directly.</p>
+          <a href="mailto:hello@cashmerefutures.com" class="btn primary">hello@cashmerefutures.com →</a>
+        </div>
       </div>
     </section>
   </main>
@@ -201,7 +161,6 @@
 
   <script src="js/micron-scale.js"></script>
   <script src="js/reveal.js"></script>
-  <script src="js/contact-form.js"></script>
   <script src="js/script.js"></script>
   <script data-goatcounter="https://YOUR-CODE.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
