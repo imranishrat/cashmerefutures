@@ -504,6 +504,21 @@ a:focus-visible, .area-card:focus-visible{
   color: var(--ink-soft);
   margin-top: -8px;
 }
+.btn-email{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 14px 22px;
+  background: var(--indigo-deep);
+  color: var(--fiber);
+  border: 1px solid var(--indigo-deep);
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.btn-email:hover{ background: var(--indigo); border-color: var(--indigo); }
 @media (max-width: 560px){
   .form-row{ grid-template-columns: 1fr; }
 }
