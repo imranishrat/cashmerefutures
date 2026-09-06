@@ -15,6 +15,24 @@
   var idxEl = document.getElementById("flow-idx");
   var detailEl = document.getElementById("flow-detail");
 
+  // Short, grounded restatement of each country's specific character in the
+  // chain — not new claims, just a short label version of what's already
+  // established in that country's full profile on the Global Map.
+  var ROLE_HINT = {
+    "156": "Manufacturing & spinning",
+    "496": "Raw fibre herding",
+    "356": "Hand-spun, hand-woven",
+    "586": "Herding tradition",
+    "398": "Steppe herding",
+    "004": "Herding communities",
+    "364": "Traditional herding",
+    "417": "Highland herding",
+    "762": "Herding communities",
+    "554": "Pastoral, traceable",
+    "792": "Textile manufacturing",
+    "524": "Hand-spun heritage"
+  };
+
   function el(tag, attrs) {
     var e = document.createElementNS(SVG_NS, tag);
     for (var k in attrs) e.setAttribute(k, attrs[k]);
@@ -37,21 +55,40 @@
 
   var linksGroup = el("g", { "class": "flow-links" });
   var particlesGroup = el("g", { "class": "flow-particles" });
+  var annotationsGroup = el("g", { "class": "flow-annotations", "aria-hidden": "true" });
   var nodesGroup = el("g", { "class": "flow-nodes" });
+
+  // Arrowhead marker, reused by every link to show clear directional flow into the hub
+  var defs = el("defs", {});
+  var marker = el("marker", {
+    id: "flow-arrowhead", viewBox: "0 0 10 10", refX: "8", refY: "5",
+    markerWidth: "6", markerHeight: "6", orient: "auto-start-reverse"
+  });
+  marker.appendChild(el("path", { d: "M 0 0 L 10 5 L 0 10 z", "class": "flow-arrowhead" }));
+  defs.appendChild(marker);
+  svg.appendChild(defs);
+
   svg.appendChild(linksGroup);
   svg.appendChild(particlesGroup);
+  svg.appendChild(annotationsGroup);
   svg.appendChild(nodesGroup);
 
   // ---- Links: curved paths from each origin to the hub ----
   var linkPaths = [];
+  var linksById = {};
   ORDER.forEach(function (id) {
     var p = positions[id];
     var midX = (p.x + HUB.x) / 2;
     var midY = (p.y + HUB.y) / 2 - 18;
     var d = "M " + p.x + " " + p.y + " Q " + midX + " " + midY + " " + HUB.x + " " + HUB.y;
-    var path = el("path", { "d": d, "class": "flow-link " + REGIONS[id].category });
+    var path = el("path", {
+      "d": d,
+      "class": "flow-link " + REGIONS[id].category,
+      "marker-end": "url(#flow-arrowhead)"
+    });
     linksGroup.appendChild(path);
     linkPaths.push({ id: id, path: path });
+    linksById[id] = path;
   });
 
   // ---- Hub node (decorative endpoint, not a real per-country entity) ----
@@ -66,14 +103,54 @@
   nodesGroup.appendChild(hubG);
 
   // ---- Origin nodes ----
+  function clearAnnotations() {
+    annotationsGroup.innerHTML = "";
+  }
+
+  function annotatePath(id) {
+    var path = linksById[id];
+    if (!path) return;
+    var length = path.getTotalLength();
+    if (!length) return;
+    var region = REGIONS[id];
+    var category = region.category;
+
+    // Near-origin annotation: real volume tier
+    var startPt = path.getPointAtLength(length * 0.16);
+    var startLabel = el("text", {
+      x: startPt.x, y: startPt.y - 8,
+      "class": "flow-annotation " + category
+    });
+    startLabel.textContent = region.volume ? region.volume.tier : "";
+    annotationsGroup.appendChild(startLabel);
+
+    // Mid-path annotation: this country's specific role in the chain
+    var midPt = path.getPointAtLength(length * 0.55);
+    var midLabel = el("text", {
+      x: midPt.x, y: midPt.y - 8,
+      "class": "flow-annotation " + category
+    });
+    midLabel.textContent = ROLE_HINT[id] || "";
+    annotationsGroup.appendChild(midLabel);
+  }
+
   function showInfo(id) {
     var r = REGIONS[id];
     idxEl.textContent = r.name + " — " + r.categoryLabel;
     detailEl.textContent = (r.volume ? r.volume.tier + ". " + r.volume.note : "") ;
+
+    var path = linksById[id];
+    if (path) path.classList.add("active");
+    clearAnnotations();
+    annotatePath(id);
   }
-  function resetInfo() {
+  function resetInfo(id) {
     idxEl.textContent = "Select a source";
     detailEl.textContent = "Hover, focus, or tap any origin above to see its role in the chain — or click it to open its full profile on the Global Map.";
+
+    var path = id ? linksById[id] : null;
+    if (path) path.classList.remove("active");
+    clearAnnotations();
   }
 
   ORDER.forEach(function (id) {
@@ -99,8 +176,8 @@
 
     g.addEventListener("mouseenter", function () { showInfo(id); });
     g.addEventListener("focus", function () { showInfo(id); });
-    g.addEventListener("mouseleave", resetInfo);
-    g.addEventListener("blur", resetInfo);
+    g.addEventListener("mouseleave", function () { resetInfo(id); });
+    g.addEventListener("blur", function () { resetInfo(id); });
     g.addEventListener("click", go);
     g.addEventListener("keydown", function (e) {
       if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); }
