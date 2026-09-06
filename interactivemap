@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Interactive Cashmere Supply Chain Map</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #0b1020;
+      --node-stroke: #2a3555;
+      --node-fill: #111833;
+      --text: #e8ecf8;
+      --muted: #9aa3c7;
+      --accent: #5fb8ff;
+      --line: #2a3555;
+      --particle: #5fb8ff;
+      --tooltip-bg: #121833;
+      --tooltip-border: #2a3555;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow: hidden;
+    }
+
+    .map-container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* Nodes */
+    .node {
+      cursor: pointer;
+      transition: transform 0.2s ease, filter 0.2s ease;
+    }
+    .node:hover {
+      transform: scale(1.15);
+      filter: drop-shadow(0 0 10px rgba(95,184,255,0.6));
+    }
+    .node-ring {
+      fill: none;
+      stroke: var(--node-stroke);
+      stroke-width: 2;
+    }
+    .node-core {
+      stroke: var(--node-stroke);
+      stroke-width: 1.5;
+    }
+    .node-label {
+      fill: var(--text);
+      font-size: 12px;
+      text-anchor: middle;
+      pointer-events: none;
+      user-select: none;
+    }
+    .node-sublabel {
+      fill: var(--muted);
+      font-size: 10px;
+      text-anchor: middle;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    /* Lines */
+    .link {
+      stroke: var(--line);
+      stroke-width: 1.5;
+      fill: none;
+      opacity: 0.7;
+    }
+
+    /* Particles */
+    .particle {
+      fill: var(--particle);
+      opacity: 0.9;
+    }
+
+    /* Tooltip */
+    .tooltip {
+      position: absolute;
+      pointer-events: none;
+      background: var(--tooltip-bg);
+      border: 1px solid var(--tooltip-border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      max-width: 260px;
+      font-size: 12px;
+      color: var(--text);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      opacity: 0;
+      transform: translate(-50%, -120%);
+      transition: opacity 0.15s ease, transform 0.15s ease;
+      z-index: 10;
+    }
+    .tooltip.visible {
+      opacity: 1;
+      transform: translate(-50%, -140%);
+    }
+    .tooltip-title {
+      font-weight: 600;
+      margin-bottom: 4px;
+      font-size: 13px;
+    }
+    .tooltip-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin: 2px 0;
+    }
+    .tooltip-label {
+      color: var(--muted);
+    }
+
+    /* Detail panel */
+    .detail-panel {
+      position: absolute;
+      right: 20px;
+      top: 20px;
+      width: 320px;
+      max-width: calc(100vw - 40px);
+      background: rgba(17, 24, 51, 0.9);
+      border: 1px solid var(--tooltip-border);
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+      transform: translateX(120%);
+      transition: transform 0.25s ease;
+      z-index: 20;
+    }
+    .detail-panel.open {
+      transform: translateX(0);
+    }
+    .detail-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .detail-section {
+      margin-top: 12px;
+    }
+    .detail-section-title {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 13px;
+      margin: 3px 0;
+    }
+    .detail-label {
+      color: var(--muted);
+    }
+    .close-panel {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      font-size: 18px;
+      cursor: pointer;
+    }
+    .close-panel:hover {
+      color: var(--text);
+    }
+
+    /* Legend */
+    .legend {
+      position: absolute;
+      left: 20px;
+      bottom: 20px;
+      background: rgba(17, 24, 51, 0.85);
+      border: 1px solid var(--tooltip-border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 12px;
+      z-index: 10;
+    }
+    .legend-title {
+      font-weight: 600;
+      margin-bottom: 6px;
+      font-size: 13px;
+    }
+    .legend-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 3px 0;
+    }
+    .legend-swatch {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 1px solid var(--node-stroke);
+    }
+    .legend-size-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 3px 0;
+    }
+    .legend-circle {
+      border-radius: 50%;
+      border: 1px solid var(--node-stroke);
+      background: rgba(95,184,255,0.15);
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 700px) {
+      .detail-panel {
+        top: auto;
+        bottom: 20px;
+        right: 10px;
+        left: 10px;
+        width: auto;
+        transform: translateY(120%);
+      }
+      .detail-panel.open {
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="map-container" id="mapContainer">
+    <svg id="mapSvg" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
+      <!-- Links (flows) -->
+      <g id="linksGroup"></g>
+      <!-- Particles will be appended here dynamically -->
+      <g id="particlesGroup"></g>
+      <!-- Nodes -->
+      <g id="nodesGroup"></g>
+    </svg>
+
+    <!-- Tooltip -->
+    <div class="tooltip" id="tooltip">
+      <div class="tooltip-title" id="tooltipTitle">Region</div>
+      <div class="tooltip-row">
+        <span class="tooltip-label">Volume</span>
+        <span id="tooltipVolume">High</span>
+      </div>
+      <div class="tooltip-row">
+        <span class="tooltip-label">Quality</span>
+        <span id="tooltipQuality">Very fine</span>
+      </div>
+      <div class="tooltip-row">
+        <span class="tooltip-label">Est. share</span>
+        <span id="tooltipShare">~25%</span>
+      </div>
+    </div>
+
+    <!-- Detail panel -->
+    <div class="detail-panel" id="detailPanel">
+      <button class="close-panel" id="closePanel" aria-label="Close details">×</button>
+      <div class="detail-title" id="detailTitle">Region name</div>
+
+      <div class="detail-section">
+        <div class="detail-section-title">Production profile</div>
+        <div class="detail-row">
+          <span class="detail-label">Volume</span>
+          <span id="detailVolume">High</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Typical fiber diameter</span>
+          <span id="detailMicron">16–17 µm</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Global share</span>
+          <span id="detailShare">~25%</span>
+        </div>
+      </div>
+
+      <div class="detail-section">
+        <div class="detail-section-title">Key characteristics</div>
+        <div id="detailNotes" style="font-size:13px; line-height:1.35; color: var(--text);">
+          Notes about this region’s cashmere…
+        </div>
+      </div>
+
+      <div class="detail-section">
+        <div class="detail-section-title">Supply chain role</div>
+        <div id="detailRole" style="font-size:13px; color: var(--text);">
+          Raw production / processing / both
+        </div>
+      </div>
+    </div>
+
+    <!-- Legend -->
+    <div class="legend">
+      <div class="legend-title">Quality (color)</div>
+      <div class="legend-row">
+        <div class="legend-swatch" style="background:#6a5aff;"></div>
+        <span>Finest (pashmina)</span>
+      </div>
+      <div class="legend-row">
+        <div class="legend-swatch" style="background:#5fb8ff;"></div>
+        <span>Very fine</span>
+      </div>
+      <div class="legend-row">
+        <div class="legend-swatch" style="background:#5fd9a8;"></div>
+        <span>Fine–medium</span>
+      </div>
+      <div class="legend-row">
+        <div class="legend-swatch" style="background:#ffd166;"></div>
+        <span>Medium / niche</span>
+      </div>
+
+      <div class="legend-title" style="margin-top:10px;">Volume (size)</div>
+      <div class="legend-size-row">
+        <div class="legend-circle" style="width:22px; height:22px;"></div>
+        <span>Very high</span>
+      </div>
+      <div class="legend-size-row">
+        <div class="legend-circle" style="width:16px; height:16px;"></div>
+        <span>High</span>
+      </div>
+      <div class="legend-size-row">
+        <div class="legend-circle" style="width:11px; height:11px;"></div>
+        <span>Moderate</span>
+      </div>
+      <div class="legend-size-row">
+        <div class="legend-circle" style="width:7px; height:7px;"></div>
+        <span>Low</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // -----------------------------
+    // Data: nodes (regions) & links
+    // -----------------------------
+
+    // Coordinate system: SVG viewBox 1000 x 600
+    // Positions are approximate to suggest a world map layout
+    const nodes = [
+      {
+        id: "inner_mongolia",
+        name: "Inner Mongolia (China)",
+        x: 720,
+        y: 260,
+        volumeLevel: 4, // 1–4
+        qualityLevel: 3, // 1–3 (3 = very fine)
+        qualityLabel: "Very fine",
+        micronRange: "15.5–17 µm",
+        share: "~50–70% of global raw cashmere",
+        notes:
+          "Largest producing region globally. Harsh continental climate drives goats to grow dense, fine undercoats. Major source for both raw fiber and processed yarn.",
+        role: "Raw production + large-scale processing"
+      },
+      {
+        id: "mongolia",
+        name: "Mongolia",
+        x: 660,
+        y: 240,
+        volumeLevel: 3,
+        qualityLevel: 3,
+        qualityLabel: "Very fine",
+        micronRange: "15–16.5 µm",
+        share: "~20–40% of global raw cashmere",
+        notes:
+          "Gobi and steppe regions produce some of the finest cashmere. Traditional herding with increasing commercial processing.",
+        role: "Raw production + growing processing capacity"
+      },
+      {
+        id: "himalayas",
+        name: "Himalayas (Ladakh, Kashmir, Tibet, Nepal)",
+        x: 560,
+        y: 320,
+        volumeLevel: 2,
+        qualityLevel: 4, // special: finest
+        qualityLabel: "Finest (pashmina)",
+        micronRange: "12–15 µm",
+        share: "Small but prestigious share",
+        notes:
+          "Source of true pashmina from Changthangi and similar goats. Extremely fine fibers, low volumes, high value.",
+        role: "Raw production (niche, high-value)"
+      },
+      {
+        id: "iran",
+        name: "Iran",
+        x: 460,
+        y: 280,
+        volumeLevel: 2,
+        qualityLevel: 2,
+        qualityLabel: "Fine–medium",
+        micronRange: "16.5–18.5 µm",
+        share: "Moderate",
+        notes:
+          "Traditional hand-combed cashmere from mountainous regions. Known for consistent quality and craftsmanship.",
+        role: "Raw production + some processing"
+      },
+      {
+        id: "afghanistan",
+        name: "Afghanistan",
+        x: 520,
+        y: 290,
+        volumeLevel: 2,
+        qualityLevel: 2,
+        qualityLabel: "Fine–medium",
+        micronRange: "16.5–18.5 µm",
+        share: "Moderate",
+        notes:
+          "Highland regions produce fine cashmere, often hand-combed. Supply chain affected by local conditions.",
+        role: "Raw production"
+      },
+      {
+        id: "central_asia",
+        name: "Central Asia (KZ, KG, etc.)",
+        x: 560,
+        y: 240,
+        volumeLevel: 1,
+        qualityLevel: 2,
+        qualityLabel: "Fine–medium",
+        micronRange: "17–19 µm",
+        share: "Low",
+        notes:
+          "Multiple smaller producers across Kazakhstan, Kyrgyzstan and neighbors. Often medium-fine fibers.",
+        role: "Raw production"
+      },
+      {
+        id: "others",
+        name: "Others (AU, NZ, US, etc.)",
+        x: 820,
+        y: 420,
+        volumeLevel: 1,
+        qualityLevel: 1,
+        qualityLabel: "Medium / niche",
+        micronRange: "17–20+ µm",
+        share: "Very low",
+        notes:
+          "Emerging or niche producers in Australia, New Zealand, USA, South Africa. Small volumes, experimental or boutique focus.",
+        role: "Raw production (niche)"
+      }
+    ];
+
+    // Links represent conceptual flows (e.g., raw → processing → garments)
+    // Here we just show some representative connections
+    const links = [
+      { from: "inner_mongolia", to: "mongolia" },
+      { from: "inner_mongolia", to: "himalayas" },
+      { from: "mongolia", to: "himalayas" },
+      { from: "himalayas", to: "iran" },
+      { from: "iran", to: "afghanistan" },
+      { from: "afghanistan", to: "central_asia" },
+      { from: "central_asia", to: "others" }
+    ];
+
+    // -----------------------------
+    // Helpers: size & color scales
+    // -----------------------------
+
+    function volumeToRadius(level) {
+      // level 1–4
+      const base = 6;
+      const step = 5;
+      return base + (level - 1) * step; // 6, 11, 16, 21
+    }
+
+    function qualityToColor(level, isFinestSpecial = false) {
+      // level: 1–4, where 4 = finest (pashmina)
+      if (level === 4 || isFinestSpecial) {
+        return "#6a5aff"; // deep blue-purple
+      }
+      if (level === 3) {
+        return "#5fb8ff"; // bright blue
+      }
+      if (level === 2) {
+        return "#5fd9a8"; // teal/green
+      }
+      return "#ffd166"; // yellow
+    }
+
+    // -----------------------------
+    // Setup SVG
+    // -----------------------------
+
+    const svg = document.getElementById("mapSvg");
+    const nodesGroup = document.getElementById("nodesGroup");
+    const linksGroup = document.getElementById("linksGroup");
+    const particlesGroup = document.getElementById("particlesGroup");
+
+    const tooltip = document.getElementById("tooltip");
+    const tooltipTitle = document.getElementById("tooltipTitle");
+    const tooltipVolume = document.getElementById("tooltipVolume");
+    const tooltipQuality = document.getElementById("tooltipQuality");
+    const tooltipShare = document.getElementById("tooltipShare");
+
+    const detailPanel = document.getElementById("detailPanel");
+    const closePanel = document.getElementById("closePanel");
+    const detailTitle = document.getElementById("detailTitle");
+    const detailVolume = document.getElementById("detailVolume");
+    const detailMicron = document.getElementById("detailMicron");
+    const detailShare = document.getElementById("detailShare");
+    const detailNotes = document.getElementById("detailNotes");
+    const detailRole = document.getElementById("detailRole");
+
+    const mapContainer = document.getElementById("mapContainer");
+
+    // -----------------------------
+    // Draw links
+    // -----------------------------
+
+    const nodeMap = new Map(nodes.map(n => [n.id, n]));
+
+    function drawLinks() {
+      links.forEach(link => {
+        const a = nodeMap.get(link.from);
+        const b = nodeMap.get(link.to);
+        if (!a || !b) return;
+
+        const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+
+        // Simple curved path
+        const midX = (a.x + b.x) / 2;
+        const midY = (a.y + b.y) / 2 - 20;
+
+        const d = `M ${a.x} ${a.y} Q ${midX} ${midY} ${b.x} ${b.y}`;
+        path.setAttribute("d", d);
+        path.setAttribute("class", "link");
+        path.dataset.from = link.from;
+        path.dataset.to = link.to;
+        linksGroup.appendChild(path);
+
+        // Spawn particles along this path
+        spawnParticleStream(path);
+      });
+    }
+
+    // -----------------------------
+    // Draw nodes
+    // -----------------------------
+
+    function drawNodes() {
+      nodes.forEach(node => {
+        const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+        g.setAttribute("class", "node");
+        g.setAttribute("transform", `translate(${node.x}, ${node.y})`);
+        g.dataset.id = node.id;
+
+        const radius = volumeToRadius(node.volumeLevel);
+
+        // Outer ring
+        const ring = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        ring.setAttribute("r", radius + 4);
+        ring.setAttribute("class", "node-ring");
+
+        // Core circle (quality color)
+        const core = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        core.setAttribute("r", radius);
+        core.setAttribute("class", "node-core");
+        core.setAttribute("fill", qualityToColor(node.qualityLevel, node.qualityLabel.includes("Finest")));
+        core.setAttribute("stroke", "#2a3555");
+
+        // Labels
+        const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        label.setAttribute("class", "node-label");
+        label.setAttribute("y", -(radius + 10));
+        label.textContent = node.name.length > 22 ? node.name.slice(0, 20) + "…" : node.name;
+
+        const sublabel = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        sublabel.setAttribute("class", "node-sublabel");
+        sublabel.setAttribute("y", radius + 14);
+        sublabel.textContent = node.qualityLabel;
+
+        g.appendChild(ring);
+        g.appendChild(core);
+        g.appendChild(label);
+        g.appendChild(sublabel);
+
+        // Interactions
+        g.addEventListener("mouseenter", e => showTooltip(e, node));
+        g.addEventListener("mouseleave", hideTooltip);
+        g.addEventListener("mousemove", moveTooltip);
+        g.addEventListener("click", () => openDetail(node));
+
+        nodesGroup.appendChild(g);
+      });
+    }
+
+    // -----------------------------
+    // Tooltip behavior
+    // -----------------------------
+
+    function showTooltip(e, node) {
+      tooltipTitle.textContent = node.name;
+      const volumeText = ["Low", "Moderate", "High", "Very high"][node.volumeLevel - 1] || "—";
+      tooltipVolume.textContent = volumeText;
+      tooltipQuality.textContent = node.qualityLabel;
+      tooltipShare.textContent = node.share;
+      tooltip.classList.add("visible");
+    }
+
+    function hideTooltip() {
+      tooltip.classList.remove("visible");
+    }
+
+    function moveTooltip(e) {
+      const rect = mapContainer.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      tooltip.style.left = x + "px";
+      tooltip.style.top = y + "px";
+    }
+
+    // -----------------------------
+    // Detail panel
+    // -----------------------------
+
+    function openDetail(node) {
+      detailTitle.textContent = node.name;
+      const volumeText = ["Low", "Moderate", "High", "Very high"][node.volumeLevel - 1] || "—";
+      detailVolume.textContent = volumeText;
+      detailMicron.textContent = node.micronRange;
+      detailShare.textContent = node.share;
+      detailNotes.textContent = node.notes;
+      detailRole.textContent = node.role;
+
+      detailPanel.classList.add("open");
+    }
+
+    closePanel.addEventListener("click", () => {
+      detailPanel.classList.remove("open");
+    });
+
+    // Close panel when clicking outside on small screens
+    mapContainer.addEventListener("click", e => {
+      if (window.innerWidth <= 700) {
+        const clickInsidePanel = detailPanel.contains(e.target);
+        const clickOnNode = e.target.closest(".node");
+        if (!clickInsidePanel && !clickOnNode) {
+          detailPanel.classList.remove("open");
+        }
+      }
+    });
+
+    // -----------------------------
+    // Particle animation along paths
+    // -----------------------------
+
+    function spawnParticleStream(pathEl) {
+      const length = pathEl.getTotalLength();
+      if (!length) return;
+
+      // Create several particles over time
+      setInterval(() => {
+        createParticle(pathEl, length);
+      }, 900 + Math.random() * 600);
+    }
+
+    function createParticle(pathEl, pathLength) {
+      const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+      circle.setAttribute("class", "particle");
+      circle.setAttribute("r", 2.5);
+
+      particlesGroup.appendChild(circle);
+
+      let offset = 0;
+      const speed = 40 + Math.random() * 40; // px per second
+
+      function animate() {
+        offset += speed * 0.016; // approx per frame
+        if (offset >= pathLength) {
+          particlesGroup.removeChild(circle);
+          return;
+        }
+        const point = pathEl.getPointAtLength(offset);
+        circle.setAttribute("cx", point.x);
+        circle.setAttribute("cy", point.y);
+        requestAnimationFrame(animate);
+      }
+      requestAnimationFrame(animate);
+    }
+
+    // -----------------------------
+    // Initialize
+    // -----------------------------
+
+    drawLinks();
+    drawNodes();
+
+    // Optional: subtle background grid or map outline could be added here
+  </script>
+</body>
+</html>
