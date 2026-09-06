@@ -181,85 +181,46 @@
   .chain-line, .chain-line-fill{ display: none; }
 }
 
-/* ---------- Flow diagram: sources feeding the chain ---------- */
+/* ---------- 3D globe: sources feeding the chain ---------- */
 .flow-section{ padding: 56px 0 64px; border-bottom: 1px solid var(--line); }
 
-#flow-diagram{
-  width: 100%;
-  height: auto;
+.globe-wrap{
   border: 1px solid var(--line);
   background: var(--fiber);
+  position: relative;
+}
+#globe-container{
+  width: 100%;
   display: block;
+  touch-action: none;
 }
+#globe-container canvas{ display: block; }
 
-.flow-link{
-  fill: none;
-  stroke-width: 1.5;
-  opacity: 0.45;
+.globe-legend{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  padding: 12px 16px;
+  border-top: 1px solid var(--line);
 }
-.flow-link.producer{ stroke: var(--madder); }
-.flow-link.origin{ stroke: var(--indigo); }
-.flow-link.emerging{ stroke: var(--grass); }
-.flow-link.active{
-  opacity: 0.95;
-  stroke-width: 2.5;
-}
-@media (prefers-reduced-motion: no-preference){
-  .flow-link{ transition: opacity 0.15s ease, stroke-width 0.15s ease; }
-}
-
-.flow-arrowhead{ fill: var(--ink-soft); opacity: 0.6; }
-
-.flow-annotation{
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 10.5px;
-  text-anchor: middle;
-  pointer-events: none;
-  paint-order: stroke;
-  stroke: var(--fiber);
-  stroke-width: 3px;
-}
-.flow-annotation.producer{ fill: var(--madder); }
-.flow-annotation.origin{ fill: var(--indigo); }
-.flow-annotation.emerging{ fill: var(--grass); }
-
-.flow-node{ stroke: var(--fiber); stroke-width: 1.5; }
-.flow-node.producer{ fill: var(--madder); }
-.flow-node.origin{ fill: var(--indigo); }
-.flow-node.emerging{ fill: var(--grass); }
-.flow-node.hub{ fill: var(--indigo-deep); stroke: var(--fiber); stroke-width: 2; }
-
-.flow-node-group{ cursor: pointer; }
-.flow-node-group:hover .flow-node,
-.flow-node-group:focus .flow-node{ opacity: 0.8; }
-.flow-node-group:focus{ outline: none; }
-.flow-node-group:focus-visible .flow-node{
-  stroke: var(--indigo-deep);
-  stroke-width: 3;
-}
-.flow-node-label{
+.globe-legend .legend-item{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   font-family: 'IBM Plex Mono', monospace;
   font-size: 11px;
-  text-anchor: middle;
-  fill: var(--ink);
-  pointer-events: none;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
 }
-.flow-hub-label{
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 11px;
-  text-anchor: middle;
-  fill: var(--fiber);
-  pointer-events: none;
+.globe-legend .swatch{
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  display: inline-block;
 }
-
-.flow-particle{ opacity: 0.9; }
-.flow-particle.producer{ fill: var(--madder); }
-.flow-particle.origin{ fill: var(--indigo); }
-.flow-particle.emerging{ fill: var(--grass); }
-.flow-particle-static{ opacity: 0.5; }
-.flow-particle-static.producer{ fill: var(--madder); }
-.flow-particle-static.origin{ fill: var(--indigo); }
-.flow-particle-static.emerging{ fill: var(--grass); }
+.globe-legend .swatch.producer{ background: var(--madder); }
+.globe-legend .swatch.origin{ background: var(--indigo); }
+.globe-legend .swatch.emerging{ background: var(--grass); }
 
 .flow-caption{
   margin-top: 20px;
@@ -283,6 +244,34 @@
   max-width: 68ch;
 }
 
-@media (max-width: 700px){
-  .flow-node-label{ font-size: 9px; }
+.globe-fallback-head{
+  margin-top: 20px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 10px;
 }
+.globe-fallback-list{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.globe-chip{
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--line);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.globe-chip.producer{ border-left-color: var(--madder); }
+.globe-chip.origin{ border-left-color: var(--indigo); }
+.globe-chip.emerging{ border-left-color: var(--grass); }
+.globe-chip:hover, .globe-chip:focus-visible{ background: var(--fiber-deep); border-color: var(--indigo); }
