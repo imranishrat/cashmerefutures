@@ -1,7 +1,6 @@
 (function () {
   var svg = document.getElementById("flow-diagram");
   if (!svg || typeof REGIONS === "undefined") return;
-
   var SVG_NS = "http://www.w3.org/2000/svg";
   var W = 1000, H = 600;
   var HUB = { x: 860, y: 300, r: 34 };
