@@ -200,6 +200,28 @@
 .flow-link.producer{ stroke: var(--madder); }
 .flow-link.origin{ stroke: var(--indigo); }
 .flow-link.emerging{ stroke: var(--grass); }
+.flow-link.active{
+  opacity: 0.95;
+  stroke-width: 2.5;
+}
+@media (prefers-reduced-motion: no-preference){
+  .flow-link{ transition: opacity 0.15s ease, stroke-width 0.15s ease; }
+}
+
+.flow-arrowhead{ fill: var(--ink-soft); opacity: 0.6; }
+
+.flow-annotation{
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10.5px;
+  text-anchor: middle;
+  pointer-events: none;
+  paint-order: stroke;
+  stroke: var(--fiber);
+  stroke-width: 3px;
+}
+.flow-annotation.producer{ fill: var(--madder); }
+.flow-annotation.origin{ fill: var(--indigo); }
+.flow-annotation.emerging{ fill: var(--grass); }
 
 .flow-node{ stroke: var(--fiber); stroke-width: 1.5; }
 .flow-node.producer{ fill: var(--madder); }
