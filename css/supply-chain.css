@@ -180,3 +180,87 @@
   .chain-node{ flex: 0 0 auto; min-width: 70px; }
   .chain-line, .chain-line-fill{ display: none; }
 }
+
+/* ---------- Flow diagram: sources feeding the chain ---------- */
+.flow-section{ padding: 56px 0 64px; border-bottom: 1px solid var(--line); }
+
+#flow-diagram{
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  background: var(--fiber);
+  display: block;
+}
+
+.flow-link{
+  fill: none;
+  stroke-width: 1.5;
+  opacity: 0.45;
+}
+.flow-link.producer{ stroke: var(--madder); }
+.flow-link.origin{ stroke: var(--indigo); }
+.flow-link.emerging{ stroke: var(--grass); }
+
+.flow-node{ stroke: var(--fiber); stroke-width: 1.5; }
+.flow-node.producer{ fill: var(--madder); }
+.flow-node.origin{ fill: var(--indigo); }
+.flow-node.emerging{ fill: var(--grass); }
+.flow-node.hub{ fill: var(--indigo-deep); stroke: var(--fiber); stroke-width: 2; }
+
+.flow-node-group{ cursor: pointer; }
+.flow-node-group:hover .flow-node,
+.flow-node-group:focus .flow-node{ opacity: 0.8; }
+.flow-node-group:focus{ outline: none; }
+.flow-node-group:focus-visible .flow-node{
+  stroke: var(--indigo-deep);
+  stroke-width: 3;
+}
+.flow-node-label{
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  text-anchor: middle;
+  fill: var(--ink);
+  pointer-events: none;
+}
+.flow-hub-label{
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  text-anchor: middle;
+  fill: var(--fiber);
+  pointer-events: none;
+}
+
+.flow-particle{ opacity: 0.9; }
+.flow-particle.producer{ fill: var(--madder); }
+.flow-particle.origin{ fill: var(--indigo); }
+.flow-particle.emerging{ fill: var(--grass); }
+.flow-particle-static{ opacity: 0.5; }
+.flow-particle-static.producer{ fill: var(--madder); }
+.flow-particle-static.origin{ fill: var(--indigo); }
+.flow-particle-static.emerging{ fill: var(--grass); }
+
+.flow-caption{
+  margin-top: 20px;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  background: var(--fiber-deep);
+}
+.flow-caption .idx{
+  display: block;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--madder);
+  margin-bottom: 6px;
+}
+.flow-caption p{
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.55;
+  max-width: 68ch;
+}
+
+@media (max-width: 700px){
+  .flow-node-label{ font-size: 9px; }
+}
