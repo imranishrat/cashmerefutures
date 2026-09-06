@@ -88,14 +88,24 @@
           <h2>The sources feeding this chain</h2>
           <span class="num">12 countries</span>
         </div>
-        <p class="hero-intro" style="margin-bottom:28px; max-width:70ch;">Every one of these countries connects into the chain above at the very first stage. Node size reflects relative production volume, colour reflects the same category used on the Global Map. Select any source to see its role, or open its full profile.</p>
+        <p class="hero-intro" style="margin-bottom:28px; max-width:70ch;">Every one of these countries connects into the chain above at the very first stage. Point size reflects relative production volume, colour reflects the same category used on the Global Map. Drag to rotate, select any point to see its role, or open its full profile.</p>
 
-        <svg id="flow-diagram" viewBox="0 0 1000 600" role="img" aria-label="Diagram of cashmere-producing countries flowing into the global market"></svg>
+        <div class="globe-wrap">
+          <div id="globe-container" role="img" aria-label="Rotatable 3D globe showing cashmere-producing countries"></div>
+          <div class="globe-legend" aria-hidden="true">
+            <span class="legend-item"><span class="swatch producer"></span>Leading producer</span>
+            <span class="legend-item"><span class="swatch origin"></span>Historic origin</span>
+            <span class="legend-item"><span class="swatch emerging"></span>Emerging focus</span>
+          </div>
+        </div>
 
         <div class="flow-caption" id="flow-caption">
           <span class="idx" id="flow-idx">Select a source</span>
-          <p id="flow-detail">Hover, focus, or tap any origin above to see its role in the chain — or click it to open its full profile on the Global Map.</p>
+          <p id="flow-detail">Drag the globe to rotate it, hover or tap a point to see its role in the chain, or use the list below — click any source to open its full profile on the Global Map.</p>
         </div>
+
+        <div class="globe-fallback-head">Or select directly:</div>
+        <div class="globe-fallback-list" id="globe-fallback-list" aria-label="Source countries (keyboard-accessible list)"></div>
       </div>
     </section>
 
@@ -126,7 +136,10 @@
 
   <script src="js/regions-data.js"></script>
   <script src="js/supply-chain.js"></script>
-  <script src="js/supply-flow.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"
+          integrity="sha512-dLxUelApnYxpLt6K2iomGngnHO83iUvZytA3YjDUCjT0HDOHKXnVYdf3hU4JjM8uEhxf9nD1/ey98U3t2vZ0qQ=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="js/supply-globe.js"></script>
   <script src="js/reveal.js"></script>
   <script src="js/script.js"></script>
   <script data-goatcounter="https://YOUR-CODE.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
