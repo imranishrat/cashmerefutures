@@ -1,266 +1,134 @@
-/* ---------- Supply chain hero ---------- */
-.chain-hero{ padding: 56px 0 40px; border-bottom: 1px solid var(--line); }
-.chain-hero h1{
-  font-family: 'Fraunces', serif;
-  font-weight: 500;
-  font-size: clamp(32px, 4.4vw, 48px);
-  letter-spacing: -0.015em;
-  margin-bottom: 16px;
-  max-width: 18ch;
-}
-.chain-hero .hero-intro{ font-size: 16px; color: var(--ink-soft); max-width: 62ch; }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="An interactive look at the cashmere supply chain, from herding and combing through to finished garments reaching the market.">
+  <title>Supply Chain | Cashmere Futures</title>
+  <link rel="canonical" href="https://cashmerefutures.com/supply-chain.html">
+  <meta name="theme-color" content="#263846">
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" href="assets/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Cashmere Futures">
+  <meta property="og:title" content="Supply Chain | Cashmere Futures">
+  <meta property="og:description" content="An interactive look at the cashmere supply chain, from herding and combing through to finished garments reaching the market.">
+  <meta property="og:url" content="https://cashmerefutures.com/supply-chain.html">
+  <meta property="og:image" content="https://cashmerefutures.com/assets/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Supply Chain | Cashmere Futures">
+  <meta name="twitter:description" content="An interactive look at the cashmere supply chain, from herding and combing through to finished garments reaching the market.">
+  <meta name="twitter:image" content="https://cashmerefutures.com/assets/og-image.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/supply-chain.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-container">
+      <a class="brand" href="index.html" aria-label="Cashmere Futures home">
+        <span class="brand-name">Cashmere Futures</span>
+        <span class="brand-subtitle">Cashmere Futures Lab</span>
+      </a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="supply-chain.html" aria-current="page">Supply Chain</a>
+        <a href="communities.html">Communities</a>
+        <a href="map.html">Global Map</a>
+        <a href="collaborate.html">Collaborate</a>
+      </nav>
+    </div>
+    <div class="container">
+      <div class="chain-track-wrap chain-track-header">
+        <div class="chain-line"></div>
+        <div class="chain-line-fill" id="chain-line-fill"></div>
+        <div class="chain-nodes" id="chain-nodes" role="tablist" aria-label="Supply chain stages"></div>
+      </div>
+    </div>
+  </header>
 
-/* ---------- Flow track ---------- */
-.chain-section{ padding: 40px 0 64px; border-bottom: 1px solid var(--line); }
-.chain-track-wrap{
-  position: relative;
-  padding: 0 0 40px;
-  margin-bottom: 8px;
-}
-.chain-track-header{
-  padding: 18px 0 22px;
-  margin-bottom: 0;
-}
-.chain-line{
-  position: absolute;
-  left: 0; right: 0; top: 15px;
-  height: 1px;
-  background: var(--line);
-}
-.chain-line-fill{
-  position: absolute;
-  left: 0; top: 15px;
-  height: 1px;
-  background: var(--indigo);
-  transition: width 0.25s ease;
-}
-.chain-nodes{
-  display: flex;
-  justify-content: space-between;
-  position: relative;
-  flex-wrap: wrap;
-  row-gap: 28px;
-}
-.chain-node{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0 4px;
-  flex: 1 1 0;
-  min-width: 80px;
-}
-.chain-node .dot{
-  width: 16px; height: 16px;
-  border-radius: 50%;
-  background: var(--fiber-deep);
-  border: 2px solid var(--fiber);
-  box-shadow: 0 0 0 1px var(--line);
-  transition: background 0.2s ease, box-shadow 0.2s ease;
-}
-.chain-node .lbl{
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 10.5px;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  color: var(--ink-soft);
-  text-align: center;
-  line-height: 1.3;
-}
-.chain-node.active .dot{
-  background: var(--madder);
-  box-shadow: 0 0 0 1px var(--madder);
-}
-.chain-node.active .lbl{ color: var(--ink); font-weight: 600; }
-.chain-node:focus-visible{ outline: 2px solid var(--indigo); outline-offset: 3px; }
-.chain-node:hover .dot{ background: var(--indigo); box-shadow: 0 0 0 1px var(--indigo); }
-.chain-node.active:hover .dot{ background: var(--madder); box-shadow: 0 0 0 1px var(--madder); }
+  <main>
+    <section class="chain-hero">
+      <div class="container">
+        <p class="eyebrow">Supply Chain</p>
+        <h1>From highland pasture to finished garment.</h1>
+        <p class="hero-intro">Eight stages carry cashmere from a goat's winter undercoat to a finished piece on a shelf — each one changing who's involved, what skill it demands, and how much of the final value actually reaches the people at the start of the chain. This isn't just a description of how things are: each stage is also a point where the chain could genuinely be rebuilt, not just made greener. Select a stage above to explore both, or use the arrows below to step through in order.</p>
+      </div>
+    </section>
 
-/* ---------- Detail panel ---------- */
-.chain-panel{
-  border: 1px solid var(--line);
-  padding: 32px;
-  min-height: 220px;
-}
-.chain-panel .idx{
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--madder);
-}
-.chain-panel h2{
-  font-family: 'Fraunces', serif;
-  font-weight: 500;
-  font-size: 26px;
-  margin-top: 10px;
-  margin-bottom: 14px;
-}
-.chain-panel p{
-  font-size: 15px;
-  color: var(--ink-soft);
-  line-height: 1.65;
-  max-width: 68ch;
-}
-.chain-who{
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 18px;
-}
-.chain-who .tag{
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 10.5px;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-  padding: 5px 10px;
-  background: var(--fiber-deep);
-  color: var(--ink-soft);
-}
-.chain-transform-block{
-  margin-top: 22px;
-  padding: 16px 18px;
-  border-left: 3px solid var(--grass);
-  background: var(--fiber-deep);
-}
-.chain-transform-label{
-  display: block;
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--grass);
-  margin-bottom: 8px;
-}
-.chain-transform-text{
-  font-size: 14px;
-  color: var(--ink);
-  line-height: 1.6;
-  max-width: 64ch;
-}
-.chain-related{
-  display: inline-block;
-  margin-top: 20px;
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 12px;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-  color: var(--indigo);
-  border-bottom: 1px solid var(--indigo);
-  padding-bottom: 2px;
-}
+    <section class="chain-section reveal">
+      <div class="container">
+        <div class="chain-panel" aria-live="polite">
+          <span class="idx" id="chain-idx">Stage 1 of 8</span>
+          <h2 id="chain-name"></h2>
+          <p id="chain-summary"></p>
+          <div class="chain-who" id="chain-who"></div>
 
-/* ---------- Prev/next controls ---------- */
-.chain-controls{
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-}
-.chain-controls button{
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 11.5px;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-  background: none;
-  border: 1px solid var(--line);
-  padding: 10px 16px;
-  cursor: pointer;
-  color: var(--ink);
-  transition: border-color 0.15s ease;
-}
-.chain-controls button:hover{ border-color: var(--indigo); }
-.chain-controls button:disabled{ opacity: 0.35; cursor: default; }
-.chain-controls button:disabled:hover{ border-color: var(--line); }
+          <div class="chain-transform-block">
+            <span class="chain-transform-label">Where transformation could happen</span>
+            <p class="chain-transform-text" id="chain-transform"></p>
+          </div>
 
-@media (max-width: 700px){
-  .chain-nodes{ justify-content: flex-start; gap: 22px 18px; }
-  .chain-node{ flex: 0 0 auto; min-width: 70px; }
-  .chain-line, .chain-line-fill{ display: none; }
-}
+          <a class="chain-related" id="chain-related" href="#"></a>
 
-/* ---------- Flow diagram: sources feeding the chain ---------- */
-.flow-section{ padding: 56px 0 64px; border-bottom: 1px solid var(--line); }
+          <div class="chain-controls">
+            <button type="button" id="chain-prev">← Previous stage</button>
+            <button type="button" id="chain-next">Next stage →</button>
+          </div>
+        </div>
+      </div>
+    </section>
 
-#flow-diagram{
-  width: 100%;
-  height: auto;
-  border: 1px solid var(--line);
-  background: var(--fiber);
-  display: block;
-}
+    <section class="flow-section reveal">
+      <div class="container">
+        <div class="section-head">
+          <h2>The sources feeding this chain</h2>
+          <span class="num">12 countries</span>
+        </div>
+        <p class="hero-intro" style="margin-bottom:28px; max-width:70ch;">Every one of these countries connects into the chain above at the very first stage. Node size reflects relative production volume, colour reflects the same category used on the Global Map. Select any source to see its role, or open its full profile.</p>
 
-.flow-link{
-  fill: none;
-  stroke-width: 1.5;
-  opacity: 0.45;
-}
-.flow-link.producer{ stroke: var(--madder); }
-.flow-link.origin{ stroke: var(--indigo); }
-.flow-link.emerging{ stroke: var(--grass); }
+        <svg id="flow-diagram" viewBox="0 0 1000 600" role="img" aria-label="Diagram of cashmere-producing countries flowing into the global market"></svg>
 
-.flow-node{ stroke: var(--fiber); stroke-width: 1.5; }
-.flow-node.producer{ fill: var(--madder); }
-.flow-node.origin{ fill: var(--indigo); }
-.flow-node.emerging{ fill: var(--grass); }
-.flow-node.hub{ fill: var(--indigo-deep); stroke: var(--fiber); stroke-width: 2; }
+        <div class="flow-caption" id="flow-caption">
+          <span class="idx" id="flow-idx">Select a source</span>
+          <p id="flow-detail">Hover, focus, or tap any origin above to see its role in the chain — or click it to open its full profile on the Global Map.</p>
+        </div>
+      </div>
+    </section>
 
-.flow-node-group{ cursor: pointer; }
-.flow-node-group:hover .flow-node,
-.flow-node-group:focus .flow-node{ opacity: 0.8; }
-.flow-node-group:focus{ outline: none; }
-.flow-node-group:focus-visible .flow-node{
-  stroke: var(--indigo-deep);
-  stroke-width: 3;
-}
-.flow-node-label{
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 11px;
-  text-anchor: middle;
-  fill: var(--ink);
-  pointer-events: none;
-}
-.flow-hub-label{
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 11px;
-  text-anchor: middle;
-  fill: var(--fiber);
-  pointer-events: none;
-}
+    <section class="cta reveal">
+      <div class="container cta-grid">
+        <div>
+          <h2>Working somewhere along this chain?</h2>
+          <p>Whether you're a herder, an artisan, a processor, or a brand — if part of this picture is incomplete or inaccurate, we want to fix it with your input.</p>
+        </div>
+        <div class="cta-actions">
+          <a href="collaborate.html" class="btn primary">Collaborate with us →</a>
+        </div>
+      </div>
+    </section>
+  </main>
 
-.flow-particle{ opacity: 0.9; }
-.flow-particle.producer{ fill: var(--madder); }
-.flow-particle.origin{ fill: var(--indigo); }
-.flow-particle.emerging{ fill: var(--grass); }
-.flow-particle-static{ opacity: 0.5; }
-.flow-particle-static.producer{ fill: var(--madder); }
-.flow-particle-static.origin{ fill: var(--indigo); }
-.flow-particle-static.emerging{ fill: var(--grass); }
+  <footer class="site-footer">
+    <div class="container foot-row">
+      <p><strong>Cashmere Futures</strong> · Cashmere Futures Lab (CFL)</p>
+      <div class="foot-links">
+        <a href="about.html">About</a>
+        <a href="research.html">Research</a>
+        <a href="collaborate.html">Collaborate</a>
+        <a href="privacy.html">Privacy</a>
+      </div>
+    </div>
+  </footer>
 
-.flow-caption{
-  margin-top: 20px;
-  padding: 16px 18px;
-  border: 1px solid var(--line);
-  background: var(--fiber-deep);
-}
-.flow-caption .idx{
-  display: block;
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-  color: var(--madder);
-  margin-bottom: 6px;
-}
-.flow-caption p{
-  font-size: 14px;
-  color: var(--ink-soft);
-  line-height: 1.55;
-  max-width: 68ch;
-}
-
-@media (max-width: 700px){
-  .flow-node-label{ font-size: 9px; }
-}
+  <script src="js/regions-data.js"></script>
+  <script src="js/supply-chain.js"></script>
+  <script src="js/supply-flow.js"></script>
+  <script src="js/reveal.js"></script>
+  <script src="js/script.js"></script>
+  <script data-goatcounter="https://YOUR-CODE.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
