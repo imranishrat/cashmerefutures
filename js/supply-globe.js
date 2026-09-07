@@ -27,6 +27,7 @@
     origin: 0x3A4F66,
     emerging: 0x6B7A5E,
     fiberDeep: 0xDCD3BC,
+    fiber: 0xEAE3D3,
     line: 0x4B4F55
   };
 
@@ -80,10 +81,56 @@
   var globeGroup = new THREE.Group();
   scene.add(globeGroup);
 
-  // Solid globe body, softly shaded
+  // Solid globe body, softly shaded — starts as a flat fallback color,
+  // upgraded to a real continent texture once world-atlas data loads below
   var solidGeo = new THREE.SphereGeometry(0.98, 48, 32);
   var solidMat = new THREE.MeshPhongMaterial({ color: COLOR.fiberDeep, shininess: 4 });
   globeGroup.add(new THREE.Mesh(solidGeo, solidMat));
+
+  // ---- Real continent texture, generated from the same world-atlas data
+  // used by the Global Map, drawn in the site's own palette (not a
+  // photorealistic satellite texture, which would clash with the rest of
+  // the site's flat, muted look) ----
+  if (typeof d3 !== "undefined" && typeof topojson !== "undefined") {
+    var texW = 2048, texH = 1024;
+    var canvas = document.createElement("canvas");
+    canvas.width = texW; canvas.height = texH;
+    var ctx = canvas.getContext("2d");
+
+    // Ocean/background fill
+    ctx.fillStyle = "#EAE3D3";
+    ctx.fillRect(0, 0, texW, texH);
+
+    // Plain linear equirectangular mapping: x=0..texW maps lon -180..180,
+    // y=0..texH maps lat 90..-90 — matching the same convention used by
+    // latLonToVec3() below, so the texture and the markers agree on geography.
+    var projection = d3.geoEquirectangular()
+      .scale(texW / (2 * Math.PI))
+      .translate([texW / 2, texH / 2]);
+    var path = d3.geoPath(projection, ctx);
+
+    d3.json("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json")
+      .then(function (world) {
+        var countries = topojson.feature(world, world.objects.countries).features;
+        ctx.fillStyle = "#DCD3BC";
+        ctx.strokeStyle = "#4B4F55";
+        ctx.lineWidth = 1;
+        countries.forEach(function (feature) {
+          ctx.beginPath();
+          path(feature);
+          ctx.fill();
+          ctx.stroke();
+        });
+
+        var texture = new THREE.CanvasTexture(canvas);
+        solidMat.map = texture;
+        solidMat.color.set(0xffffff);
+        solidMat.needsUpdate = true;
+      })
+      .catch(function (err) {
+        console.error("Globe texture failed to load, using flat fallback color", err);
+      });
+  }
 
   // Wireframe graticule — a UV sphere's own segments already trace clean
   // latitude/longitude lines, no custom grid geometry needed
