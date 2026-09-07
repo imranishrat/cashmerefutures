@@ -164,10 +164,32 @@
     markerMeshes.push(mesh);
   });
 
-  // ---- Country name labels — always visible, billboarded sprites so they
-  // stay readable as the globe rotates, hidden behind the globe by normal
-  // depth testing when a country is on the far side. Drawn using the site's
-  // own mono typeface once the web font has actually finished loading. ----
+  // ---- Country name labels — offset from their markers with a leader line,
+  // same convention as the flat Global Map, so labels for closely clustered
+  // countries (Kashmir, Afghanistan, Pakistan, Tajikistan, Kyrgyzstan) fan
+  // apart instead of overlapping. Always visible, billboarded so they stay
+  // readable as the globe rotates, hidden behind the globe by normal depth
+  // testing when a country is on the far side. Uses the site's own mono
+  // typeface once the web font has actually finished loading. ----
+
+  // Hand-tuned fan-out angle per country (degrees, clockwise from "up" in
+  // the local tangent plane) — spreads the tightly clustered Central/South
+  // Asian countries in different directions so their labels don't collide.
+  var LABEL_ANGLE = {
+    "156": 350, "496": 10, "356": 300, "586": 330, "398": 30,
+    "004": 270, "364": 250, "417": 60, "762": 90, "554": 0,
+    "792": 0, "524": 130
+  };
+
+  function tangentDir(normal, angleDeg) {
+    var up = new THREE.Vector3(0, 1, 0);
+    var east = new THREE.Vector3().crossVectors(up, normal);
+    if (east.lengthSq() < 0.0001) east.set(1, 0, 0); else east.normalize();
+    var north = new THREE.Vector3().crossVectors(normal, east).normalize();
+    var rad = angleDeg * Math.PI / 180;
+    return north.multiplyScalar(Math.cos(rad)).add(east.multiplyScalar(Math.sin(rad)));
+  }
+
   function labelCategoryColor(category) {
     return category === "producer" ? "#8B5A3C" :
            category === "origin" ? "#3A4F66" : "#6B7A5E";
@@ -220,7 +242,16 @@
     ORDER.forEach(function (id) {
       var region = REGIONS[id];
       var geo = GEO[id];
-      var labelPos = latLonToVec3(geo.lat, geo.lon, 1.16);
+      var normal = latLonToVec3(geo.lat, geo.lon, 1.0);
+      var markerPos = normal.clone();
+      var dir = tangentDir(normal, LABEL_ANGLE[id] || 0);
+      var labelPos = markerPos.clone().add(dir.multiplyScalar(0.19)).add(normal.clone().multiplyScalar(0.03));
+
+      // Leader line from marker to label, same convention as the flat map
+      var lineGeo = new THREE.BufferGeometry().setFromPoints([markerPos, labelPos]);
+      var lineMat = new THREE.LineBasicMaterial({ color: COLOR.line, transparent: true, opacity: 0.5 });
+      globeGroup.add(new THREE.Line(lineGeo, lineMat));
+
       var sprite = makeLabelSprite(region.name, region.category);
       sprite.position.copy(labelPos);
       globeGroup.add(sprite);
