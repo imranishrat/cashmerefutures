@@ -132,12 +132,6 @@
       });
   }
 
-  // Wireframe graticule — a UV sphere's own segments already trace clean
-  // latitude/longitude lines, no custom grid geometry needed
-  var wireGeo = new THREE.SphereGeometry(1.0, 24, 16);
-  var wireMat = new THREE.MeshBasicMaterial({ color: COLOR.line, wireframe: true, transparent: true, opacity: 0.28 });
-  globeGroup.add(new THREE.Mesh(wireGeo, wireMat));
-
   var light1 = new THREE.DirectionalLight(0xffffff, 0.9);
   light1.position.set(2, 2, 3);
   scene.add(light1);
@@ -169,6 +163,74 @@
     globeGroup.add(mesh);
     markerMeshes.push(mesh);
   });
+
+  // ---- Country name labels — always visible, billboarded sprites so they
+  // stay readable as the globe rotates, hidden behind the globe by normal
+  // depth testing when a country is on the far side. Drawn using the site's
+  // own mono typeface once the web font has actually finished loading. ----
+  function labelCategoryColor(category) {
+    return category === "producer" ? "#8B5A3C" :
+           category === "origin" ? "#3A4F66" : "#6B7A5E";
+  }
+
+  function makeLabelSprite(text, category) {
+    var canvas = document.createElement("canvas");
+    var cw = 320, ch = 84;
+    canvas.width = cw; canvas.height = ch;
+    var ctx = canvas.getContext("2d");
+
+    ctx.font = "600 34px 'IBM Plex Mono', monospace";
+    var textWidth = ctx.measureText(text).width;
+    var padX = 22;
+    var pillW = Math.min(cw - 8, textWidth + padX * 2);
+    var pillH = 52;
+    var pillX = (cw - pillW) / 2;
+    var pillY = (ch - pillH) / 2;
+    var r = 8;
+
+    ctx.fillStyle = "rgba(234,227,211,0.92)";
+    ctx.strokeStyle = labelCategoryColor(category);
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(pillX + r, pillY);
+    ctx.arcTo(pillX + pillW, pillY, pillX + pillW, pillY + pillH, r);
+    ctx.arcTo(pillX + pillW, pillY + pillH, pillX, pillY + pillH, r);
+    ctx.arcTo(pillX, pillY + pillH, pillX, pillY, r);
+    ctx.arcTo(pillX, pillY, pillX + pillW, pillY, r);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.fillStyle = "#21252A";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(text, cw / 2, ch / 2 + 2);
+
+    var texture = new THREE.CanvasTexture(canvas);
+    texture.minFilter = THREE.LinearFilter;
+    var spriteMat = new THREE.SpriteMaterial({ map: texture, transparent: true, depthTest: true });
+    var sprite = new THREE.Sprite(spriteMat);
+    var aspect = cw / ch;
+    var height = 0.11;
+    sprite.scale.set(height * aspect, height, 1);
+    return sprite;
+  }
+
+  function addLabels() {
+    ORDER.forEach(function (id) {
+      var region = REGIONS[id];
+      var geo = GEO[id];
+      var labelPos = latLonToVec3(geo.lat, geo.lon, 1.16);
+      var sprite = makeLabelSprite(region.name, region.category);
+      sprite.position.copy(labelPos);
+      globeGroup.add(sprite);
+    });
+  }
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(addLabels);
+  } else {
+    addLabels();
+  }
 
   // ---- Interaction: drag-to-rotate, click-vs-drag distinction, hover raycasting ----
   var raycaster = new THREE.Raycaster();
