@@ -186,7 +186,7 @@
 
 .globe-wrap{
   border: 1px solid var(--line);
-  background: var(--fiber);
+  background: radial-gradient(ellipse at center, var(--fiber-deep) 0%, var(--fiber) 68%);
   position: relative;
 }
 #globe-container{
