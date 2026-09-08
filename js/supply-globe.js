@@ -69,8 +69,8 @@
   var height = Math.max(320, Math.min(520, width * 0.62));
 
   var scene = new THREE.Scene();
-  var camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
-  camera.position.z = 3.1;
+  var camera = new THREE.PerspectiveCamera(42, width / height, 0.1, 100);
+  camera.position.z = 3.3;
 
   var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
@@ -79,12 +79,16 @@
   renderer.domElement.style.cursor = "grab";
 
   var globeGroup = new THREE.Group();
+  // A slight, deliberate starting tilt and longitude — reads as considered
+  // "product photography" framing rather than a flat straight-on demo
+  globeGroup.rotation.x = -0.18;
+  globeGroup.rotation.y = -0.4;
   scene.add(globeGroup);
 
-  // Solid globe body, softly shaded — starts as a flat fallback color,
-  // upgraded to a real continent texture once world-atlas data loads below
-  var solidGeo = new THREE.SphereGeometry(0.98, 48, 32);
-  var solidMat = new THREE.MeshPhongMaterial({ color: COLOR.fiberDeep, shininess: 4 });
+  // Solid globe body — starts as a flat fallback color, upgraded to a real
+  // continent texture once world-atlas data loads below
+  var solidGeo = new THREE.SphereGeometry(0.98, 64, 48);
+  var solidMat = new THREE.MeshStandardMaterial({ color: COLOR.fiberDeep, roughness: 0.75, metalness: 0.05 });
   globeGroup.add(new THREE.Mesh(solidGeo, solidMat));
 
   // ---- Real continent texture, generated from the same world-atlas data
@@ -97,8 +101,9 @@
     canvas.width = texW; canvas.height = texH;
     var ctx = canvas.getContext("2d");
 
-    // Ocean/background fill
-    ctx.fillStyle = "#EAE3D3";
+    // Ocean fill — a cooler, slightly desaturated tone so land reads clearly
+    // against it, still built from the site's own palette
+    ctx.fillStyle = "#C7CDC4";
     ctx.fillRect(0, 0, texW, texH);
 
     // Plain linear equirectangular mapping: x=0..texW maps lon -180..180,
@@ -112,15 +117,17 @@
     d3.json("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json")
       .then(function (world) {
         var countries = topojson.feature(world, world.objects.countries).features;
-        ctx.fillStyle = "#DCD3BC";
+        ctx.fillStyle = "#E9DDC1";
         ctx.strokeStyle = "#4B4F55";
         ctx.lineWidth = 1;
+        ctx.globalAlpha = 0.55;
         countries.forEach(function (feature) {
           ctx.beginPath();
           path(feature);
           ctx.fill();
           ctx.stroke();
         });
+        ctx.globalAlpha = 1;
 
         var texture = new THREE.CanvasTexture(canvas);
         solidMat.map = texture;
@@ -132,10 +139,42 @@
       });
   }
 
-  var light1 = new THREE.DirectionalLight(0xffffff, 0.9);
-  light1.position.set(2, 2, 3);
+  // ---- Atmosphere glow — soft rim light around the globe's silhouette,
+  // the single most recognizable signature of a polished 3D globe. Standard
+  // Fresnel technique: a slightly larger sphere, back-face only, additively
+  // blended, brightest where the surface normal points away from the camera. ----
+  var atmosphereGeo = new THREE.SphereGeometry(1.14, 48, 32);
+  var atmosphereMat = new THREE.ShaderMaterial({
+    uniforms: { glowColor: { value: new THREE.Color(0x3A4F66) } },
+    vertexShader: [
+      "varying vec3 vNormal;",
+      "void main() {",
+      "  vNormal = normalize( normalMatrix * normal );",
+      "  gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );",
+      "}"
+    ].join("\n"),
+    fragmentShader: [
+      "uniform vec3 glowColor;",
+      "varying vec3 vNormal;",
+      "void main() {",
+      "  float intensity = pow( 0.62 - dot( vNormal, vec3(0.0, 0.0, 1.0) ), 3.0 );",
+      "  gl_FragColor = vec4( glowColor, 1.0 ) * clamp(intensity, 0.0, 1.0);",
+      "}"
+    ].join("\n"),
+    side: THREE.BackSide,
+    blending: THREE.AdditiveBlending,
+    transparent: true,
+    depthWrite: false
+  });
+  scene.add(new THREE.Mesh(atmosphereGeo, atmosphereMat));
+
+  var light1 = new THREE.DirectionalLight(0xffffff, 1.15);
+  light1.position.set(2.2, 1.6, 2.4);
   scene.add(light1);
-  scene.add(new THREE.AmbientLight(0xffffff, 0.55));
+  var light2 = new THREE.DirectionalLight(0x3A4F66, 0.28);
+  light2.position.set(-2.2, -1.2, -1.5);
+  scene.add(light2);
+  scene.add(new THREE.AmbientLight(0xffffff, 0.4));
 
   // ---- Country markers ----
   function latLonToVec3(lat, lon, r) {
@@ -148,14 +187,42 @@
     );
   }
 
+  // Shared radial-gradient halo texture — reused for every marker, tinted
+  // per category via SpriteMaterial color. Matches the "ring + dot" motif
+  // already used in the site's favicon and micron-scale handle.
+  var haloCanvas = document.createElement("canvas");
+  haloCanvas.width = 128; haloCanvas.height = 128;
+  var haloCtx = haloCanvas.getContext("2d");
+  var haloGrad = haloCtx.createRadialGradient(64, 64, 0, 64, 64, 64);
+  haloGrad.addColorStop(0, "rgba(255,255,255,0.85)");
+  haloGrad.addColorStop(0.35, "rgba(255,255,255,0.35)");
+  haloGrad.addColorStop(1, "rgba(255,255,255,0)");
+  haloCtx.fillStyle = haloGrad;
+  haloCtx.fillRect(0, 0, 128, 128);
+  var haloTexture = new THREE.CanvasTexture(haloCanvas);
+
   var markerMeshes = [];
   ORDER.forEach(function (id) {
     var region = REGIONS[id];
     var geo = GEO[id];
     var pos = latLonToVec3(geo.lat, geo.lon, 1.0);
     var scale = 0.022 + (region.volume ? region.volume.level : 1) * 0.006;
-    var geometry = new THREE.SphereGeometry(scale, 12, 12);
-    var material = new THREE.MeshBasicMaterial({ color: COLOR[region.category] });
+
+    // Soft glow halo, sits just behind the solid dot
+    var haloMat = new THREE.SpriteMaterial({
+      map: haloTexture, color: COLOR[region.category],
+      transparent: true, depthWrite: false, opacity: 0.8
+    });
+    var halo = new THREE.Sprite(haloMat);
+    halo.scale.set(scale * 5.5, scale * 5.5, 1);
+    halo.position.copy(pos);
+    globeGroup.add(halo);
+
+    var geometry = new THREE.SphereGeometry(scale, 16, 16);
+    var material = new THREE.MeshStandardMaterial({
+      color: COLOR[region.category], roughness: 0.4, metalness: 0.1,
+      emissive: COLOR[region.category], emissiveIntensity: 0.25
+    });
     var mesh = new THREE.Mesh(geometry, material);
     mesh.position.copy(pos);
     mesh.userData.id = id;
