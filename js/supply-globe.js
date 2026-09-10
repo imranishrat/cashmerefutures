@@ -187,22 +187,14 @@
     );
   }
 
-  // Shared flat "ring + dot" marker textures — one per category, matching
-  // the same motif already used in the site's favicon and micron-scale
-  // handle: a fiber-coloured ring border around a solid category-coloured
-  // centre. Billboarded sprites, not lit 3D spheres, so they render as a
-  // clean flat dot from any angle instead of an odd-looking glowing ball.
+  // Shared flat marker texture — a single solid dot per category, no ring,
+  // no 3D shading. Billboarded sprite, so it's genuinely flat from any angle.
   function makeMarkerTexture(hexColor) {
     var canvas = document.createElement("canvas");
     canvas.width = 128; canvas.height = 128;
     var ctx = canvas.getContext("2d");
-    var cx = 64, cy = 64;
     ctx.beginPath();
-    ctx.arc(cx, cy, 50, 0, Math.PI * 2);
-    ctx.fillStyle = "#EAE3D3";
-    ctx.fill();
-    ctx.beginPath();
-    ctx.arc(cx, cy, 34, 0, Math.PI * 2);
+    ctx.arc(64, 64, 44, 0, Math.PI * 2);
     ctx.fillStyle = hexColor;
     ctx.fill();
     return new THREE.CanvasTexture(canvas);
@@ -269,14 +261,14 @@
     canvas.width = cw; canvas.height = ch;
     var ctx = canvas.getContext("2d");
 
-    ctx.font = "600 34px 'IBM Plex Mono', monospace";
+    ctx.font = "600 22px 'IBM Plex Mono', monospace";
     var textWidth = ctx.measureText(text).width;
-    var padX = 22;
+    var padX = 16;
     var pillW = Math.min(cw - 8, textWidth + padX * 2);
-    var pillH = 52;
+    var pillH = 36;
     var pillX = (cw - pillW) / 2;
     var pillY = (ch - pillH) / 2;
-    var r = 8;
+    var r = 6;
 
     ctx.fillStyle = "rgba(234,227,211,0.92)";
     ctx.strokeStyle = labelCategoryColor(category);
@@ -301,7 +293,7 @@
     var spriteMat = new THREE.SpriteMaterial({ map: texture, transparent: true, depthTest: true });
     var sprite = new THREE.Sprite(spriteMat);
     var aspect = cw / ch;
-    var height = 0.11;
+    var height = 0.075;
     sprite.scale.set(height * aspect, height, 1);
     return sprite;
   }
