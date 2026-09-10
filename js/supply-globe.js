@@ -187,48 +187,49 @@
     );
   }
 
-  // Shared radial-gradient halo texture — reused for every marker, tinted
-  // per category via SpriteMaterial color. Matches the "ring + dot" motif
-  // already used in the site's favicon and micron-scale handle.
-  var haloCanvas = document.createElement("canvas");
-  haloCanvas.width = 128; haloCanvas.height = 128;
-  var haloCtx = haloCanvas.getContext("2d");
-  var haloGrad = haloCtx.createRadialGradient(64, 64, 0, 64, 64, 64);
-  haloGrad.addColorStop(0, "rgba(255,255,255,0.85)");
-  haloGrad.addColorStop(0.35, "rgba(255,255,255,0.35)");
-  haloGrad.addColorStop(1, "rgba(255,255,255,0)");
-  haloCtx.fillStyle = haloGrad;
-  haloCtx.fillRect(0, 0, 128, 128);
-  var haloTexture = new THREE.CanvasTexture(haloCanvas);
+  // Shared flat "ring + dot" marker textures — one per category, matching
+  // the same motif already used in the site's favicon and micron-scale
+  // handle: a fiber-coloured ring border around a solid category-coloured
+  // centre. Billboarded sprites, not lit 3D spheres, so they render as a
+  // clean flat dot from any angle instead of an odd-looking glowing ball.
+  function makeMarkerTexture(hexColor) {
+    var canvas = document.createElement("canvas");
+    canvas.width = 128; canvas.height = 128;
+    var ctx = canvas.getContext("2d");
+    var cx = 64, cy = 64;
+    ctx.beginPath();
+    ctx.arc(cx, cy, 50, 0, Math.PI * 2);
+    ctx.fillStyle = "#EAE3D3";
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(cx, cy, 34, 0, Math.PI * 2);
+    ctx.fillStyle = hexColor;
+    ctx.fill();
+    return new THREE.CanvasTexture(canvas);
+  }
+  var MARKER_TEXTURES = {
+    producer: makeMarkerTexture("#8B5A3C"),
+    origin: makeMarkerTexture("#3A4F66"),
+    emerging: makeMarkerTexture("#6B7A5E")
+  };
 
   var markerMeshes = [];
   ORDER.forEach(function (id) {
     var region = REGIONS[id];
     var geo = GEO[id];
     var pos = latLonToVec3(geo.lat, geo.lon, 1.0);
-    var scale = 0.022 + (region.volume ? region.volume.level : 1) * 0.006;
+    var scale = 0.05 + (region.volume ? region.volume.level : 1) * 0.011;
 
-    // Soft glow halo, sits just behind the solid dot
-    var haloMat = new THREE.SpriteMaterial({
-      map: haloTexture, color: COLOR[region.category],
-      transparent: true, depthWrite: false, opacity: 0.8
+    var spriteMat = new THREE.SpriteMaterial({
+      map: MARKER_TEXTURES[region.category], transparent: true, depthTest: true
     });
-    var halo = new THREE.Sprite(haloMat);
-    halo.scale.set(scale * 5.5, scale * 5.5, 1);
-    halo.position.copy(pos);
-    globeGroup.add(halo);
-
-    var geometry = new THREE.SphereGeometry(scale, 16, 16);
-    var material = new THREE.MeshStandardMaterial({
-      color: COLOR[region.category], roughness: 0.4, metalness: 0.1,
-      emissive: COLOR[region.category], emissiveIntensity: 0.25
-    });
-    var mesh = new THREE.Mesh(geometry, material);
-    mesh.position.copy(pos);
-    mesh.userData.id = id;
-    mesh.userData.baseScale = 1;
-    globeGroup.add(mesh);
-    markerMeshes.push(mesh);
+    var sprite = new THREE.Sprite(spriteMat);
+    sprite.scale.set(scale, scale, 1);
+    sprite.position.copy(pos);
+    sprite.userData.id = id;
+    sprite.userData.baseScale = scale;
+    globeGroup.add(sprite);
+    markerMeshes.push(sprite);
   });
 
   // ---- Country name labels — offset from their markers with a leader line,
@@ -357,10 +358,10 @@
 
   function setHovered(mesh) {
     if (hovered === mesh) return;
-    if (hovered) hovered.scale.setScalar(1);
+    if (hovered) hovered.scale.setScalar(hovered.userData.baseScale);
     hovered = mesh;
     if (hovered) {
-      hovered.scale.setScalar(1.6);
+      hovered.scale.setScalar(hovered.userData.baseScale * 1.5);
       showInfo(hovered.userData.id);
       renderer.domElement.style.cursor = "pointer";
     } else {
