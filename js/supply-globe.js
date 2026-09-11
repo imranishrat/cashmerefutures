@@ -261,14 +261,14 @@
     canvas.width = cw; canvas.height = ch;
     var ctx = canvas.getContext("2d");
 
-    ctx.font = "600 22px 'IBM Plex Mono', monospace";
+    ctx.font = "600 27px 'IBM Plex Mono', monospace";
     var textWidth = ctx.measureText(text).width;
-    var padX = 16;
+    var padX = 18;
     var pillW = Math.min(cw - 8, textWidth + padX * 2);
-    var pillH = 36;
+    var pillH = 42;
     var pillX = (cw - pillW) / 2;
     var pillY = (ch - pillH) / 2;
-    var r = 6;
+    var r = 7;
 
     ctx.fillStyle = "rgba(234,227,211,0.92)";
     ctx.strokeStyle = labelCategoryColor(category);
