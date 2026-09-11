@@ -72,7 +72,7 @@
   var camera = new THREE.PerspectiveCamera(42, width / height, 0.1, 100);
   camera.position.z = 3.3;
 
-  var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, logarithmicDepthBuffer: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
   renderer.setSize(width, height);
   container.appendChild(renderer.domElement);
@@ -213,7 +213,7 @@
     var scale = 0.05 + (region.volume ? region.volume.level : 1) * 0.011;
 
     var spriteMat = new THREE.SpriteMaterial({
-      map: MARKER_TEXTURES[region.category], transparent: true, depthTest: true
+      map: MARKER_TEXTURES[region.category], transparent: true, depthTest: true, depthWrite: false
     });
     var sprite = new THREE.Sprite(spriteMat);
     sprite.scale.set(scale, scale, 1);
@@ -290,7 +290,7 @@
 
     var texture = new THREE.CanvasTexture(canvas);
     texture.minFilter = THREE.LinearFilter;
-    var spriteMat = new THREE.SpriteMaterial({ map: texture, transparent: true, depthTest: true });
+    var spriteMat = new THREE.SpriteMaterial({ map: texture, transparent: true, depthTest: true, depthWrite: false });
     var sprite = new THREE.Sprite(spriteMat);
     var aspect = cw / ch;
     var height = 0.075;
@@ -304,12 +304,15 @@
       var geo = GEO[id];
       var normal = latLonToVec3(geo.lat, geo.lon, 1.0);
       var markerPos = normal.clone();
+      var lineStart = normal.clone().multiplyScalar(1.03);
       var dir = tangentDir(normal, LABEL_ANGLE[id] || 0);
-      var labelPos = markerPos.clone().add(dir.multiplyScalar(0.19)).add(normal.clone().multiplyScalar(0.03));
+      var labelPos = markerPos.clone().add(dir.multiplyScalar(0.19)).add(normal.clone().multiplyScalar(0.09));
 
-      // Leader line from marker to label, same convention as the flat map
-      var lineGeo = new THREE.BufferGeometry().setFromPoints([markerPos, labelPos]);
-      var lineMat = new THREE.LineBasicMaterial({ color: COLOR.line, transparent: true, opacity: 0.5 });
+      // Leader line from marker to label, same convention as the flat map.
+      // Starts slightly clear of the globe surface (not exactly on it) and
+      // skips depth-write, to avoid z-fighting flicker against the solid sphere.
+      var lineGeo = new THREE.BufferGeometry().setFromPoints([lineStart, labelPos]);
+      var lineMat = new THREE.LineBasicMaterial({ color: COLOR.line, transparent: true, opacity: 0.5, depthWrite: false });
       globeGroup.add(new THREE.Line(lineGeo, lineMat));
 
       var sprite = makeLabelSprite(region.name, region.category);
