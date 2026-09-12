@@ -40,8 +40,9 @@
 
   function showInfo(id) {
     var r = REGIONS[id];
-    idxEl.textContent = r.name + " — " + r.categoryLabel;
-    detailEl.textContent = r.volume ? r.volume.tier + ". " + r.volume.note : "";
+    var tier = r.volume ? r.volume.tier : "";
+    idxEl.textContent = r.name + " — " + r.categoryLabel + (tier ? " · " + tier : "");
+    detailEl.textContent = "";
   }
   function resetInfo() {
     idxEl.textContent = "Select a source";
