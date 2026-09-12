@@ -231,18 +231,23 @@
 .flow-caption .idx{
   display: block;
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-  color: var(--madder);
-  margin-bottom: 6px;
+  font-size: 12.5px;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: var(--ink);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .flow-caption p{
   font-size: 14px;
   color: var(--ink-soft);
   line-height: 1.55;
   max-width: 68ch;
+  margin-top: 6px;
 }
+.flow-caption p:empty{ display: none; }
 
 .globe-fallback-head{
   margin-top: 20px;
