@@ -211,18 +211,31 @@
     var region = REGIONS[id];
     var geo = GEO[id];
     var pos = latLonToVec3(geo.lat, geo.lon, 1.0);
-    var scale = 0.05 + (region.volume ? region.volume.level : 1) * 0.011;
+    var visualScale = 0.05 + (region.volume ? region.volume.level : 1) * 0.011;
 
+    // Visible dot — small, scaled by real volume, purely visual
     var spriteMat = new THREE.SpriteMaterial({
       map: MARKER_TEXTURES[region.category], transparent: true, depthTest: true, depthWrite: false
     });
-    var sprite = new THREE.Sprite(spriteMat);
-    sprite.scale.set(scale, scale, 1);
-    sprite.position.copy(pos);
-    sprite.userData.id = id;
-    sprite.userData.baseScale = scale;
-    globeGroup.add(sprite);
-    markerMeshes.push(sprite);
+    var visual = new THREE.Sprite(spriteMat);
+    visual.scale.set(visualScale, visualScale, 1);
+    visual.position.copy(pos);
+    visual.userData.baseScale = visualScale;
+    globeGroup.add(visual);
+
+    // Invisible hit-target — uniformly sized for every country regardless of
+    // visual dot size, so low-volume countries (smaller dots, e.g. Pakistan,
+    // Kazakhstan, New Zealand) don't end up with a hover region so small that
+    // ordinary mouse jitter flickers the hover state on and off.
+    var hitMat = new THREE.SpriteMaterial({ transparent: true, opacity: 0, depthTest: false, depthWrite: false });
+    var hit = new THREE.Sprite(hitMat);
+    var hitScale = 0.115;
+    hit.scale.set(hitScale, hitScale, 1);
+    hit.position.copy(pos);
+    hit.userData.id = id;
+    hit.userData.visual = visual;
+    globeGroup.add(hit);
+    markerMeshes.push(hit);
   });
 
   // ---- Country name labels — offset from their markers with a leader line,
@@ -329,7 +342,6 @@
 
   // ---- Interaction: drag-to-rotate, click-vs-drag distinction, hover raycasting ----
   var raycaster = new THREE.Raycaster();
-  raycaster.params.Mesh.threshold = 0.01;
   var pointer = new THREE.Vector2();
   var dragging = false;
   var dragMoved = 0;
@@ -354,10 +366,10 @@
 
   function setHovered(mesh) {
     if (hovered === mesh) return;
-    if (hovered) hovered.scale.setScalar(hovered.userData.baseScale);
+    if (hovered) hovered.userData.visual.scale.setScalar(hovered.userData.visual.userData.baseScale);
     hovered = mesh;
     if (hovered) {
-      hovered.scale.setScalar(hovered.userData.baseScale * 1.5);
+      hovered.userData.visual.scale.setScalar(hovered.userData.visual.userData.baseScale * 1.5);
       showInfo(hovered.userData.id);
       renderer.domElement.style.cursor = "pointer";
     } else {
