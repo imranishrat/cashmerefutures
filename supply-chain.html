@@ -1,62 +1,452 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Cashmere Futures Supply Chain.">
-  <title>Supply Chain | Cashmere Futures</title>
-  <link rel="canonical" href="https://cashmerefutures.com/supply-chain.html">
-  <meta name="theme-color" content="#263846">
-  <link rel="icon" href="favicon.ico" sizes="any">
-  <link rel="icon" href="assets/favicon-32.png" type="image/png" sizes="32x32">
-  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Cashmere Futures">
-  <meta property="og:title" content="Supply Chain | Cashmere Futures">
-  <meta property="og:description" content="Cashmere Futures Supply Chain.">
-  <meta property="og:url" content="https://cashmerefutures.com/supply-chain.html">
-  <meta property="og:image" content="https://cashmerefutures.com/assets/og-image.png">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Supply Chain | Cashmere Futures">
-  <meta name="twitter:description" content="Cashmere Futures Supply Chain.">
-  <meta name="twitter:image" content="https://cashmerefutures.com/assets/og-image.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-  <header class="site-header">
-    <div class="container nav-container">
-      <a class="brand" href="index.html" aria-label="Cashmere Futures home">
-        <span class="brand-name">Cashmere Futures</span>
-        <span class="brand-subtitle">Cashmere Futures Lab</span>
-      </a>
-      <nav class="main-nav" aria-label="Main navigation">
-        <a href="index.html">Home</a>
-        <a href="about.html">About</a>
-        <a href="supply-chain.html" aria-current="page">Supply Chain</a>
-        <a href="communities.html">Communities</a>
-        <a href="sdg-hub.html">Cashmere-SDG Hub</a>
-        <a href="library.html">Library</a>
-      </nav>
+<!--
+  ANIMATED CASHMERE SUPPLY CHAIN
+  Drop this section into the supply chain page. It assumes the page already
+  loads the site's fonts (Fraunces, IBM Plex Mono, Archivo) and defines the
+  :root custom properties (--fiber, --ink, --indigo, --madder, --grass, --line,
+  etc.) exactly as in the existing stylesheet. No external dependencies.
+-->
+<section class="scm-section" id="scm">
+
+  <div class="scm-intro">
+    <span class="scm-idx">The route from goat to garment</span>
+    <h2>Eight stages, six months, four continents</h2>
+    <p class="scm-lead">
+      A cashmere sweater begins on a windswept plateau and ends on a shelf a
+      year later. Follow the fiber through each stage below — click a stage
+      to open it, or press play to watch the whole route run once.
+    </p>
+    <button class="scm-play" id="scmPlay" type="button" aria-label="Play the full sequence">
+      <span class="scm-play-dot"></span>
+      Play the full route
+    </button>
+  </div>
+
+  <!-- ===== Progress track ===== -->
+  <div class="scm-track-wrap">
+    <div class="scm-line"><div class="scm-line-fill" id="scmLineFill"></div></div>
+    <div class="scm-nodes" id="scmNodes" role="tablist" aria-label="Supply chain stages"></div>
+  </div>
+
+  <!-- ===== Detail panel ===== -->
+  <div class="scm-panel" id="scmPanel">
+    <div class="scm-panel-top">
+      <div>
+        <span class="scm-panel-idx" id="scmPanelIdx">01 / 08</span>
+        <h3 id="scmPanelTitle"></h3>
+      </div>
+      <div class="scm-icon" id="scmIcon" aria-hidden="true"></div>
     </div>
-  </header>
 
-  <main></main>
+    <p id="scmPanelText"></p>
 
-  <footer class="site-footer">
-    <div class="container foot-row">
-      <p><strong>Cashmere Futures</strong> · Cashmere Futures Lab (CFL)</p>
-      <div class="foot-links">
-        <a href="about.html">About</a>
-        <a href="map.html">Global Map</a>
-        <a href="collaborate.html">Collaborate</a>
-        <a href="privacy.html">Privacy</a>
+    <div class="scm-meta">
+      <div class="scm-meta-col">
+        <span class="scm-meta-label">Where</span>
+        <div class="scm-chips" id="scmChips"></div>
+      </div>
+      <div class="scm-meta-col">
+        <span class="scm-meta-label">Duration</span>
+        <span class="scm-duration" id="scmDuration"></span>
       </div>
     </div>
-  </footer>
 
-  <script src="js/script.js"></script>
-  <script data-goatcounter="https://YOUR-CODE.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-</body>
-</html>
+    <div class="scm-transform" id="scmTransform">
+      <span class="scm-transform-label">What changes here</span>
+      <p id="scmTransformText"></p>
+    </div>
+
+    <div class="scm-controls">
+      <button type="button" id="scmPrev">Previous</button>
+      <button type="button" id="scmNext">Next</button>
+    </div>
+  </div>
+
+  <div class="scm-legend">
+    <span class="scm-legend-item"><i class="scm-swatch producer"></i>Primary producer</span>
+    <span class="scm-legend-item"><i class="scm-swatch origin"></i>Traditional herding region</span>
+    <span class="scm-legend-item"><i class="scm-swatch emerging"></i>Emerging supplier</span>
+  </div>
+</section>
+
+<style>
+/* ================= Cashmere supply chain — scoped ================= */
+.scm-section{
+  padding: 56px 0 64px;
+  border-bottom: 1px solid var(--line);
+}
+
+.scm-intro{ max-width: 68ch; margin-bottom: 40px; }
+.scm-idx{
+  display: block;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.03em;
+  color: var(--madder);
+  margin-bottom: 10px;
+}
+.scm-intro h2{
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: clamp(26px, 3.4vw, 36px);
+  letter-spacing: -0.01em;
+  margin-bottom: 14px;
+  max-width: 20ch;
+}
+.scm-lead{ font-size: 15px; color: var(--ink-soft); line-height: 1.65; margin-bottom: 20px; }
+
+.scm-play{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.03em;
+  background: none;
+  border: 1px solid var(--line);
+  padding: 10px 16px;
+  cursor: pointer;
+  color: var(--ink);
+  transition: border-color 0.15s ease;
+}
+.scm-play:hover{ border-color: var(--indigo); }
+.scm-play-dot{
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--madder);
+  display: inline-block;
+}
+.scm-play.is-playing .scm-play-dot{ animation: scmPulse 0.8s ease-in-out infinite; }
+@keyframes scmPulse{
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.7); }
+}
+
+/* ---- track ---- */
+.scm-track-wrap{ position: relative; padding: 0 0 36px; }
+.scm-line{
+  position: absolute; left: 0; right: 0; top: 15px;
+  height: 1px; background: var(--line);
+}
+.scm-line-fill{
+  position: absolute; left: 0; top: 15px; height: 1px;
+  width: 0%;
+  background: var(--indigo);
+  transition: width 0.6s cubic-bezier(.4,0,.2,1);
+}
+.scm-nodes{
+  display: flex; justify-content: space-between;
+  position: relative; flex-wrap: wrap; row-gap: 26px;
+}
+.scm-node{
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  background: none; border: none; cursor: pointer;
+  padding: 0 4px; flex: 1 1 0; min-width: 78px;
+}
+.scm-node .dot{
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--fiber-deep);
+  border: 2px solid var(--fiber);
+  box-shadow: 0 0 0 1px var(--line);
+  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+.scm-node .lbl{
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10.5px; letter-spacing: 0.02em; text-transform: uppercase;
+  color: var(--ink-soft); text-align: center; line-height: 1.3;
+}
+.scm-node.done .dot{ background: var(--indigo); box-shadow: 0 0 0 1px var(--indigo); }
+.scm-node.active .dot{ background: var(--madder); box-shadow: 0 0 0 1px var(--madder); transform: scale(1.15); }
+.scm-node.active .lbl{ color: var(--ink); font-weight: 600; }
+.scm-node:focus-visible{ outline: 2px solid var(--indigo); outline-offset: 3px; }
+.scm-node:hover .dot{ background: var(--indigo); box-shadow: 0 0 0 1px var(--indigo); }
+.scm-node.active:hover .dot{ background: var(--madder); box-shadow: 0 0 0 1px var(--madder); }
+
+/* ---- panel ---- */
+.scm-panel{
+  border: 1px solid var(--line);
+  padding: 32px;
+  min-height: 260px;
+}
+.scm-panel-top{
+  display: flex; justify-content: space-between; align-items: flex-start; gap: 20px;
+}
+.scm-panel-idx{
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px; letter-spacing: 0.05em; text-transform: uppercase;
+  color: var(--madder);
+}
+.scm-panel h3{
+  font-family: 'Fraunces', serif; font-weight: 500; font-size: 25px;
+  margin-top: 8px;
+}
+.scm-panel p{ font-size: 15px; color: var(--ink-soft); line-height: 1.65; max-width: 66ch; margin-top: 14px; }
+
+.scm-icon{
+  width: 56px; height: 56px; flex-shrink: 0;
+  color: var(--indigo);
+}
+.scm-icon svg{ width: 100%; height: 100%; display: block; }
+
+.scm-meta{ display: flex; flex-wrap: wrap; gap: 32px; margin-top: 22px; }
+.scm-meta-col{ display: flex; flex-direction: column; gap: 8px; }
+.scm-meta-label{
+  font-family: 'IBM Plex Mono', monospace; font-size: 10px;
+  letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-soft);
+}
+.scm-chips{ display: flex; flex-wrap: wrap; gap: 8px; max-width: 46ch; }
+.scm-chip{
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10.5px; letter-spacing: 0.03em; text-transform: uppercase;
+  padding: 5px 10px 5px 9px;
+  border-left: 3px solid var(--line);
+  background: var(--fiber-deep);
+  color: var(--ink-soft);
+}
+.scm-chip.producer{ border-left-color: var(--madder); }
+.scm-chip.origin{ border-left-color: var(--indigo); }
+.scm-chip.emerging{ border-left-color: var(--grass); }
+.scm-duration{ font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--ink); }
+
+.scm-transform{
+  margin-top: 22px; padding: 16px 18px;
+  border-left: 3px solid var(--grass);
+  background: var(--fiber-deep);
+}
+.scm-transform-label{
+  display: block; font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px; letter-spacing: 0.05em; text-transform: uppercase;
+  color: var(--grass); margin-bottom: 8px;
+}
+.scm-transform p{ font-size: 14px; color: var(--ink); line-height: 1.6; max-width: 64ch; margin-top: 0; }
+
+.scm-controls{ display: flex; justify-content: space-between; margin-top: 24px; }
+.scm-controls button{
+  font-family: 'IBM Plex Mono', monospace; font-size: 11.5px;
+  letter-spacing: 0.03em; text-transform: uppercase;
+  background: none; border: 1px solid var(--line);
+  padding: 10px 16px; cursor: pointer; color: var(--ink);
+  transition: border-color 0.15s ease;
+}
+.scm-controls button:hover{ border-color: var(--indigo); }
+.scm-controls button:disabled{ opacity: 0.35; cursor: default; }
+.scm-controls button:disabled:hover{ border-color: var(--line); }
+
+.scm-legend{ display: flex; flex-wrap: wrap; gap: 18px; margin-top: 20px; }
+.scm-legend-item{
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px;
+  letter-spacing: 0.03em; text-transform: uppercase; color: var(--ink-soft);
+}
+.scm-swatch{ width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+.scm-swatch.producer{ background: var(--madder); }
+.scm-swatch.origin{ background: var(--indigo); }
+.scm-swatch.emerging{ background: var(--grass); }
+
+/* ---- per-stage icon motion, looping while a stage is active ---- */
+.scm-icon .spin{ transform-origin: center; animation: scmSpin 3.2s linear infinite; }
+.scm-icon .comb{ animation: scmComb 1.6s ease-in-out infinite; }
+.scm-icon .ripple{ animation: scmRipple 2.2s ease-in-out infinite; }
+.scm-icon .needle{ animation: scmNeedle 1.1s ease-in-out infinite; }
+.scm-icon .float{ animation: scmFloat 2.6s ease-in-out infinite; }
+@keyframes scmSpin{ to{ transform: rotate(360deg); } }
+@keyframes scmComb{ 0%,100%{ transform: translateX(0); } 50%{ transform: translateX(3px); } }
+@keyframes scmRipple{ 0%,100%{ opacity: 0.35; } 50%{ opacity: 1; } }
+@keyframes scmNeedle{ 0%,100%{ transform: translateY(0) rotate(0deg); } 50%{ transform: translateY(-3px) rotate(-8deg); } }
+@keyframes scmFloat{ 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(-2px); } }
+
+@media (prefers-reduced-motion: reduce){
+  .scm-icon *, .scm-play-dot, .scm-line-fill, .scm-node .dot{ animation: none !important; transition: none !important; }
+}
+
+@media (max-width: 700px){
+  .scm-nodes{ justify-content: flex-start; gap: 22px 16px; }
+  .scm-node{ flex: 0 0 auto; min-width: 68px; }
+  .scm-line, .scm-line-fill{ display: none; }
+  .scm-panel-top{ flex-direction: column; }
+}
+</style>
+
+<script>
+(function(){
+  var STAGES = [
+    {
+      key: 'herd',
+      label: 'Herding',
+      title: 'Highland herding',
+      duration: 'Year-round',
+      text: 'Capra hircus goats live across the high, dry plateaus of Central and East Asia, where winter temperatures fall below -30°C. That cold is the whole point: it forces the goat to grow a fine, insulating undercoat beneath its coarse outer hair, which is the raw material the entire industry depends on.',
+      transform: 'Nothing is harvested yet. The goat is simply surviving winter — and in doing so, growing the fiber.',
+      regions: [
+        {name:'China', tier:'producer'}, {name:'Mongolia', tier:'producer'},
+        {name:'Afghanistan', tier:'origin'}, {name:'Kyrgyzstan', tier:'origin'}, {name:'Tajikistan', tier:'origin'}
+      ],
+      icon: 'goat'
+    },
+    {
+      key: 'comb',
+      label: 'Combing',
+      title: 'Spring combing',
+      duration: '4–6 weeks, April–May',
+      text: 'As temperatures rise, herders hand-comb the loosening undercoat from each goat in the days before it would shed naturally. It is slow, gentle work — a single goat yields only 150 to 200 grams of usable fiber a year, a fraction of what a sheep produces in wool.',
+      transform: 'Raw down is separated from the coarser guard hair for the first time, by hand, one animal at a time.',
+      regions: [
+        {name:'China', tier:'producer'}, {name:'Mongolia', tier:'producer'},
+        {name:'India', tier:'origin'}, {name:'Pakistan', tier:'origin'}, {name:'Iran', tier:'origin'}
+      ],
+      icon: 'comb'
+    },
+    {
+      key: 'grade',
+      label: 'Grading',
+      title: 'Collection & grading',
+      duration: '2–4 weeks',
+      text: 'Combed fiber moves to regional trading posts, where it is sorted by micron diameter, color, and staple length. Fiber under 19 microns commands the highest prices; anything coarser, shorter, or dark-colored is graded down before it ever reaches a mill.',
+      transform: 'Loose, ungraded fiber becomes a priced commodity, bought and sold by grade for the first time.',
+      regions: [
+        {name:'Mongolia', tier:'producer'}, {name:'China', tier:'producer'}, {name:'Turkey', tier:'origin'}
+      ],
+      icon: 'scale'
+    },
+    {
+      key: 'scour',
+      label: 'Scouring',
+      title: 'Scouring & dehairing',
+      duration: '1–2 weeks',
+      text: 'At industrial mills, the graded fiber is washed to remove grease and dirt, then run through dehairing machines that mechanically separate the soft undercoat from any remaining coarse guard hair. China performs the large majority of the world’s cashmere processing at this stage.',
+      transform: 'Raw, greasy fiber becomes clean, pure cashmere down — the point at which it starts to feel like the finished textile.',
+      regions: [{name:'China', tier:'producer'}, {name:'India', tier:'origin'}],
+      icon: 'wave'
+    },
+    {
+      key: 'spin',
+      label: 'Spinning',
+      title: 'Carding & spinning',
+      duration: '2–3 weeks',
+      text: 'Cleaned fiber is carded to align its short fibers, then spun into continuous yarn on fine-gauge equipment. Cashmere’s short staple length makes it far harder to spin without breaking than wool or cotton, which is part of why specialist spinning mills are concentrated in only a few countries.',
+      transform: 'Loose fiber becomes continuous, workable yarn on a bobbin.',
+      regions: [{name:'China', tier:'producer'}, {name:'India', tier:'origin'}, {name:'New Zealand', tier:'emerging'}],
+      icon: 'spindle'
+    },
+    {
+      key: 'dye',
+      label: 'Dyeing',
+      title: 'Dyeing',
+      duration: '1–2 weeks',
+      text: 'Yarn — or sometimes finished panels — is piece-dyed or yarn-dyed depending on the design. Cashmere takes dye more readily than wool, which lets mills reach the saturated, even colors the fiber is known for, but it also shows any unevenness in the base fiber more clearly.',
+      transform: 'Undyed, cream-colored yarn takes on its final color.',
+      regions: [{name:'China', tier:'producer'}, {name:'Turkey', tier:'origin'}, {name:'Nepal', tier:'emerging'}],
+      icon: 'dye'
+    },
+    {
+      key: 'knit',
+      label: 'Knitting',
+      title: 'Knitting & weaving',
+      duration: '2–5 weeks',
+      text: 'Dyed yarn is knitted or woven into garment panels, then linked, trimmed, and finished by hand for higher-end pieces. This is where labor cost and craft tradition diverge most sharply between a mass-market sweater and an artisanal one.',
+      transform: 'Yarn on a cone becomes a wearable garment for the first time.',
+      regions: [{name:'China', tier:'producer'}, {name:'Nepal', tier:'emerging'}, {name:'India', tier:'origin'}],
+      icon: 'needle'
+    },
+    {
+      key: 'finish',
+      label: 'Finishing',
+      title: 'Finishing & distribution',
+      duration: '2–6 weeks to shelf',
+      text: 'Garments are washed to open up their handle, inspected, pressed, and packed. From there they move through freight networks to warehouses and, finally, to stores and doorsteps — closing a chain that started on a mountainside roughly six months to a year earlier.',
+      transform: 'A finished garment becomes inventory, then a purchase.',
+      regions: [{name:'China', tier:'producer'}, {name:'New Zealand', tier:'emerging'}, {name:'Kazakhstan', tier:'origin'}],
+      icon: 'box'
+    }
+  ];
+
+  var ICONS = {
+    goat: '<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.6"><g class="float"><path d="M14 34c0-9 6-16 14-16s14 7 14 16-6 12-14 12-14-3-14-12z"/><path d="M20 20c-2-4-1-8 2-9M36 20c2-4 1-8-2-9" stroke-linecap="round"/><circle cx="23" cy="30" r="1.4" fill="currentColor" stroke="none"/><circle cx="33" cy="30" r="1.4" fill="currentColor" stroke="none"/></g></svg>',
+    comb: '<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.6"><g class="comb"><path d="M14 18h28M14 18v22M18 18v10M22 18v10M26 18v10M30 18v10M34 18v10M38 18v10M42 18v10" stroke-linecap="round"/></g></svg>',
+    scale: '<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.6"><g class="float"><path d="M28 10v30M14 18h28M14 18l-6 12h12l-6-12zM42 18l-6 12h12l-6-12z" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 40h16" stroke-linecap="round"/></g></svg>',
+    wave: '<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.6"><g class="ripple"><path d="M10 22c4-4 8-4 12 0s8 4 12 0 8-4 12 0" stroke-linecap="round"/><path d="M10 30c4-4 8-4 12 0s8 4 12 0 8-4 12 0" stroke-linecap="round"/><path d="M10 38c4-4 8-4 12 0s8 4 12 0 8-4 12 0" stroke-linecap="round"/></g></svg>',
+    spindle: '<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.6"><g class="spin"><circle cx="28" cy="28" r="14"/><path d="M28 14v28M14 28h28" /></g></svg>',
+    dye: '<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.6"><g class="ripple"><path d="M28 10c6 8 10 14 10 20a10 10 0 0 1-20 0c0-6 4-12 10-20z"/></g></svg>',
+    needle: '<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.6"><g class="needle"><path d="M14 42L40 16" stroke-linecap="round"/><circle cx="42" cy="14" r="3"/><path d="M18 38l6 6M24 32l6 6M30 26l6 6" stroke-linecap="round"/></g></svg>',
+    box: '<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.6"><g class="float"><path d="M10 20l18-8 18 8-18 8-18-8z" stroke-linejoin="round"/><path d="M10 20v18l18 8 18-8V20" stroke-linejoin="round"/><path d="M28 28v18" /></g></svg>'
+  };
+
+  var nodesEl = document.getElementById('scmNodes');
+  var lineFill = document.getElementById('scmLineFill');
+  var panelIdx = document.getElementById('scmPanelIdx');
+  var panelTitle = document.getElementById('scmPanelTitle');
+  var panelText = document.getElementById('scmPanelText');
+  var chipsEl = document.getElementById('scmChips');
+  var durationEl = document.getElementById('scmDuration');
+  var transformText = document.getElementById('scmTransformText');
+  var iconEl = document.getElementById('scmIcon');
+  var prevBtn = document.getElementById('scmPrev');
+  var nextBtn = document.getElementById('scmNext');
+  var playBtn = document.getElementById('scmPlay');
+
+  var current = 0;
+  var playTimer = null;
+
+  STAGES.forEach(function(stage, i){
+    var btn = document.createElement('button');
+    btn.className = 'scm-node';
+    btn.type = 'button';
+    btn.setAttribute('role', 'tab');
+    btn.innerHTML = '<span class="dot"></span><span class="lbl">' + stage.label + '</span>';
+    btn.addEventListener('click', function(){ stopPlay(); render(i); });
+    nodesEl.appendChild(btn);
+  });
+
+  function render(i){
+    current = i;
+    var stage = STAGES[i];
+
+    Array.prototype.forEach.call(nodesEl.children, function(node, idx){
+      node.classList.toggle('active', idx === i);
+      node.classList.toggle('done', idx < i);
+      node.setAttribute('aria-selected', idx === i ? 'true' : 'false');
+    });
+
+    var pct = STAGES.length > 1 ? (i / (STAGES.length - 1)) * 100 : 0;
+    lineFill.style.width = pct + '%';
+
+    panelIdx.textContent = String(i + 1).padStart(2, '0') + ' / ' + String(STAGES.length).padStart(2, '0');
+    panelTitle.textContent = stage.title;
+    panelText.textContent = stage.text;
+    durationEl.textContent = stage.duration;
+    transformText.textContent = stage.transform;
+    iconEl.innerHTML = ICONS[stage.icon] || '';
+
+    chipsEl.innerHTML = '';
+    stage.regions.forEach(function(r){
+      var chip = document.createElement('span');
+      chip.className = 'scm-chip ' + r.tier;
+      chip.textContent = r.name;
+      chipsEl.appendChild(chip);
+    });
+
+    prevBtn.disabled = i === 0;
+    nextBtn.disabled = i === STAGES.length - 1;
+  }
+
+  prevBtn.addEventListener('click', function(){ stopPlay(); if (current > 0) render(current - 1); });
+  nextBtn.addEventListener('click', function(){ stopPlay(); if (current < STAGES.length - 1) render(current + 1); });
+
+  function stopPlay(){
+    if (playTimer){ clearInterval(playTimer); playTimer = null; playBtn.classList.remove('is-playing'); }
+  }
+
+  playBtn.addEventListener('click', function(){
+    if (playTimer){ stopPlay(); return; }
+    playBtn.classList.add('is-playing');
+    render(0);
+    var i = 0;
+    playTimer = setInterval(function(){
+      i++;
+      if (i >= STAGES.length){ stopPlay(); return; }
+      render(i);
+    }, 1600);
+  });
+
+  render(0);
+})();
+</script>
