@@ -1,9 +1,9 @@
 <!--
   ANIMATED CASHMERE SUPPLY CHAIN
-  Drop this section into the supply chain page. It assumes the page already
-  loads the site's fonts (Fraunces, IBM Plex Mono, Archivo) and defines the
-  :root custom properties (--fiber, --ink, --indigo, --madder, --grass, --line,
-  etc.) exactly as in the existing stylesheet. No external dependencies.
+  Self-contained: styling is injected via JS (survives embed-block sanitizers
+  that strip <style> tags) and colors are hard-coded on the component itself
+  (works even if the embed runs in a sandboxed iframe with no access to the
+  host page's CSS variables).
 -->
 <section class="scm-section" id="scm">
 
@@ -68,203 +68,19 @@
   </div>
 </section>
 
-<style>
-/* ================= Cashmere supply chain — scoped ================= */
-.scm-section{
-  padding: 56px 0 64px;
-  border-bottom: 1px solid var(--line);
-}
-
-.scm-intro{ max-width: 68ch; margin-bottom: 40px; }
-.scm-idx{
-  display: block;
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.03em;
-  color: var(--madder);
-  margin-bottom: 10px;
-}
-.scm-intro h2{
-  font-family: 'Fraunces', serif;
-  font-weight: 500;
-  font-size: clamp(26px, 3.4vw, 36px);
-  letter-spacing: -0.01em;
-  margin-bottom: 14px;
-  max-width: 20ch;
-}
-.scm-lead{ font-size: 15px; color: var(--ink-soft); line-height: 1.65; margin-bottom: 20px; }
-
-.scm-play{
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 12px;
-  letter-spacing: 0.03em;
-  background: none;
-  border: 1px solid var(--line);
-  padding: 10px 16px;
-  cursor: pointer;
-  color: var(--ink);
-  transition: border-color 0.15s ease;
-}
-.scm-play:hover{ border-color: var(--indigo); }
-.scm-play-dot{
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  background: var(--madder);
-  display: inline-block;
-}
-.scm-play.is-playing .scm-play-dot{ animation: scmPulse 0.8s ease-in-out infinite; }
-@keyframes scmPulse{
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.4; transform: scale(0.7); }
-}
-
-/* ---- track ---- */
-.scm-track-wrap{ position: relative; padding: 0 0 36px; }
-.scm-line{
-  position: absolute; left: 0; right: 0; top: 15px;
-  height: 1px; background: var(--line);
-}
-.scm-line-fill{
-  position: absolute; left: 0; top: 15px; height: 1px;
-  width: 0%;
-  background: var(--indigo);
-  transition: width 0.6s cubic-bezier(.4,0,.2,1);
-}
-.scm-nodes{
-  display: flex; justify-content: space-between;
-  position: relative; flex-wrap: wrap; row-gap: 26px;
-}
-.scm-node{
-  display: flex; flex-direction: column; align-items: center; gap: 10px;
-  background: none; border: none; cursor: pointer;
-  padding: 0 4px; flex: 1 1 0; min-width: 78px;
-}
-.scm-node .dot{
-  width: 16px; height: 16px; border-radius: 50%;
-  background: var(--fiber-deep);
-  border: 2px solid var(--fiber);
-  box-shadow: 0 0 0 1px var(--line);
-  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
-}
-.scm-node .lbl{
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 10.5px; letter-spacing: 0.02em; text-transform: uppercase;
-  color: var(--ink-soft); text-align: center; line-height: 1.3;
-}
-.scm-node.done .dot{ background: var(--indigo); box-shadow: 0 0 0 1px var(--indigo); }
-.scm-node.active .dot{ background: var(--madder); box-shadow: 0 0 0 1px var(--madder); transform: scale(1.15); }
-.scm-node.active .lbl{ color: var(--ink); font-weight: 600; }
-.scm-node:focus-visible{ outline: 2px solid var(--indigo); outline-offset: 3px; }
-.scm-node:hover .dot{ background: var(--indigo); box-shadow: 0 0 0 1px var(--indigo); }
-.scm-node.active:hover .dot{ background: var(--madder); box-shadow: 0 0 0 1px var(--madder); }
-
-/* ---- panel ---- */
-.scm-panel{
-  border: 1px solid var(--line);
-  padding: 32px;
-  min-height: 260px;
-}
-.scm-panel-top{
-  display: flex; justify-content: space-between; align-items: flex-start; gap: 20px;
-}
-.scm-panel-idx{
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 10px; letter-spacing: 0.05em; text-transform: uppercase;
-  color: var(--madder);
-}
-.scm-panel h3{
-  font-family: 'Fraunces', serif; font-weight: 500; font-size: 25px;
-  margin-top: 8px;
-}
-.scm-panel p{ font-size: 15px; color: var(--ink-soft); line-height: 1.65; max-width: 66ch; margin-top: 14px; }
-
-.scm-icon{
-  width: 56px; height: 56px; flex-shrink: 0;
-  color: var(--indigo);
-}
-.scm-icon svg{ width: 100%; height: 100%; display: block; }
-
-.scm-meta{ display: flex; flex-wrap: wrap; gap: 32px; margin-top: 22px; }
-.scm-meta-col{ display: flex; flex-direction: column; gap: 8px; }
-.scm-meta-label{
-  font-family: 'IBM Plex Mono', monospace; font-size: 10px;
-  letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-soft);
-}
-.scm-chips{ display: flex; flex-wrap: wrap; gap: 8px; max-width: 46ch; }
-.scm-chip{
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 10.5px; letter-spacing: 0.03em; text-transform: uppercase;
-  padding: 5px 10px 5px 9px;
-  border-left: 3px solid var(--line);
-  background: var(--fiber-deep);
-  color: var(--ink-soft);
-}
-.scm-chip.producer{ border-left-color: var(--madder); }
-.scm-chip.origin{ border-left-color: var(--indigo); }
-.scm-chip.emerging{ border-left-color: var(--grass); }
-.scm-duration{ font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--ink); }
-
-.scm-transform{
-  margin-top: 22px; padding: 16px 18px;
-  border-left: 3px solid var(--grass);
-  background: var(--fiber-deep);
-}
-.scm-transform-label{
-  display: block; font-family: 'IBM Plex Mono', monospace;
-  font-size: 10px; letter-spacing: 0.05em; text-transform: uppercase;
-  color: var(--grass); margin-bottom: 8px;
-}
-.scm-transform p{ font-size: 14px; color: var(--ink); line-height: 1.6; max-width: 64ch; margin-top: 0; }
-
-.scm-controls{ display: flex; justify-content: space-between; margin-top: 24px; }
-.scm-controls button{
-  font-family: 'IBM Plex Mono', monospace; font-size: 11.5px;
-  letter-spacing: 0.03em; text-transform: uppercase;
-  background: none; border: 1px solid var(--line);
-  padding: 10px 16px; cursor: pointer; color: var(--ink);
-  transition: border-color 0.15s ease;
-}
-.scm-controls button:hover{ border-color: var(--indigo); }
-.scm-controls button:disabled{ opacity: 0.35; cursor: default; }
-.scm-controls button:disabled:hover{ border-color: var(--line); }
-
-.scm-legend{ display: flex; flex-wrap: wrap; gap: 18px; margin-top: 20px; }
-.scm-legend-item{
-  display: inline-flex; align-items: center; gap: 8px;
-  font-family: 'IBM Plex Mono', monospace; font-size: 11px;
-  letter-spacing: 0.03em; text-transform: uppercase; color: var(--ink-soft);
-}
-.scm-swatch{ width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
-.scm-swatch.producer{ background: var(--madder); }
-.scm-swatch.origin{ background: var(--indigo); }
-.scm-swatch.emerging{ background: var(--grass); }
-
-/* ---- per-stage icon motion, looping while a stage is active ---- */
-.scm-icon .spin{ transform-origin: center; animation: scmSpin 3.2s linear infinite; }
-.scm-icon .comb{ animation: scmComb 1.6s ease-in-out infinite; }
-.scm-icon .ripple{ animation: scmRipple 2.2s ease-in-out infinite; }
-.scm-icon .needle{ animation: scmNeedle 1.1s ease-in-out infinite; }
-.scm-icon .float{ animation: scmFloat 2.6s ease-in-out infinite; }
-@keyframes scmSpin{ to{ transform: rotate(360deg); } }
-@keyframes scmComb{ 0%,100%{ transform: translateX(0); } 50%{ transform: translateX(3px); } }
-@keyframes scmRipple{ 0%,100%{ opacity: 0.35; } 50%{ opacity: 1; } }
-@keyframes scmNeedle{ 0%,100%{ transform: translateY(0) rotate(0deg); } 50%{ transform: translateY(-3px) rotate(-8deg); } }
-@keyframes scmFloat{ 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(-2px); } }
-
-@media (prefers-reduced-motion: reduce){
-  .scm-icon *, .scm-play-dot, .scm-line-fill, .scm-node .dot{ animation: none !important; transition: none !important; }
-}
-
-@media (max-width: 700px){
-  .scm-nodes{ justify-content: flex-start; gap: 22px 16px; }
-  .scm-node{ flex: 0 0 auto; min-width: 68px; }
-  .scm-line, .scm-line-fill{ display: none; }
-  .scm-panel-top{ flex-direction: column; }
-}
-</style>
+<script>
+(function(){
+  var css = "\n.scm-section{\n  --fiber: #EAE3D3;\n  --fiber-deep: #DCD3BC;\n  --ink: #21252A;\n  --ink-soft: #4B4F55;\n  --indigo: #3A4F66;\n  --indigo-deep: #263846;\n  --madder: #8B5A3C;\n  --grass: #6B7A5E;\n  --line: rgba(33, 37, 42, 0.14);\n  --scm-font-serif: 'Fraunces', Georgia, serif;\n  --scm-font-mono: 'IBM Plex Mono', 'Courier New', monospace;\n  --scm-font-sans: 'Archivo', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;\n}\n\n/* ================= Cashmere supply chain — scoped ================= */\n.scm-section{\n  padding: 56px 0 64px;\n  border-bottom: 1px solid var(--line);\n}\n\n.scm-intro{ max-width: 68ch; margin-bottom: 40px; }\n.scm-idx{\n  display: block;\n  font-family: var(--scm-font-mono);\n  font-size: 11px;\n  letter-spacing: 0.03em;\n  color: var(--madder);\n  margin-bottom: 10px;\n}\n.scm-intro h2{\n  font-family: var(--scm-font-serif);\n  font-weight: 500;\n  font-size: clamp(26px, 3.4vw, 36px);\n  letter-spacing: -0.01em;\n  margin-bottom: 14px;\n  max-width: 20ch;\n}\n.scm-lead{ font-size: 15px; color: var(--ink-soft); line-height: 1.65; margin-bottom: 20px; }\n\n.scm-play{\n  display: inline-flex;\n  align-items: center;\n  gap: 10px;\n  font-family: var(--scm-font-mono);\n  font-size: 12px;\n  letter-spacing: 0.03em;\n  background: none;\n  border: 1px solid var(--line);\n  padding: 10px 16px;\n  cursor: pointer;\n  color: var(--ink);\n  transition: border-color 0.15s ease;\n}\n.scm-play:hover{ border-color: var(--indigo); }\n.scm-play-dot{\n  width: 8px; height: 8px;\n  border-radius: 50%;\n  background: var(--madder);\n  display: inline-block;\n}\n.scm-play.is-playing .scm-play-dot{ animation: scmPulse 0.8s ease-in-out infinite; }\n@keyframes scmPulse{\n  0%, 100% { opacity: 1; transform: scale(1); }\n  50% { opacity: 0.4; transform: scale(0.7); }\n}\n\n/* ---- track ---- */\n.scm-track-wrap{ position: relative; padding: 0 0 36px; }\n.scm-line{\n  position: absolute; left: 0; right: 0; top: 15px;\n  height: 1px; background: var(--line);\n}\n.scm-line-fill{\n  position: absolute; left: 0; top: 15px; height: 1px;\n  width: 0%;\n  background: var(--indigo);\n  transition: width 0.6s cubic-bezier(.4,0,.2,1);\n}\n.scm-nodes{\n  display: flex; justify-content: space-between;\n  position: relative; flex-wrap: wrap; row-gap: 26px;\n}\n.scm-node{\n  display: flex; flex-direction: column; align-items: center; gap: 10px;\n  background: none; border: none; cursor: pointer;\n  padding: 0 4px; flex: 1 1 0; min-width: 78px;\n}\n.scm-node .dot{\n  width: 16px; height: 16px; border-radius: 50%;\n  background: var(--fiber-deep);\n  border: 2px solid var(--fiber);\n  box-shadow: 0 0 0 1px var(--line);\n  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;\n}\n.scm-node .lbl{\n  font-family: var(--scm-font-mono);\n  font-size: 10.5px; letter-spacing: 0.02em; text-transform: uppercase;\n  color: var(--ink-soft); text-align: center; line-height: 1.3;\n}\n.scm-node.done .dot{ background: var(--indigo); box-shadow: 0 0 0 1px var(--indigo); }\n.scm-node.active .dot{ background: var(--madder); box-shadow: 0 0 0 1px var(--madder); transform: scale(1.15); }\n.scm-node.active .lbl{ color: var(--ink); font-weight: 600; }\n.scm-node:focus-visible{ outline: 2px solid var(--indigo); outline-offset: 3px; }\n.scm-node:hover .dot{ background: var(--indigo); box-shadow: 0 0 0 1px var(--indigo); }\n.scm-node.active:hover .dot{ background: var(--madder); box-shadow: 0 0 0 1px var(--madder); }\n\n/* ---- panel ---- */\n.scm-panel{\n  border: 1px solid var(--line);\n  padding: 32px;\n  min-height: 260px;\n}\n.scm-panel-top{\n  display: flex; justify-content: space-between; align-items: flex-start; gap: 20px;\n}\n.scm-panel-idx{\n  font-family: var(--scm-font-mono);\n  font-size: 10px; letter-spacing: 0.05em; text-transform: uppercase;\n  color: var(--madder);\n}\n.scm-panel h3{\n  font-family: var(--scm-font-serif); font-weight: 500; font-size: 25px;\n  margin-top: 8px;\n}\n.scm-panel p{ font-size: 15px; color: var(--ink-soft); line-height: 1.65; max-width: 66ch; margin-top: 14px; }\n\n.scm-icon{\n  width: 56px; height: 56px; flex-shrink: 0;\n  color: var(--indigo);\n}\n.scm-icon svg{ width: 100%; height: 100%; display: block; }\n\n.scm-meta{ display: flex; flex-wrap: wrap; gap: 32px; margin-top: 22px; }\n.scm-meta-col{ display: flex; flex-direction: column; gap: 8px; }\n.scm-meta-label{\n  font-family: var(--scm-font-mono); font-size: 10px;\n  letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-soft);\n}\n.scm-chips{ display: flex; flex-wrap: wrap; gap: 8px; max-width: 46ch; }\n.scm-chip{\n  font-family: var(--scm-font-mono);\n  font-size: 10.5px; letter-spacing: 0.03em; text-transform: uppercase;\n  padding: 5px 10px 5px 9px;\n  border-left: 3px solid var(--line);\n  background: var(--fiber-deep);\n  color: var(--ink-soft);\n}\n.scm-chip.producer{ border-left-color: var(--madder); }\n.scm-chip.origin{ border-left-color: var(--indigo); }\n.scm-chip.emerging{ border-left-color: var(--grass); }\n.scm-duration{ font-family: var(--scm-font-mono); font-size: 13px; color: var(--ink); }\n\n.scm-transform{\n  margin-top: 22px; padding: 16px 18px;\n  border-left: 3px solid var(--grass);\n  background: var(--fiber-deep);\n}\n.scm-transform-label{\n  display: block; font-family: var(--scm-font-mono);\n  font-size: 10px; letter-spacing: 0.05em; text-transform: uppercase;\n  color: var(--grass); margin-bottom: 8px;\n}\n.scm-transform p{ font-size: 14px; color: var(--ink); line-height: 1.6; max-width: 64ch; margin-top: 0; }\n\n.scm-controls{ display: flex; justify-content: space-between; margin-top: 24px; }\n.scm-controls button{\n  font-family: var(--scm-font-mono); font-size: 11.5px;\n  letter-spacing: 0.03em; text-transform: uppercase;\n  background: none; border: 1px solid var(--line);\n  padding: 10px 16px; cursor: pointer; color: var(--ink);\n  transition: border-color 0.15s ease;\n}\n.scm-controls button:hover{ border-color: var(--indigo); }\n.scm-controls button:disabled{ opacity: 0.35; cursor: default; }\n.scm-controls button:disabled:hover{ border-color: var(--line); }\n\n.scm-legend{ display: flex; flex-wrap: wrap; gap: 18px; margin-top: 20px; }\n.scm-legend-item{\n  display: inline-flex; align-items: center; gap: 8px;\n  font-family: var(--scm-font-mono); font-size: 11px;\n  letter-spacing: 0.03em; text-transform: uppercase; color: var(--ink-soft);\n}\n.scm-swatch{ width: 10px; height: 10px; border-radius: 50%; display: inline-block; }\n.scm-swatch.producer{ background: var(--madder); }\n.scm-swatch.origin{ background: var(--indigo); }\n.scm-swatch.emerging{ background: var(--grass); }\n\n/* ---- per-stage icon motion, looping while a stage is active ---- */\n.scm-icon .spin{ transform-origin: center; animation: scmSpin 3.2s linear infinite; }\n.scm-icon .comb{ animation: scmComb 1.6s ease-in-out infinite; }\n.scm-icon .ripple{ animation: scmRipple 2.2s ease-in-out infinite; }\n.scm-icon .needle{ animation: scmNeedle 1.1s ease-in-out infinite; }\n.scm-icon .float{ animation: scmFloat 2.6s ease-in-out infinite; }\n@keyframes scmSpin{ to{ transform: rotate(360deg); } }\n@keyframes scmComb{ 0%,100%{ transform: translateX(0); } 50%{ transform: translateX(3px); } }\n@keyframes scmRipple{ 0%,100%{ opacity: 0.35; } 50%{ opacity: 1; } }\n@keyframes scmNeedle{ 0%,100%{ transform: translateY(0) rotate(0deg); } 50%{ transform: translateY(-3px) rotate(-8deg); } }\n@keyframes scmFloat{ 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(-2px); } }\n\n@media (prefers-reduced-motion: reduce){\n  .scm-icon *, .scm-play-dot, .scm-line-fill, .scm-node .dot{ animation: none !important; transition: none !important; }\n}\n\n@media (max-width: 700px){\n  .scm-nodes{ justify-content: flex-start; gap: 22px 16px; }\n  .scm-node{ flex: 0 0 auto; min-width: 68px; }\n  .scm-line, .scm-line-fill{ display: none; }\n  .scm-panel-top{ flex-direction: column; }\n}\n";
+  try {
+    var styleTag = document.createElement('style');
+    styleTag.setAttribute('data-scm-styles', 'true');
+    styleTag.textContent = css;
+    (document.head || document.documentElement).appendChild(styleTag);
+  } catch (e) {
+    console.error('Could not inject cashmere supply chain styles', e);
+  }
+})();
+</script>
 
 <script>
 (function(){
@@ -312,7 +128,7 @@
       label: 'Scouring',
       title: 'Scouring & dehairing',
       duration: '1–2 weeks',
-      text: 'At industrial mills, the graded fiber is washed to remove grease and dirt, then run through dehairing machines that mechanically separate the soft undercoat from any remaining coarse guard hair. China performs the large majority of the world’s cashmere processing at this stage.',
+      text: "At industrial mills, the graded fiber is washed to remove grease and dirt, then run through dehairing machines that mechanically separate the soft undercoat from any remaining coarse guard hair. China performs the large majority of the world\u2019s cashmere processing at this stage.",
       transform: 'Raw, greasy fiber becomes clean, pure cashmere down — the point at which it starts to feel like the finished textile.',
       regions: [{name:'China', tier:'producer'}, {name:'India', tier:'origin'}],
       icon: 'wave'
@@ -322,7 +138,7 @@
       label: 'Spinning',
       title: 'Carding & spinning',
       duration: '2–3 weeks',
-      text: 'Cleaned fiber is carded to align its short fibers, then spun into continuous yarn on fine-gauge equipment. Cashmere’s short staple length makes it far harder to spin without breaking than wool or cotton, which is part of why specialist spinning mills are concentrated in only a few countries.',
+      text: "Cleaned fiber is carded to align its short fibers, then spun into continuous yarn on fine-gauge equipment. Cashmere\u2019s short staple length makes it far harder to spin without breaking than wool or cotton, which is part of why specialist spinning mills are concentrated in only a few countries.",
       transform: 'Loose fiber becomes continuous, workable yarn on a bobbin.',
       regions: [{name:'China', tier:'producer'}, {name:'India', tier:'origin'}, {name:'New Zealand', tier:'emerging'}],
       icon: 'spindle'
