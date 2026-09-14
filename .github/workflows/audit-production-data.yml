@@ -10,14 +10,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Inspect production data
+      - name: Inspect exact data snippets
         run: |
-          grep -n -A18 -B2 "production" supply-chain.html > production-inspection.txt || true
-          grep -n -A12 -B2 "Afghanistan" library.html > library-inspection.txt || true
+          grep -o '.\{0,120\}17589.\{0,1200\}' supply-chain.html > production-snippet.txt || true
+          grep -o '.\{0,120\}<td>Afghanistan</td>.\{0,1800\}' library.html > library-snippet.txt || true
       - name: Commit inspection
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add production-inspection.txt library-inspection.txt
-          git commit -m 'Inspect production data structure'
+          git add production-snippet.txt library-snippet.txt
+          git commit -m 'Inspect exact production data snippets'
           git push
