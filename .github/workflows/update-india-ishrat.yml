@@ -1,0 +1,55 @@
+name: Update Library sustainability data
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  update:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Update sustainability section
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('library.html')
+          s = p.read_text(encoding='utf-8')
+          old = '''          <a class="lib-resource" href="#data-statistics"><strong>Sustainability Indicators</strong><span>Publicly reported environmental and social indicators.</span><em>Planned</em></a>'''
+          new = '''          <div class="lib-resource lib-resource-wide">
+  <strong>Sustainability Indicators</strong>
+  <span>Selected public indicators that help assess the environmental, animal-welfare, climate and social dimensions of cashmere production. Indicators are kept separate from production totals and certification volumes.</span>
+  <div class="data-table-wrap">
+    <table class="data-table">
+      <caption>Selected publicly reported sustainability indicators for cashmere</caption>
+      <thead><tr><th>Indicator</th><th>Year / period</th><th>Value</th><th>Unit</th><th>Geography / scope</th><th>Source</th><th>Qualification</th></tr></thead>
+      <tbody>
+        <tr><td>Goat livestock loss during dzud</td><td>2024</td><td>~2.5 million</td><td>goats lost</td><td>Mongolia</td><td>Sustainable Fibre Alliance (2024), citing Mongolia Ministry of Food, Agriculture &amp; Light Industry</td><td>Reported loss during the 2024 dzud. SFA states that goats accounted for about 2.5 million of more than 7.44 million livestock lost. This is a climate-shock indicator, not a cashmere-production loss estimate.</td></tr>
+        <tr><td>Accumulated goat losses</td><td>2023–2024</td><td>~20%</td><td>of goat population</td><td>Mongolia</td><td>Sustainable Fibre Alliance (2024)</td><td>SFA reports accumulated goat losses of around 20% over two consecutive years. The figure reflects livestock losses associated with severe winter conditions and should not be interpreted as a direct percentage reduction in national cashmere output.</td></tr>
+        <tr><td>SFA-certified cashmere volume</td><td>2023</td><td>1,322</td><td>tonnes</td><td>Mongolia — SFA programme</td><td>Sustainable Fibre Alliance (2024)</td><td>Certified-programme volume only. It is not Mongolia's total cashmere production and must not be used as a national production statistic.</td></tr>
+        <tr><td>SFA-certified cashmere volume</td><td>2024</td><td>600</td><td>tonnes</td><td>Mongolia — SFA programme</td><td>Sustainable Fibre Alliance (2024)</td><td>Certified-programme volume reported after the 2024 dzud; SFA noted a maximum expected volume of around 800 tonnes. This is not a national production estimate.</td></tr>
+        <tr><td>Cashmere environmental impact drivers</td><td>2026 study</td><td>Herd productivity and management practices</td><td>qualitative LCA finding</td><td>Mongolia &amp; China</td><td>Textile Exchange, <em>Cashmere Life Cycle Assessment (LCA) Study</em>, 2026</td><td>The LCA identifies herd-level productivity, including cashmere yield per animal, and management practices such as winter supplementary feeding as key environmental-impact drivers within the study assumptions.</td></tr>
+        <tr><td>Extreme-weather impact</td><td>2026 study</td><td>Increased impacts during dzud conditions</td><td>qualitative LCA finding</td><td>Mongolia &amp; Inner Mongolia</td><td>Textile Exchange, <em>Cashmere Life Cycle Assessment (LCA) Study</em>, 2026</td><td>The study reports that heavy snowfall, freezing temperatures and harsh winters following summer drought can increase environmental impacts through lower productivity and higher animal mortality.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="data-note"><strong>Interpretation.</strong> Sustainability indicators are deliberately presented as indicators rather than converted into a single composite score. Livestock losses and certified volumes describe specific programmes, events or reporting scopes; they are not interchangeable with national production data.</p>
+  <p class="data-note"><strong>LCA qualification.</strong> Textile Exchange's 2026 cashmere LCA uses harmonized primary data from 170 herders and farmers across Mongolia and China and covers cashmere production and primary processing on a cradle-to-gate basis. The study is intended to improve impact-data quality and provide proxy data where source-specific LCA data are unavailable.</p>
+  <p class="data-note"><strong>Evidence standard.</strong> Future indicators will prioritise quantified environmental, animal-welfare and social measures with an identifiable year, geography, scope and methodology. Where robust numerical evidence is unavailable, the Library will retain a clearly labelled qualitative finding rather than manufacture a numerical indicator.</p>
+</div>'''
+          if old not in s:
+              raise SystemExit('Sustainability placeholder not found; no change made.')
+          p.write_text(s.replace(old, new, 1), encoding='utf-8')
+          PY
+      - name: Commit and remove workflow
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add library.html
+          git diff --cached --quiet || git commit -m "Publish sustainability indicators"
+          git push
+          rm .github/workflows/update-india-ishrat.yml
+          git add .github/workflows/update-india-ishrat.yml
+          git commit -m "Remove temporary Library update workflow"
+          git push
