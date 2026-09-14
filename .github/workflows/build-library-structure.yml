@@ -1,0 +1,103 @@
+name: Build Library structure
+on:
+  push:
+    paths:
+      - '.github/workflows/build-library-structure.yml'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Update Library page structure
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('library.html')
+          s=p.read_text()
+
+          old='''        <a href="library.html" aria-current="page">Library</a>'''
+          new='''        <div class="nav-dropdown">
+          <a href="library.html" aria-current="page" class="nav-dropdown-toggle">Library <span aria-hidden="true">⌄</span></a>
+          <div class="nav-dropdown-menu">
+            <a href="library.html#data-statistics">Data &amp; Statistics</a>
+            <a href="library.html#research-reports">Research &amp; Reports</a>
+            <a href="library.html#standards-frameworks">Standards &amp; Frameworks</a>
+            <a href="library.html#case-studies">Case Studies</a>
+            <a href="library.html#ai-digital">AI &amp; Digital Transformation</a>
+            <a href="library.html#knowledge">Knowledge</a>
+          </div>
+        </div>'''
+          assert old in s
+          s=s.replace(old,new,1)
+
+          old='''    <nav class="container lib-toc" aria-label="Library sections">
+      <a href="#glossary">Glossary</a>
+      <a href="#history">History</a>
+      <a href="#sources">Sources &amp; Further Reading</a>
+      <a href="#comparison">Fibre Comparison</a>
+    </nav>'''
+          new='''    <section class="container lib-directory" aria-label="Library categories">
+      <a class="lib-card" href="#data-statistics"><span class="lib-card-num">01</span><span><strong>Data &amp; Statistics</strong><small>Production, trade, fibre and sustainability data.</small></span></a>
+      <a class="lib-card" href="#research-reports"><span class="lib-card-num">02</span><span><strong>Research &amp; Reports</strong><small>Peer-reviewed research, industry and institutional reports.</small></span></a>
+      <a class="lib-card" href="#standards-frameworks"><span class="lib-card-num">03</span><span><strong>Standards &amp; Frameworks</strong><small>Standards, traceability, sustainability and certification.</small></span></a>
+      <a class="lib-card" href="#case-studies"><span class="lib-card-num">04</span><span><strong>Case Studies</strong><small>Places, practices and supply-chain transformations.</small></span></a>
+      <a class="lib-card" href="#ai-digital"><span class="lib-card-num">05</span><span><strong>AI &amp; Digital Transformation</strong><small>AI, data, traceability and emerging technologies.</small></span></a>
+      <a class="lib-card" href="#knowledge"><span class="lib-card-num">06</span><span><strong>Knowledge</strong><small>Glossary, history, fibre references and further reading.</small></span></a>
+    </section>
+
+    <section class="lib-section lib-section-compact reveal" id="data-statistics">
+      <div class="container">
+        <div class="section-head"><h2>Data &amp; Statistics</h2><span class="num">01</span></div>
+        <p class="lib-section-intro">A research-oriented collection of publicly available secondary data. Every published figure will retain its source, year, unit, data status and methodological qualification.</p>
+        <div class="lib-resource-grid">
+          <a class="lib-resource" href="#data-statistics"><strong>Global Cashmere Production</strong><span>Country-level production and historical series.</span><em>Coming first</em></a>
+          <a class="lib-resource" href="#data-statistics"><strong>International Trade</strong><span>Exports, imports, quantities and trade values.</span><em>Planned</em></a>
+          <a class="lib-resource" href="#data-statistics"><strong>Fibre &amp; Market Data</strong><span>Fibre characteristics, prices and market indicators.</span><em>Planned</em></a>
+          <a class="lib-resource" href="#data-statistics"><strong>Sustainability Indicators</strong><span>Publicly reported environmental and social indicators.</span><em>Planned</em></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="lib-section lib-section-compact reveal" id="research-reports">
+      <div class="container"><div class="section-head"><h2>Research &amp; Reports</h2><span class="num">02</span></div><p class="lib-section-intro">A curated evidence base of peer-reviewed research, government publications, industry reports and institutional studies.</p><div class="lib-resource-grid"><a class="lib-resource" href="#research-reports"><strong>Peer-Reviewed Research</strong><span>Academic literature relevant to cashmere and luxury supply chains.</span><em>Planned</em></a><a class="lib-resource" href="#research-reports"><strong>Industry Reports</strong><span>Market and sector reports with identifiable provenance.</span><em>Planned</em></a><a class="lib-resource" href="#research-reports"><strong>Government &amp; Institutional Reports</strong><span>Public reports from recognised institutions and agencies.</span><em>Planned</em></a></div></div>
+    </section>
+
+    <section class="lib-section lib-section-compact reveal" id="standards-frameworks">
+      <div class="container"><div class="section-head"><h2>Standards &amp; Frameworks</h2><span class="num">03</span></div><p class="lib-section-intro">A reference point for standards, certification, traceability, responsible sourcing and geographical indications.</p><div class="lib-resource-grid"><a class="lib-resource" href="#standards-frameworks"><strong>Cashmere Standards</strong><span>Fibre, quality and product standards.</span><em>Planned</em></a><a class="lib-resource" href="#standards-frameworks"><strong>Sustainability &amp; Animal Welfare</strong><span>Environmental, social and animal-welfare frameworks.</span><em>Planned</em></a><a class="lib-resource" href="#standards-frameworks"><strong>Traceability &amp; GI</strong><span>Chain-of-custody and geographical-indication resources.</span><em>Planned</em></a></div></div>
+    </section>
+
+    <section class="lib-section lib-section-compact reveal" id="case-studies">
+      <div class="container"><div class="section-head"><h2>Case Studies</h2><span class="num">04</span></div><p class="lib-section-intro">Focused evidence on producing regions, artisan communities and supply-chain practices.</p><div class="lib-resource-grid"><a class="lib-resource" href="#case-studies"><strong>Kashmir</strong><span>Traditional pashmina, artisan production and GI protection.</span><em>Planned</em></a><a class="lib-resource" href="#case-studies"><strong>Mongolia &amp; China</strong><span>Major production systems and market transformation.</span><em>Planned</em></a><a class="lib-resource" href="#case-studies"><strong>Other Producing Regions</strong><span>Comparative cases across the Global South and beyond.</span><em>Planned</em></a></div></div>
+    </section>
+
+    <section class="lib-section lib-section-compact reveal" id="ai-digital">
+      <div class="container"><div class="section-head"><h2>AI &amp; Digital Transformation</h2><span class="num">05</span></div><p class="lib-section-intro">A forward-looking collection on how data and emerging technologies can transform cashmere supply chains.</p><div class="lib-resource-grid"><a class="lib-resource" href="#ai-digital"><strong>AI &amp; Analytics</strong><span>Applications of AI, machine learning and data analytics.</span><em>Planned</em></a><a class="lib-resource" href="#ai-digital"><strong>Digital Traceability</strong><span>Digital product passports, blockchain and chain-of-custody systems.</span><em>Planned</em></a><a class="lib-resource" href="#ai-digital"><strong>Data Requirements</strong><span>What information is needed for credible digital transformation.</span><em>Planned</em></a></div></div>
+    </section>
+
+    <section class="lib-section lib-section-compact reveal" id="knowledge">
+      <div class="container"><div class="section-head"><h2>Knowledge</h2><span class="num">06</span></div><p class="lib-section-intro">Foundational reference material for understanding cashmere, its history, terminology and fibre characteristics.</p></div>
+    </section>'''
+          assert old in s
+          s=s.replace(old,new,1)
+
+          for marker in ['<section class="lib-section reveal" id="glossary">','<section class="lib-section reveal" id="history">','<section class="lib-section reveal" id="sources">','<section class="lib-section reveal" id="comparison" style="border-bottom:none;">']:
+              assert marker in s
+          s=s.replace('<section class="lib-section reveal" id="glossary">','<section class="lib-section lib-knowledge-detail reveal" id="glossary">',1)
+          s=s.replace('<section class="lib-section reveal" id="history">','<section class="lib-section lib-knowledge-detail reveal" id="history">',1)
+          s=s.replace('<section class="lib-section reveal" id="sources">','<section class="lib-section lib-knowledge-detail reveal" id="sources">',1)
+          s=s.replace('<section class="lib-section reveal" id="comparison" style="border-bottom:none;">','<section class="lib-section lib-knowledge-detail reveal" id="comparison" style="border-bottom:none;">',1)
+          p.write_text(s)
+
+          p=Path('css/library.css')
+          s=p.read_text()
+          addition='''\n/* ---------- Library directory ---------- */\n.lib-directory{\n  display:grid;\n  grid-template-columns:repeat(3,minmax(0,1fr));\n  gap:1px;\n  background:var(--line);\n  border-top:1px solid var(--line);\n  border-bottom:1px solid var(--line);\n}\n.lib-card{\n  display:flex;\n  gap:18px;\n  min-height:132px;\n  padding:24px 22px;\n  background:var(--fiber);\n  transition:background .18s ease,transform .18s ease;\n}\n.lib-card:hover{background:#eee9dc;transform:translateY(-1px)}\n.lib-card-num{font:400 10px/1.4 'IBM Plex Mono',monospace;color:var(--madder);padding-top:3px}\n.lib-card strong{display:block;font-family:'Fraunces',serif;font-weight:500;font-size:18px;line-height:1.2;margin-bottom:8px}\n.lib-card small{display:block;font-size:13px;line-height:1.5;color:var(--ink-soft);max-width:28ch}\n.lib-section-compact{padding:46px 0}\n.lib-section-intro{max-width:70ch;color:var(--ink-soft);font-size:15px;line-height:1.7;margin-bottom:24px}\n.lib-resource-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}\n.lib-resource{display:flex;flex-direction:column;gap:7px;min-height:150px;padding:22px;background:var(--fiber)}\n.lib-resource:hover{background:#eee9dc}\n.lib-resource strong{font-family:'Fraunces',serif;font-weight:500;font-size:17px;line-height:1.25}\n.lib-resource span{font-size:13px;line-height:1.5;color:var(--ink-soft)}\n.lib-resource em{margin-top:auto;font:400 9px/1.3 'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:.05em;color:var(--madder);font-style:normal}\n.lib-knowledge-detail{scroll-margin-top:20px}\n\n/* ---------- Library dropdown ---------- */\n.nav-dropdown{position:relative}\n.nav-dropdown-toggle{display:inline-flex!important;align-items:center;gap:7px}\n.nav-dropdown-toggle span{font-size:12px;line-height:1;transform:translateY(-1px)}\n.nav-dropdown-menu{display:none;position:absolute;right:0;top:100%;padding-top:8px;min-width:245px;z-index:20}\n.nav-dropdown-menu::before{content:"";position:absolute;top:8px;left:0;right:0;bottom:0;background:var(--indigo-deep);border:1px solid rgba(234,227,211,.18);box-shadow:0 12px 28px rgba(33,37,42,.16)}\n.nav-dropdown-menu a{position:relative;display:block!important;background:transparent!important;border:0!important;color:var(--fiber)!important;padding:10px 14px!important;font-size:10px!important;white-space:nowrap}\n.nav-dropdown-menu a:hover{background:var(--indigo)!important}\n.nav-dropdown:hover .nav-dropdown-menu,.nav-dropdown:focus-within .nav-dropdown-menu{display:block}\n\n@media (max-width: 900px){\n  .lib-directory{grid-template-columns:repeat(2,minmax(0,1fr))}\n  .lib-resource-grid{grid-template-columns:1fr 1fr}\n}\n@media (max-width: 700px){\n  .lib-directory,.lib-resource-grid{grid-template-columns:1fr}\n  .nav-dropdown-menu{left:0;right:auto}\n}\n'''
+          s += addition
+          p.write_text(s)
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add library.html css/library.css
+          git commit -m 'Create structured Library categories and dropdown'
+          git push
