@@ -10,10 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Inspect exact data snippets
+      - name: Extract data snippets
         run: |
-          grep -o '.\{0,120\}17589.\{0,1200\}' supply-chain.html > production-snippet.txt || true
-          grep -o '.\{0,120\}<td>Afghanistan</td>.\{0,1800\}' library.html > library-snippet.txt || true
+          python -c "from pathlib import Path; s=Path('supply-chain.html').read_text(); i=s.find('17589'); Path('production-snippet.txt').write_text(s[max(0,i-300):i+1500] if i>=0 else '17589 not found')"
+          python -c "from pathlib import Path; s=Path('library.html').read_text(); i=s.find('<td>Afghanistan</td>'); Path('library-snippet.txt').write_text(s[max(0,i-300):i+2200] if i>=0 else 'Afghanistan not found')"
       - name: Commit inspection
         run: |
           git config user.name 'github-actions[bot]'
