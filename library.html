@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="The Cashmere Library — glossary, history of pashmina and cashmere, sourcing notes, and a fibre comparison reference.">
+  <meta name="description" content="The Cashmere Library — a curated research and reference library for cashmere supply chains, data, standards, case studies and digital transformation.">
   <title>Library | Cashmere Futures</title>
   <link rel="canonical" href="https://cashmerefutures.com/library.html">
   <meta name="theme-color" content="#263846">
@@ -13,12 +13,12 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Cashmere Futures">
   <meta property="og:title" content="Library | Cashmere Futures">
-  <meta property="og:description" content="Glossary, history of pashmina and cashmere, sourcing notes, and a fibre comparison reference.">
+  <meta property="og:description" content="A curated research and reference library for cashmere supply chains, data, standards, case studies and digital transformation.">
   <meta property="og:url" content="https://cashmerefutures.com/library.html">
   <meta property="og:image" content="https://cashmerefutures.com/assets/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Library | Cashmere Futures">
-  <meta name="twitter:description" content="Glossary, history of pashmina and cashmere, sourcing notes, and a fibre comparison reference.">
+  <meta name="twitter:description" content="A curated research and reference library for cashmere supply chains, data, standards, case studies and digital transformation.">
   <meta name="twitter:image" content="https://cashmerefutures.com/assets/og-image.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -38,7 +38,17 @@
         <a href="supply-chain.html">Supply Chain</a>
         <a href="communities.html">Communities</a>
         <a href="sdg-hub.html">Cashmere-SDG Hub</a>
-        <a href="library.html" aria-current="page">Library</a>
+        <div class="nav-dropdown">
+          <a href="library.html" aria-current="page" class="nav-dropdown-toggle">Library <span aria-hidden="true">⌄</span></a>
+          <div class="nav-dropdown-menu">
+            <a href="library.html#data-statistics">Data &amp; Statistics</a>
+            <a href="library.html#research-reports">Research &amp; Reports</a>
+            <a href="library.html#standards-frameworks">Standards &amp; Frameworks</a>
+            <a href="library.html#case-studies">Case Studies</a>
+            <a href="library.html#ai-digital">AI &amp; Digital Transformation</a>
+            <a href="library.html#knowledge">Knowledge</a>
+          </div>
+        </div>
       </nav>
     </div>
     <div class="container">
@@ -60,13 +70,9 @@
             <div class="tick minor"><span class="bar"></span></div>
             <div class="tick major"><span class="bar"></span><span class="lbl">20μ+</span></div>
           </div>
-          <div class="scale-handle" id="scale-handle" role="slider" tabindex="0"
-               aria-label="Cashmere fibre fineness, in microns"
-               aria-valuemin="14" aria-valuemax="20" aria-valuenow="15.5"></div>
+          <div class="scale-handle" id="scale-handle" role="slider" tabindex="0" aria-label="Cashmere fibre fineness, in microns" aria-valuemin="14" aria-valuemax="20" aria-valuenow="15.5"></div>
         </div>
-        <p class="scale-caption" id="scale-caption">
-          <span class="value" id="scale-value">15.5μ</span> — <span id="scale-grade">Grade A</span>, <span id="scale-use">luxury knitwear</span> · <strong id="scale-hair">~5.8× finer than a human hair (≈90μ)</strong>
-        </p>
+        <p class="scale-caption" id="scale-caption"><span class="value" id="scale-value">15.5μ</span> — <span id="scale-grade">Grade A</span>, <span id="scale-use">luxury knitwear</span> · <strong id="scale-hair">~5.8× finer than a human hair (≈90μ)</strong></p>
       </div>
     </div>
   </header>
@@ -79,139 +85,137 @@
           <h1>A place to look things up.</h1>
         </div>
         <div class="hero-side">
-          <p class="hero-intro">Terms, history, and reference data behind everything else on this site — the definitions, the sourcing, and the numbers, gathered in one place.</p>
+          <p class="hero-intro">A curated knowledge base for understanding cashmere supply chains, sustainability, traceability and transformation — with evidence, data and reference material gathered in one place.</p>
         </div>
       </div>
     </section>
 
-    <nav class="container lib-toc" aria-label="Library sections">
-      <a href="#glossary">Glossary</a>
-      <a href="#history">History</a>
-      <a href="#sources">Sources &amp; Further Reading</a>
-      <a href="#comparison">Fibre Comparison</a>
-    </nav>
+    <section class="container lib-directory" aria-label="Library categories">
+      <a class="lib-card" href="#data-statistics"><span class="lib-card-num">01</span><span><strong>Data &amp; Statistics</strong><small>Production, trade, fibre and sustainability data.</small></span></a>
+      <a class="lib-card" href="#research-reports"><span class="lib-card-num">02</span><span><strong>Research &amp; Reports</strong><small>Peer-reviewed research, industry and institutional reports.</small></span></a>
+      <a class="lib-card" href="#standards-frameworks"><span class="lib-card-num">03</span><span><strong>Standards &amp; Frameworks</strong><small>Standards, traceability, sustainability and certification.</small></span></a>
+      <a class="lib-card" href="#case-studies"><span class="lib-card-num">04</span><span><strong>Case Studies</strong><small>Places, practices and supply-chain transformations.</small></span></a>
+      <a class="lib-card" href="#ai-digital"><span class="lib-card-num">05</span><span><strong>AI &amp; Digital Transformation</strong><small>AI, data, traceability and emerging technologies.</small></span></a>
+      <a class="lib-card" href="#knowledge"><span class="lib-card-num">06</span><span><strong>Knowledge</strong><small>Glossary, history, fibre references and further reading.</small></span></a>
+    </section>
 
-    <section class="lib-section reveal" id="glossary">
+    <section class="lib-section lib-section-compact reveal" id="data-statistics">
       <div class="container">
-        <div class="section-head">
-          <h2>Glossary</h2>
-          <span class="num">A–Z</span>
+        <div class="section-head"><h2>Data &amp; Statistics</h2><span class="num">01</span></div>
+        <p class="lib-section-intro">A research-oriented collection of publicly available secondary data. Every published figure will retain its source, year, unit, data status and methodological qualification.</p>
+        <div class="lib-resource-grid">
+          <a class="lib-resource" href="#data-statistics"><strong>Global Cashmere Production</strong><span>Country-level production and historical series.</span><em>Coming first</em></a>
+          <a class="lib-resource" href="#data-statistics"><strong>International Trade</strong><span>Exports, imports, quantities and trade values.</span><em>Planned</em></a>
+          <a class="lib-resource" href="#data-statistics"><strong>Fibre &amp; Market Data</strong><span>Fibre characteristics, prices and market indicators.</span><em>Planned</em></a>
+          <a class="lib-resource" href="#data-statistics"><strong>Sustainability Indicators</strong><span>Publicly reported environmental and social indicators.</span><em>Planned</em></a>
         </div>
+      </div>
+    </section>
+
+    <section class="lib-section lib-section-compact reveal" id="research-reports">
+      <div class="container">
+        <div class="section-head"><h2>Research &amp; Reports</h2><span class="num">02</span></div>
+        <p class="lib-section-intro">A curated evidence base of peer-reviewed research, government publications, industry reports and institutional studies.</p>
+        <div class="lib-resource-grid">
+          <a class="lib-resource" href="#research-reports"><strong>Peer-Reviewed Research</strong><span>Academic literature relevant to cashmere and luxury supply chains.</span><em>Planned</em></a>
+          <a class="lib-resource" href="#research-reports"><strong>Industry Reports</strong><span>Market and sector reports with identifiable provenance.</span><em>Planned</em></a>
+          <a class="lib-resource" href="#research-reports"><strong>Government &amp; Institutional Reports</strong><span>Public reports from recognised institutions and agencies.</span><em>Planned</em></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="lib-section lib-section-compact reveal" id="standards-frameworks">
+      <div class="container">
+        <div class="section-head"><h2>Standards &amp; Frameworks</h2><span class="num">03</span></div>
+        <p class="lib-section-intro">A reference point for standards, certification, traceability, responsible sourcing and geographical indications.</p>
+        <div class="lib-resource-grid">
+          <a class="lib-resource" href="#standards-frameworks"><strong>Cashmere Standards</strong><span>Fibre, quality and product standards.</span><em>Planned</em></a>
+          <a class="lib-resource" href="#standards-frameworks"><strong>Sustainability &amp; Animal Welfare</strong><span>Environmental, social and animal-welfare frameworks.</span><em>Planned</em></a>
+          <a class="lib-resource" href="#standards-frameworks"><strong>Traceability &amp; GI</strong><span>Chain-of-custody and geographical-indication resources.</span><em>Planned</em></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="lib-section lib-section-compact reveal" id="case-studies">
+      <div class="container">
+        <div class="section-head"><h2>Case Studies</h2><span class="num">04</span></div>
+        <p class="lib-section-intro">Focused evidence on producing regions, artisan communities and supply-chain practices.</p>
+        <div class="lib-resource-grid">
+          <a class="lib-resource" href="#case-studies"><strong>Kashmir</strong><span>Traditional pashmina, artisan production and GI protection.</span><em>Planned</em></a>
+          <a class="lib-resource" href="#case-studies"><strong>Mongolia &amp; China</strong><span>Major production systems and market transformation.</span><em>Planned</em></a>
+          <a class="lib-resource" href="#case-studies"><strong>Other Producing Regions</strong><span>Comparative cases across the Global South and beyond.</span><em>Planned</em></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="lib-section lib-section-compact reveal" id="ai-digital">
+      <div class="container">
+        <div class="section-head"><h2>AI &amp; Digital Transformation</h2><span class="num">05</span></div>
+        <p class="lib-section-intro">A forward-looking collection on how data and emerging technologies can transform cashmere supply chains.</p>
+        <div class="lib-resource-grid">
+          <a class="lib-resource" href="#ai-digital"><strong>AI &amp; Analytics</strong><span>Applications of AI, machine learning and data analytics.</span><em>Planned</em></a>
+          <a class="lib-resource" href="#ai-digital"><strong>Digital Traceability</strong><span>Digital product passports, blockchain and chain-of-custody systems.</span><em>Planned</em></a>
+          <a class="lib-resource" href="#ai-digital"><strong>Data Requirements</strong><span>What information is needed for credible digital transformation.</span><em>Planned</em></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="lib-section lib-section-compact reveal" id="knowledge">
+      <div class="container"><div class="section-head"><h2>Knowledge</h2><span class="num">06</span></div><p class="lib-section-intro">Foundational reference material for understanding cashmere, its history, terminology and fibre characteristics.</p></div>
+    </section>
+
+    <section class="lib-section lib-knowledge-detail reveal" id="glossary">
+      <div class="container"><div class="section-head"><h2>Glossary</h2><span class="num">A–Z</span></div>
         <dl class="lib-glossary">
-          <dt>Micron (μ)</dt>
-          <dd>A unit of fibre diameter — one micron is one-millionth of a metre. Cashmere is graded largely by micron count; finer fibre (lower number) is more valuable and softer.</dd>
-
-          <dt>Dehairing</dt>
-          <dd>The process of mechanically separating a goat's fine, soft down from the coarser "guard hairs" that protect its outer coat. A technically demanding step — damaging the down here lowers value for everything downstream.</dd>
-
-          <dt>Staple length</dt>
-          <dd>The length of an individual fibre. Along with micron, it's one of the two main measurements used to grade raw cashmere.</dd>
-
-          <dt>GI (Geographical Indication)</dt>
-          <dd>A legal protection tying a product's name to a specific place and production method — so, for example, only pashmina genuinely hand-spun and hand-woven in Kashmir from qualifying fibre can carry that GI-protected designation.</dd>
-
-          <dt>Kani weave</dt>
-          <dd>A Kashmiri weaving technique, originating in the village of Kanihama, where the pattern is woven directly into the cloth using small eyeless wooden bobbins called kanis — rather than embroidered on afterward.</dd>
-
-          <dt>Yinder</dt>
-          <dd>A traditional wooden spinning wheel used in Kashmir to hand-spin cleaned pashm fibre into yarn — a slow method, producing only around 50 grams of thread per spinner per month.</dd>
-
-          <dt>Sozni</dt>
-          <dd>A fine Kashmiri needle-and-thread embroidery technique, sometimes used to further decorate a finished hand-woven shawl.</dd>
-
-          <dt>Grade A / B / C</dt>
-          <dd>Common industry shorthand for cashmere quality tiers, roughly: Grade A (≈14–16.5μ, finest, luxury knitwear), Grade B (≈16.5–19μ, soft everyday wear), Grade C (≈19μ+, coarser, outerwear and blankets). These bands vary somewhat by source rather than being a single universal standard.</dd>
-
-          <dt>Moulting / combing</dt>
-          <dd>Cashmere goats shed their soft winter undercoat naturally each spring. Herders comb this out by hand during the few-week moulting window — gentler than shearing, and generally considered better for fibre quality.</dd>
-
-          <dt>Pashmina</dt>
-          <dd>Originally, the specific fine cashmere from goats raised in the Himalayan region (particularly Ladakh's Changthangi goats) and hand-woven in Kashmir. Often used more loosely today as a synonym for "fine cashmere shawl."</dd>
-
-          <dt>Changthangi / Chyangra goat</dt>
-          <dd>The high-altitude cashmere goat breeds behind two of the finest fibres in the world — Changthangi in Ladakh (India) and Chyangra in Nepal's high Himalayan districts.</dd>
-
-          <dt>Paisley (boteh)</dt>
-          <dd>The swirling teardrop motif associated with Kashmiri shawls. The name "paisley" actually comes from Paisley, Scotland — a mill town that mass-produced machine-woven imitations of the pattern in the 19th century.</dd>
+          <dt>Micron (μ)</dt><dd>A unit of fibre diameter — one micron is one-millionth of a metre. Cashmere is graded largely by micron count; finer fibre (lower number) is more valuable and softer.</dd>
+          <dt>Dehairing</dt><dd>The process of mechanically separating a goat's fine, soft down from the coarser "guard hairs" that protect its outer coat. A technically demanding step — damaging the down here lowers value for everything downstream.</dd>
+          <dt>Staple length</dt><dd>The length of an individual fibre. Along with micron, it's one of the two main measurements used to grade raw cashmere.</dd>
+          <dt>GI (Geographical Indication)</dt><dd>A legal protection tying a product's name to a specific place and production method — so, for example, only pashmina genuinely hand-spun and hand-woven in Kashmir from qualifying fibre can carry that GI-protected designation.</dd>
+          <dt>Kani weave</dt><dd>A Kashmiri weaving technique, originating in the village of Kanihama, where the pattern is woven directly into the cloth using small eyeless wooden bobbins called kanis — rather than embroidered on afterward.</dd>
+          <dt>Yinder</dt><dd>A traditional wooden spinning wheel used in Kashmir to hand-spin cleaned pashm fibre into yarn — a slow method, producing only around 50 grams of thread per spinner per month.</dd>
+          <dt>Sozni</dt><dd>A fine Kashmiri needle-and-thread embroidery technique, sometimes used to further decorate a finished hand-woven shawl.</dd>
+          <dt>Grade A / B / C</dt><dd>Common industry shorthand for cashmere quality tiers, roughly: Grade A (≈14–16.5μ, finest, luxury knitwear), Grade B (≈16.5–19μ, soft everyday wear), Grade C (≈19μ+, coarser, outerwear and blankets). These bands vary somewhat by source rather than being a single universal standard.</dd>
+          <dt>Moulting / combing</dt><dd>Cashmere goats shed their soft winter undercoat naturally each spring. Herders comb this out by hand during the few-week moulting window — gentler than shearing, and generally considered better for fibre quality.</dd>
+          <dt>Pashmina</dt><dd>Originally, the specific fine cashmere from goats raised in the Himalayan region (particularly Ladakh's Changthangi goats) and hand-woven in Kashmir. Often used more loosely today as a synonym for "fine cashmere shawl."</dd>
+          <dt>Changthangi / Chyangra goat</dt><dd>The high-altitude cashmere goat breeds behind two of the finest fibres in the world — Changthangi in Ladakh (India) and Chyangra in Nepal's high Himalayan districts.</dd>
+          <dt>Paisley (boteh)</dt><dd>The swirling teardrop motif associated with Kashmiri shawls. The name "paisley" actually comes from Paisley, Scotland — a mill town that mass-produced machine-woven imitations of the pattern in the 19th century.</dd>
         </dl>
       </div>
     </section>
 
-    <section class="lib-section reveal" id="history">
-      <div class="container">
-        <div class="section-head">
-          <h2>A Brief History of Pashmina &amp; Cashmere</h2>
-          <span class="num">15th century — today</span>
-        </div>
-        <div class="lib-history-body">
-          <p>The craft's documented roots trace to the 15th century, when Kashmir's Sultan Zain-ul-Abidin is credited with inviting Persian weavers into the valley, fusing Central Asian tribal weaving with Persian tapestry techniques into what would become the Kani shawl tradition. By the 16th century, under Mughal patronage — particularly Emperor Akbar, said to have called the fabric <em>parm narm</em>, "extremely soft" — pashmina had become a fixture of court life: gifted as robes of honour, woven into diplomacy, and used in royal ceremony. Certain designs were even named after the rulers who favoured them.</p>
-          <p>Europe's fascination arrived later, and it arrived through conquest and trade. Napoleon Bonaparte brought Kashmiri shawls back from his Egyptian campaign at the turn of the 19th century, and Empress Joséphine's enthusiasm for them — she is said to have owned close to 200 — helped ignite a craze across French and British high society. The East India Company's returning employees carried shawls home to Britain around the same period. The French, struggling with the word "Kashmir," rendered it as "cashmere" — the name that stuck in the West ever since.</p>
-          <p>European demand outpaced what Kashmir's artisans could hand-produce, so mills in Europe — most famously in Paisley, Scotland — began mass-producing machine-woven imitations of the shawl's swirling boteh motif. That town lent its name to the pattern the world still calls "paisley" today. Industrialisation made the imitation cheap and the original increasingly rare, and the handmade craft went into a long decline through the 19th and 20th centuries. Its revival in recent decades has leaned on exactly the kind of protection this platform tries to support: Geographical Indication status, provenance certification, and a market slowly relearning to pay for verified handwork rather than the version mass-produced in its name.</p>
-        </div>
-      </div>
+    <section class="lib-section lib-knowledge-detail reveal" id="history">
+      <div class="container"><div class="section-head"><h2>A Brief History of Pashmina &amp; Cashmere</h2><span class="num">15th century — today</span></div><div class="lib-history-body">
+        <p>The craft's documented roots trace to the 15th century, when Kashmir's Sultan Zain-ul-Abidin is credited with inviting Persian weavers into the valley, fusing Central Asian tribal weaving with Persian tapestry techniques into what would become the Kani shawl tradition. By the 16th century, under Mughal patronage — particularly Emperor Akbar, said to have called the fabric <em>parm narm</em>, "extremely soft" — pashmina had become a fixture of court life: gifted as robes of honour, woven into diplomacy, and used in royal ceremony. Certain designs were even named after the rulers who favoured them.</p>
+        <p>Europe's fascination arrived later, and it arrived through conquest and trade. Napoleon Bonaparte brought Kashmiri shawls back from his Egyptian campaign at the turn of the 19th century, and Empress Joséphine's enthusiasm for them — she is said to have owned close to 200 — helped ignite a craze across French and British high society. The East India Company's returning employees carried shawls home to Britain around the same period. The French, struggling with the word "Kashmir," rendered it as "cashmere" — the name that stuck in the West ever since.</p>
+        <p>European demand outpaced what Kashmir's artisans could hand-produce, so mills in Europe — most famously in Paisley, Scotland — began mass-producing machine-woven imitations of the shawl's swirling boteh motif. That town lent its name to the pattern the world still calls "paisley" today. Industrialisation made the imitation cheap and the original increasingly rare, and the handmade craft went into a long decline through the 19th and 20th centuries. Its revival in recent decades has leaned on exactly the kind of protection this platform tries to support: Geographical Indication status, provenance certification, and a market slowly relearning to pay for verified handwork rather than the version mass-produced in its name.</p>
+      </div></div>
     </section>
 
-    <section class="lib-section reveal" id="sources">
-      <div class="container">
-        <div class="section-head">
-          <h2>Sources &amp; Further Reading</h2>
-          <span class="num">Methodology</span>
-        </div>
-        <div class="lib-history-body">
-          <p>Facts on this site — production figures, historical dates, craft-process details — are drawn from a mix of industry overviews and trade reporting (including production estimates cited from sources such as USAID-linked reporting on cashmere-producing regions), Geographical Indication registration records (for Kashmir's Pashmina GI and Nepal's Chyangra Pashmina trademark), and historical accounts of the Mughal court, the East India Company era, and early-19th-century European trade.</p>
-          <p>Where sources disagree — which happens often with production-share estimates and some historical dates — we favour hedged, approximate language ("around," "commonly cited as") over false precision, and we cross-reference multiple independent sources before stating something as established rather than relying on a single claim.</p>
-          <p>This is an evolving practice, not a finished one. If you know of a source that would sharpen or correct anything on this site, we'd genuinely like to hear about it — <a href="collaborate.html">get in touch</a>.</p>
-        </div>
-      </div>
+    <section class="lib-section lib-knowledge-detail reveal" id="sources">
+      <div class="container"><div class="section-head"><h2>Sources &amp; Further Reading</h2><span class="num">Methodology</span></div><div class="lib-history-body">
+        <p>Facts on this site — production figures, historical dates, craft-process details — are drawn from a mix of industry overviews and trade reporting, Geographical Indication registration records, and historical accounts. As the Library develops, each data resource will identify its original public source and any methodological qualification.</p>
+        <p>Where sources disagree — which happens often with production-share estimates and some historical dates — we favour hedged, approximate language ("around," "commonly cited as") over false precision, and we cross-reference multiple independent sources before stating something as established rather than relying on a single claim.</p>
+        <p>This is an evolving practice, not a finished one. If you know of a source that would sharpen or correct anything on this site, we'd genuinely like to hear about it — <a href="collaborate.html">get in touch</a>.</p>
+      </div></div>
     </section>
 
-    <section class="lib-section reveal" id="comparison" style="border-bottom:none;">
-      <div class="container">
-        <div class="section-head">
-          <h2>Fibre Comparison Reference</h2>
-          <span class="num">By micron</span>
-        </div>
-        <table class="lib-table">
-          <thead>
-            <tr><th>Fibre</th><th>Typical range (microns)</th><th>Source animal</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>Cashmere</td><td>14–20μ</td><td>Cashmere goat</td></tr>
-            <tr><td>Merino wool</td><td>~11–24μ</td><td>Merino sheep</td></tr>
-            <tr><td>Mohair</td><td>25–45μ</td><td>Angora goat</td></tr>
-            <tr><td>Angora (fibre)</td><td>~12–16μ</td><td>Angora rabbit</td></tr>
-            <tr><td>Human hair</td><td>≈90μ (average)</td><td>—</td></tr>
-          </tbody>
-        </table>
+    <section class="lib-section lib-knowledge-detail reveal" id="comparison" style="border-bottom:none;">
+      <div class="container"><div class="section-head"><h2>Fibre Comparison Reference</h2><span class="num">By micron</span></div>
+        <table class="lib-table"><thead><tr><th>Fibre</th><th>Typical range (microns)</th><th>Source animal</th></tr></thead><tbody>
+          <tr><td>Cashmere</td><td>14–20μ</td><td>Cashmere goat</td></tr>
+          <tr><td>Merino wool</td><td>~11–24μ</td><td>Merino sheep</td></tr>
+          <tr><td>Mohair</td><td>25–45μ</td><td>Angora goat</td></tr>
+          <tr><td>Angora (fibre)</td><td>~12–16μ</td><td>Angora rabbit</td></tr>
+          <tr><td>Human hair</td><td>≈90μ (average)</td><td>—</td></tr>
+        </tbody></table>
         <p class="lib-table-note">Ranges are approximate and vary by source, breed, and individual animal — see the interactive scale at the top of this page for how cashmere's own grading works in practice.</p>
       </div>
     </section>
 
-    <section class="cta reveal">
-      <div class="container cta-grid">
-        <div>
-          <h2>Something missing, or worth adding?</h2>
-          <p>This library will keep growing. If there's a term, a source, or a comparison you think belongs here, let us know.</p>
-        </div>
-        <div class="cta-actions">
-          <a href="collaborate.html" class="btn primary">Collaborate with us →</a>
-        </div>
-      </div>
-    </section>
+    <section class="cta reveal"><div class="container cta-grid"><div><h2>Something missing, or worth adding?</h2><p>This library will keep growing. If there's a term, a source, or a comparison you think belongs here, let us know.</p></div><div class="cta-actions"><a href="collaborate.html" class="btn primary">Collaborate with us →</a></div></div></section>
   </main>
 
-  <footer class="site-footer">
-    <div class="container foot-row">
-      <p><strong>Cashmere Futures</strong> · Cashmere Futures Lab (CFL)</p>
-      <div class="foot-links">
-        <a href="about.html">About</a>
-        <a href="map.html">Global Map</a>
-        <a href="collaborate.html">Collaborate</a>
-        <a href="privacy.html">Privacy</a>
-      </div>
-    </div>
-  </footer>
-
+  <footer class="site-footer"><div class="container foot-row"><p><strong>Cashmere Futures</strong> · Cashmere Futures Lab (CFL)</p><div class="foot-links"><a href="about.html">About</a><a href="map.html">Global Map</a><a href="collaborate.html">Collaborate</a><a href="privacy.html">Privacy</a></div></div></footer>
   <script src="js/micron-scale.js"></script>
   <script src="js/reveal.js"></script>
   <script src="js/script.js"></script>
