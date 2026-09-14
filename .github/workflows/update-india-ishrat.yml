@@ -1,0 +1,33 @@
+name: Update India cashmere citation
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Update India row
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('library.html')
+          s = p.read_text(encoding='utf-8')
+          old = '''        <tr><td>India</td><td>2013–14</td><td>50</td><td>tonnes/year</td><td><em>Cashmere producing smallholder nomads of Himalaya: Survival challenges of a system</em></td><td>Peer-reviewed regional/secondary production estimate</td><td>India's pashmina production is reported at about 50 tonnes/year, with Changthangi contributing approximately 90%. Historical regional pashmina figure; not a current comprehensive national cashmere series.</td></tr>'''
+          new = '''        <tr><td>India</td><td>2018 (historical benchmark)</td><td>70</td><td>tonnes/year</td><td>Ishrat, Grigg, Jayamaha &amp; Pulakanam (2018), <em>Cashmere Industry: Value Chains and Sustainability</em>, Figure 1.1</td><td>Published scholarly source / historical benchmark</td><td>Figure 1.1 presents India at approximately 70 tonnes per annum as a historical production benchmark and cites multiple underlying sources. Ishrat et al. (2020) subsequently confirms that India's contribution to global cashmere production is significantly smaller than that of China and Mongolia. This should not be interpreted as a current official national statistic.</td></tr>'''
+          if old not in s:
+              raise SystemExit('Target India row not found; no change made.')
+          p.write_text(s.replace(old, new, 1), encoding='utf-8')
+          PY
+      - name: Commit and remove workflow
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add library.html
+          git diff --cached --quiet || git commit -m "Cite Ishrat et al. for India cashmere production"
+          git push
+          rm .github/workflows/update-india-ishrat.yml
+          git add .github/workflows/update-india-ishrat.yml
+          git commit -m "Remove temporary update workflow"
+          git push
