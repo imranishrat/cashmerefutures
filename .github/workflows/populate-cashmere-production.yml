@@ -31,7 +31,7 @@ jobs:
               </table>
             </div>
             <p class="data-note"><strong>Data integrity note.</strong> Historical or country figures from older secondary literature, including figures previously displayed on the Supply Chain map, have not been carried forward where a current, traceable source could not be established. In particular, the previously displayed figures for Afghanistan, Iran, India, Pakistan, Kazakhstan, Kyrgyzstan, Turkey, Nepal, Uzbekistan and New Zealand are excluded from this initial dataset pending source verification. No estimate has been substituted for a missing observation.</p>
-            <p class="data-note"><strong>Global reference.</strong> Textile Exchange reports approximately 25,611 tonnes of greasy cashmere fibre produced globally in 2023, with China accounting for 17,589 tonnes (69%). This global figure is retained as a contextual benchmark, not as the sum of the country rows above, because the country-level evidence available here is not yet complete. </p>
+            <p class="data-note"><strong>Global reference.</strong> Textile Exchange reports approximately 25,611 tonnes of greasy cashmere fibre produced globally in 2023, with China accounting for 17,589 tonnes (69%). This global figure is retained as a contextual benchmark, not as the sum of the country rows above, because the country-level evidence available here is not yet complete.</p>
           </div>'''
           assert old in s
           s=s.replace(old,new,1)
