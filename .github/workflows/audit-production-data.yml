@@ -6,63 +6,18 @@ on:
 permissions:
   contents: write
 jobs:
-  update:
+  inspect:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Update audited production data
+      - name: Inspect production data
         run: |
-          python - <<'PY'
-          from pathlib import Path
-          import re
-
-          p = Path('supply-chain.html')
-          s = p.read_text(encoding='utf-8')
-          start = s.find('const production={')
-          end = s.find('};', start)
-          if start < 0 or end < 0:
-              raise SystemExit('production object not found')
-          new = """const production={
-  'China':{v:17589,label:'17,589 t',basis:'2023'},
-  'Mongolia':{v:10500,label:'~10,500 t',basis:'2023'},
-  'Afghanistan':{v:1000,label:'~1,000 t',basis:'2015 estimate'},
-  'Iran':{v:2000,label:'~2,000 t',basis:'2014 estimate'},
-  'India':{v:50,label:'50 t',basis:'2013–14 estimate'},
-  'Kazakhstan':{v:null,label:'Not quantified',basis:'no adequately substantiated production total'},
-  'Kyrgyzstan':{v:null,label:'Not quantified',basis:'no adequately substantiated production total'},
-  'Pakistan':{v:null,label:'Not substantiated',basis:'recent official data do not disaggregate cashmere'},
-  'Turkey':{v:null,label:'Not quantified',basis:'no adequately substantiated production total'},
-  'Nepal':{v:null,label:'Not quantified',basis:'no adequately substantiated production total'},
-  'Uzbekistan':{v:null,label:'Not quantified',basis:'no adequately substantiated production total'},
-  'New Zealand':{v:null,label:'Not quantified',basis:'no adequately substantiated production total'}
-};"""
-          s = s[:start] + new + s[end+2:]
-          p.write_text(s, encoding='utf-8')
-
-          p = Path('library.html')
-          s = p.read_text(encoding='utf-8')
-          if '<td>Iran</td><td>2014</td>' not in s:
-              marker = '<td>Afghanistan</td>'
-              a = s.find(marker)
-              if a < 0:
-                  raise SystemExit('Afghanistan row not found')
-              row_start = s.rfind('<tr>', 0, a)
-              row_end = s.find('</tr>', a)
-              if row_start < 0 or row_end < 0:
-                  raise SystemExit('Afghanistan row boundaries not found')
-              row_end += 5
-              rows = '''
-        <tr><td>Iran</td><td>2014</td><td>~2,000</td><td>tonnes/year</td><td>Ansari-Renani, <em>A Value Chain and Marketing of Iranian Cashmere</em>, Media Peternakan 37(1), 2014</td><td>Peer-reviewed published estimate</td><td>The exact quantity is stated as unknown; the study estimates that about 5 million cashmere goats produce approximately 2,000 tonnes of raw cashmere annually. Historical estimate, not an official national statistic.</td></tr>
-        <tr><td>India</td><td>2013–14</td><td>50</td><td>tonnes/year</td><td><em>Cashmere producing smallholder nomads of Himalaya: Survival challenges of a system</em></td><td>Peer-reviewed regional/secondary production estimate</td><td>India's pashmina production is reported at about 50 tonnes/year, with Changthangi contributing approximately 90%. Historical regional pashmina figure; not a current comprehensive national cashmere series.</td></tr>'''
-              s = s[:row_end] + rows + s[row_end:]
-              p.write_text(s, encoding='utf-8')
-          PY
-      - name: Commit audited data and remove temporary workflow
+          grep -n -A18 -B2 "production" supply-chain.html > production-inspection.txt || true
+          grep -n -A12 -B2 "Afghanistan" library.html > library-inspection.txt || true
+      - name: Commit inspection
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add supply-chain.html library.html
-          git commit -m 'Update cashmere production data from audited sources'
-          git rm .github/workflows/audit-production-data.yml
-          git commit -m 'Remove temporary production audit workflow'
+          git add production-inspection.txt library-inspection.txt
+          git commit -m 'Inspect production data structure'
           git push
