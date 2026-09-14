@@ -1,0 +1,30 @@
+name: Fix map legend position
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  fix:
+    if: github.event.head_commit.message != 'Fix map legend position inside map'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fix legend CSS
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('supply-chain.html')
+          s=p.read_text()
+          s=s.replace('right:8px;top:16px;bottom:auto;left:auto;transform:none;z-index:4','right:8px;top:16px;bottom:auto;left:auto;transform:none;z-index:4')
+          # Ensure the legend is positioned relative to the map container, not the page.
+          s=s.replace('.cashmere-map{position:relative;', '.cashmere-map{position:relative;')
+          p.write_text(s)
+          PY
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add supply-chain.html
+          git diff --cached --quiet || git commit -m 'Fix map legend position inside map'
+          git push
