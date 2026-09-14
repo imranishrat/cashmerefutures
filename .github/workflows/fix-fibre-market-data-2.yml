@@ -1,0 +1,52 @@
+name: Fix fibre market data 2
+on:
+  push:
+    paths:
+      - '.github/workflows/fix-fibre-market-data-2.yml'
+permissions:
+  contents: write
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Replace fibre block
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('library.html')
+          s = p.read_text()
+          start = s.index('          <liv class="lib-resource lib-resource-wide">')
+          end = s.index('          <a class="lib-resource" href="#data-statistics"><strong>Sustainability Indicators</strong>', start)
+          block = '''          <div class="lib-resource lib-resource-wide">
+  <strong>Fibre &amp; Market Data</strong>
+  <span>Audited fibre-quality and market indicators, kept separate from production and trade data. Where processing yield or price data are context-dependent, the source and qualification are preserved.</span>
+  <div class="data-table-wrap">
+    <table class="data-table">
+      <caption>Published cashmere fibre and market observations with identifiable provenance</caption>
+      <thead><tr><th>Data area</th><th>Year/Period</th><th>Indicator</th><th>Value</th><th>Unit</th><th>Source</th><th>Source type / qualification</th></tr></thead>
+      <tbody>
+        <tr><td>Fibre quality</td><td>Published range</td><td>Fibre diameter</td><td>12–18</td><td>μm</td><td>Peer-reviewed research on cashmere goat fibres</td><td>Published research reports fibre diameters commonly within this range in studied cashmere goats; values vary by breed, origin and sample. Not a single grading standard.</td></tr>
+        <tr><td>Fibre quality</td><td>Published commercial suitability</td><td>Fine fibre suitable for knitting</td><td>&lt;18</td><td>μm</td><td>Peer-reviewed research on Raeini cashmere goats</td><td>Research reports fine fibres below 18 μm as commercially suitable for knitting. This is a research-based suitability guideline, not a universal cashmere grade.</td></tr>
+        <tr><td>Processing yield</td><td>2024 publication</td><td>Raw to dehaired cashmere conversion</td><td>0.525</td><td>kg dehaired per kg raw</td><td>Cashmere value chain analyses in Mongolia</td><td>Published value-chain analysis using a representative washing loss of 30% followed by dehairing loss of 25%. Actual yield varies with raw-fibre composition and processing technology.</td></tr>
+        <tr><td>Price</td><td>2024 cashmere season</td><td>Raw Mongolian cashmere purchase price</td><td>185,000</td><td>MNT/kg</td><td>Sustainable Fibre Alliance, 2024</td><td>Approximately 185,000 MNT/kg in 2024, versus 165,000 MNT/kg in 2023. Seasonal and location-specific market indicator, not a global cashmere price.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="data-note"><strong>Fibre-data qualification.</strong> Fibre diameter and staple length vary considerably by breed, geography, age, sex, fibre sampling and processing conditions. The values above are therefore retained as published observations or suitability ranges, not as a single definitive cashmere specification.</p>
+  <p class="data-note"><strong>Processing yield qualification.</strong> The 0.525 dehaired-cashmere yield per kg of raw cashmere comes from a published Mongolian value-chain analysis and reflects washing and dehairing losses of 30% and 25%, respectively. It should not be applied as a universal conversion factor for all cashmere.</p>
+  <p class="data-note"><strong>Market-price qualification.</strong> The 2024 Mongolian raw-cashmere price of 185,000 MNT/kg is a published SFA market indicator for the season, with 165,000 MNT/kg in 2023 for context. It is not a universal spot price for global cashmere.</p>
+  <p class="data-note"><strong>Evidence standard.</strong> Future updates should prefer public or peer-reviewed data with identifiable sampling, year, geography, fibre form and measurement method; commercial price series will be labelled as market indicators with a specific region and time period.</p>
+</div>
+'''
+          p.write_text(s[:start] + block + s[end:])
+          PY
+      - name: Commit and remove workflow
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add library.html
+          git commit -m 'Fix fibre market data markup'
+          git rm .github/workflows/fix-fibre-market-data-2.yml
+          git commit -m 'Remove temporary fibre market fix workflow'
+          git push
