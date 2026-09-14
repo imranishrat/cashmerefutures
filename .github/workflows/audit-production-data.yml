@@ -11,13 +11,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Update audited production data
-        shell: python
         run: |
+          python - <<'PY'
           from pathlib import Path
           import re
 
           p = Path('supply-chain.html')
           s = p.read_text(encoding='utf-8')
+          start = s.find('const production={')
+          end = s.find('};', start)
+          if start < 0 or end < 0:
+              raise SystemExit('production object not found')
           new = """const production={
   'China':{v:17589,label:'17,589 t',basis:'2023'},
   'Mongolia':{v:10500,label:'~10,500 t',basis:'2023'},
@@ -32,27 +36,27 @@ jobs:
   'Uzbekistan':{v:null,label:'Not quantified',basis:'no adequately substantiated production total'},
   'New Zealand':{v:null,label:'Not quantified',basis:'no adequately substantiated production total'}
 };"""
-          s2, n = re.subn(r"const production=\{.*?\};", new, s, count=1, flags=re.S)
-          if n != 1:
-              raise SystemExit(f'Production dataset replacement failed: {n} matches')
-          p.write_text(s2, encoding='utf-8')
+          s = s[:start] + new + s[end+2:]
+          p.write_text(s, encoding='utf-8')
 
           p = Path('library.html')
           s = p.read_text(encoding='utf-8')
-          iran = "        <tr><td>Iran</td><td>2014</td><td>~2,000</td><td>tonnes/year</td><td>Ansari-Renani, <em>A Value Chain and Marketing of Iranian Cashmere</em>, Media Peternakan 37(1), 2014</td><td>Peer-reviewed published estimate</td><td>The exact quantity is stated as unknown; the study estimates that about 5 million cashmere goats produce approximately 2,000 tonnes of raw cashmere annually. Historical estimate, not an official national statistic.</td></tr>"
-          india = "        <tr><td>India</td><td>2013–14</td><td>50</td><td>tonnes/year</td><td><em>Cashmere producing smallholder nomads of Himalaya: Survival challenges of a system</em></td><td>Peer-reviewed regional/secondary production estimate</td><td>India's pashmina production is reported at about 50 tonnes/year, with Changthangi contributing approximately 90%. Historical regional pashmina figure; not a current comprehensive national cashmere series.</td></tr>"
           if '<td>Iran</td><td>2014</td>' not in s:
-              anchor = re.search(r"\n\s*<tr><td>Afghanistan</td>.*?</tr>", s, flags=re.S)
-              if not anchor:
-                  raise SystemExit('Afghanistan row not found in library')
-              s = s[:anchor.end()] + '\n' + iran + '\n' + india + s[anchor.end():]
-          old_phrase = 'the previously displayed figures for Iran, India, Pakistan, Kazakhstan, Kyrgyzstan, Turkey, Nepal, Uzbekistan and New Zealand remain excluded pending adequate source verification.'
-          if old_phrase in s:
-              s = s.replace(old_phrase, "Pakistan, Kazakhstan, Kyrgyzstan, Turkey, Nepal, Uzbekistan and New Zealand remain without a country-level production total because no adequately substantiated figure was identified.", 1)
-          old_tail = 'Afghanistan is included only as a dated 2015 secondary estimate and must not be interpreted as a current production figure. No estimate has been substituted for a missing observation.'
-          if old_tail in s:
-              s = s.replace(old_tail, "Pakistan's recent official statistics report total goat-hair production but do not disaggregate cashmere; regional research confirms pashmina-bearing goats in Gilgit-Baltistan but does not provide a defensible contemporary regional or national cashmere total. Afghanistan is included only as a dated 2015 secondary estimate, while Iran and India are retained as explicitly qualified historical estimates. No estimate has been substituted for a missing observation.", 1)
-          p.write_text(s, encoding='utf-8')
+              marker = '<td>Afghanistan</td>'
+              a = s.find(marker)
+              if a < 0:
+                  raise SystemExit('Afghanistan row not found')
+              row_start = s.rfind('<tr>', 0, a)
+              row_end = s.find('</tr>', a)
+              if row_start < 0 or row_end < 0:
+                  raise SystemExit('Afghanistan row boundaries not found')
+              row_end += 5
+              rows = '''
+        <tr><td>Iran</td><td>2014</td><td>~2,000</td><td>tonnes/year</td><td>Ansari-Renani, <em>A Value Chain and Marketing of Iranian Cashmere</em>, Media Peternakan 37(1), 2014</td><td>Peer-reviewed published estimate</td><td>The exact quantity is stated as unknown; the study estimates that about 5 million cashmere goats produce approximately 2,000 tonnes of raw cashmere annually. Historical estimate, not an official national statistic.</td></tr>
+        <tr><td>India</td><td>2013–14</td><td>50</td><td>tonnes/year</td><td><em>Cashmere producing smallholder nomads of Himalaya: Survival challenges of a system</em></td><td>Peer-reviewed regional/secondary production estimate</td><td>India's pashmina production is reported at about 50 tonnes/year, with Changthangi contributing approximately 90%. Historical regional pashmina figure; not a current comprehensive national cashmere series.</td></tr>'''
+              s = s[:row_end] + rows + s[row_end:]
+              p.write_text(s, encoding='utf-8')
+          PY
       - name: Commit audited data and remove temporary workflow
         run: |
           git config user.name 'github-actions[bot]'
