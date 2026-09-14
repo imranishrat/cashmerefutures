@@ -1,0 +1,49 @@
+name: Populate cashmere production data
+on:
+  push:
+    paths:
+      - '.github/workflows/populate-cashmere-production.yml'
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add audited production table
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('library.html')
+          s=p.read_text()
+          old='''          <a class="lib-resource" href="#data-statistics"><strong>Global Cashmere Production</strong><span>Country-level production and historical series.</span><em>Coming first</em></a>'''
+          new='''          <div class="lib-resource lib-resource-wide">
+            <strong>Global Cashmere Production</strong>
+            <span>Audited country-level production figures from publicly available secondary sources. Only figures with an identifiable source and adequate qualification are included.</span>
+            <div class="data-table-wrap">
+              <table class="data-table">
+                <caption>Published cashmere production observations suitable for inclusion</caption>
+                <thead><tr><th>Country</th><th>Year</th><th>Quantity</th><th>Unit</th><th>Source</th><th>Source type</th><th>Methodology / qualification</th></tr></thead>
+                <tbody>
+                  <tr><td>China</td><td>2023</td><td>17,589</td><td>tonnes</td><td>Textile Exchange (2024), based on IWTO and National Bureau of Statistics of China</td><td>Industry report using official statistics</td><td>Greasy cashmere fibre. Reported as China's production and used by Textile Exchange in its global total of 25,611 tonnes. The underlying Chinese statistical basis should be treated as the source chain rather than as a directly published NBS cashmere series.</td></tr>
+                  <tr><td>Mongolia</td><td>2023</td><td>10,500</td><td>tonnes</td><td>GOBI JSC Sustainability Report 2023, citing National Statistics Committee</td><td>Company sustainability report using national statistics</td><td>Reported as approximately 10.5 thousand tonnes of raw cashmere; the report's chart identifies National Statistics Committee and says the series is by calculation method. Retain the published approximation rather than implying greater precision.</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="data-note"><strong>Data integrity note.</strong> Historical or country figures from older secondary literature, including figures previously displayed on the Supply Chain map, have not been carried forward where a current, traceable source could not be established. In particular, the previously displayed figures for Afghanistan, Iran, India, Pakistan, Kazakhstan, Kyrgyzstan, Turkey, Nepal, Uzbekistan and New Zealand are excluded from this initial dataset pending source verification. No estimate has been substituted for a missing observation.</p>
+            <p class="data-note"><strong>Global reference.</strong> Textile Exchange reports approximately 25,611 tonnes of greasy cashmere fibre produced globally in 2023, with China accounting for 17,589 tonnes (69%). This global figure is retained as a contextual benchmark, not as the sum of the country rows above, because the country-level evidence available here is not yet complete. </p>
+          </div>'''
+          assert old in s
+          s=s.replace(old,new,1)
+          p.write_text(s)
+
+          p=Path('css/library.css')
+          s=p.read_text()
+          s += '''\n/* ---------- Data & Statistics ---------- */\n.lib-resource-wide{grid-column:1/-1}\n.data-table-wrap{overflow-x:auto;margin-top:18px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}\n.data-table{width:100%;min-width:980px;border-collapse:collapse;font-size:12px;line-height:1.5}\n.data-table caption{text-align:left;padding:12px 0;font:400 9px/1.4 'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-soft)}\n.data-table th,.data-table td{text-align:left;vertical-align:top;padding:11px 12px;border-top:1px solid var(--line)}\n.data-table th{font:500 9px/1.35 'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:.03em;color:var(--ink)}\n.data-table td:first-child{font-family:'Fraunces',serif;font-size:15px}\n.data-table td:nth-child(2),.data-table td:nth-child(3),.data-table td:nth-child(4){white-space:nowrap}\n.data-note{max-width:90ch;margin:16px 0 0;font-size:12px;line-height:1.65;color:var(--ink-soft)}\n.data-note strong{font-weight:500;color:var(--ink)}\n@media(max-width:700px){.data-table{font-size:11px}.data-table th{font-size:8px}.data-table td:first-child{font-size:14px}}\n'''
+          p.write_text(s)
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add library.html css/library.css
+          git commit -m 'Populate audited global cashmere production data'
+          git push
