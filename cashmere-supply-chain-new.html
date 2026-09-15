@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Undercoat — The Geography of Cashmere</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,440;0,9..144,560;1,9..144,440&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#17140F;
+    --hair:rgba(241,233,218,0.09);
+    --hair-strong:rgba(241,233,218,0.18);
+    --fiber:#CBA876;
+    --fiber-light:#EAD3A0;
+    --fiber-dim:#8A754F;
+    --rose:#BD7F58;
+    --rose-light:#E0AC85;
+    --ivory:#F2EAD9;
+    --taupe:#A79C8B;
+    --taupe-dim:#7A705F;
+    --panel-2:#2B2620;
+    --muted-land:#221D16;
+    --focus-ring:#EAD3A0;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(ellipse 90% 60% at 50% -10%, #2A2417 0%, transparent 60%),
+      radial-gradient(ellipse 80% 70% at 80% 110%, #221D14 0%, transparent 55%),
+      var(--ink);
+    color:var(--ivory);
+    font-family:'IBM Plex Sans', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+  }
+  .reduced *{animation:none !important; transition:none !important;}
+  a{color:inherit;}
+
+  .wrap{ max-width:1220px; margin:0 auto; padding:48px 28px 40px; }
+
+  /* ---------- HEADER ---------- */
+  header.top{
+    display:flex; justify-content:space-between; align-items:flex-end;
+    gap:32px; flex-wrap:wrap;
+    padding-bottom:34px; border-bottom:1px solid var(--hair); margin-bottom:30px;
+  }
+  .titleblock h1{
+    font-family:'Fraunces', serif; font-optical-sizing:auto; font-weight:440;
+    font-size:clamp(40px, 6.4vw, 74px); line-height:0.98; margin:0 0 6px;
+    color:var(--ivory); letter-spacing:-0.01em;
+  }
+  .titleblock h1 em{ font-style:italic; font-weight:300; color:var(--fiber); }
+  .titleblock p{ font-size:15px; line-height:1.6; color:var(--taupe); max-width:470px; margin:12px 0 0; }
+
+  .statrail{ display:flex; gap:26px; align-items:flex-end; }
+  .statrail .stat{ text-align:right; }
+  .statrail .stat .num{
+    font-family:'Fraunces', serif; font-weight:440; font-size:34px;
+    color:var(--fiber-light); line-height:1; font-variant-numeric:tabular-nums;
+  }
+  .statrail .stat .lbl{ font-size:11px; color:var(--taupe-dim); margin-top:6px; max-width:118px; line-height:1.35; }
+  .statrail .divider{ width:1px; align-self:stretch; background:var(--hair); }
+
+  /* ---------- TIMELINE ---------- */
+  .timeline{
+    border:1px solid var(--hair); border-radius:8px;
+    background:var(--panel-2);
+    padding:16px 22px 14px;
+    margin-bottom:18px;
+  }
+  .timeline-head{ display:flex; align-items:baseline; justify-content:space-between; margin-bottom:10px; }
+  .timeline-head .lead{ font-size:12px; color:var(--taupe); letter-spacing:0.01em; }
+  .year-readout{ display:flex; align-items:baseline; gap:9px; }
+  .year-readout .yr{ font-family:'Fraunces', serif; font-size:26px; color:var(--fiber-light); font-variant-numeric:tabular-nums; }
+  .year-readout .tag{ font-size:11px; color:var(--taupe-dim); }
+  .play-btn{
+    width:30px; height:30px; border-radius:50%; border:1px solid var(--hair-strong);
+    background:transparent; color:var(--fiber-light); cursor:pointer; font-size:11px;
+    display:flex; align-items:center; justify-content:center; flex:none;
+  }
+  .play-btn:hover{ background:rgba(203,168,118,0.12); }
+  .play-btn:focus-visible{ outline:2px solid var(--focus-ring); outline-offset:2px; }
+
+  input[type=range]{ -webkit-appearance:none; appearance:none; width:100%; background:transparent; margin:6px 0 4px; }
+  input[type=range]::-webkit-slider-runnable-track{ height:2px; background:var(--hair-strong); border-radius:2px; }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none; width:14px; height:14px; border-radius:50%;
+    background:var(--fiber-light); margin-top:-6px; cursor:pointer;
+    box-shadow:0 0 0 5px rgba(234,211,160,0.14);
+  }
+  input[type=range]::-moz-range-track{ height:2px; background:var(--hair-strong); border-radius:2px; }
+  input[type=range]::-moz-range-thumb{
+    width:14px; height:14px; border:none; border-radius:50%;
+    background:var(--fiber-light); cursor:pointer; box-shadow:0 0 0 5px rgba(234,211,160,0.14);
+  }
+  input[type=range]:focus-visible{ outline:none; }
+  input[type=range]:focus-visible::-webkit-slider-thumb{ outline:2px solid var(--focus-ring); outline-offset:2px; }
+
+  .ticks{ display:flex; justify-content:space-between; font-size:10.5px; color:var(--taupe-dim); padding:0 1px; }
+
+  /* ---------- CONTROLS ---------- */
+  .controls{ display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; margin-bottom:18px; }
+  .legend{ display:flex; gap:22px; align-items:center; flex-wrap:wrap; font-size:12.5px; color:var(--taupe); }
+  .legend .item{ display:flex; align-items:center; gap:8px; }
+  .legend .swatch{ width:11px; height:11px; border-radius:50%; flex:none; }
+  .legend .swatch.origin{ background:var(--fiber); }
+  .legend .swatch.processing{ border:2px solid var(--rose-light); background:transparent; }
+
+  .filters{ display:flex; gap:6px; background:var(--panel-2); border:1px solid var(--hair); border-radius:999px; padding:4px; }
+  .filters button{
+    font-family:'IBM Plex Sans', sans-serif; font-size:12px; letter-spacing:0.01em;
+    color:var(--taupe); background:transparent; border:none; padding:7px 15px;
+    border-radius:999px; cursor:pointer; transition:background .25s ease, color .25s ease;
+  }
+  .filters button[aria-pressed="true"]{ background:var(--fiber); color:#20190E; }
+  .filters button:hover:not([aria-pressed="true"]){ color:var(--ivory); }
+  .filters button:focus-visible{ outline:2px solid var(--focus-ring); outline-offset:2px; }
+
+  /* ---------- MAP STAGE ---------- */
+  .stage-outer{ position:relative; border:1px solid var(--hair); border-radius:6px; background:linear-gradient(180deg, #1A1610, #161209); padding:1px; overflow:hidden; }
+  .map-stage{ position:relative; width:100%; aspect-ratio: 1000 / 460; }
+  .map-stage canvas, .map-stage svg.overlay{ position:absolute; inset:0; width:100%; height:100%; display:block; }
+  .map-stage canvas{ display:none; }
+  .map-stage svg.overlay{ pointer-events:none; }
+  .map-stage svg.overlay .hit{ pointer-events:auto; cursor:pointer; }
+
+  .caption-row{ display:flex; justify-content:space-between; font-size:11px; color:var(--taupe-dim); padding:10px 4px 0; }
+
+  /* ---------- COUNTRIES ---------- */
+  .graticule{ fill:none; stroke:rgba(241,233,218,0.045); stroke-width:1; }
+  .country{
+    stroke:rgba(241,233,218,0.24); stroke-width:0.55;
+    stroke-linejoin:round; pointer-events:auto;
+    opacity:0; transform-box:fill-box; transform-origin:center;
+    transition:opacity .6s ease, fill-opacity .5s ease, stroke .3s ease;
+    transition-delay:var(--cd, 0s);
+  }
+  .is-ready .country{ opacity:1; }
+  .country.origin{ fill:var(--fiber); stroke:rgba(241,233,218,0.4); stroke-width:0.7; }
+  .country.processing{ fill:var(--rose); fill-opacity:0.34; stroke:rgba(241,233,218,0.4); stroke-width:0.7; }
+  .country.dim{ opacity:0.28 !important; }
+  .country:hover{ filter:brightness(1.14); }
+  .weave-pattern circle{ fill:var(--fiber-light); }
+  .sea{ fill:#100E0A; }
+
+  /* ---------- ROUTES & NODES ---------- */
+  .route{ fill:none; stroke:var(--rose); stroke-width:0.9; opacity:0.34; stroke-linecap:round; transition:opacity .35s ease, stroke-width .35s ease; }
+  .route.dim{ opacity:0.06; }
+  .route.active{ opacity:0.9; stroke-width:1.4; stroke:var(--rose-light); stroke-dasharray:1 5; animation:dashflow 1.1s linear infinite; }
+  @keyframes dashflow{ to{ stroke-dashoffset:-24; } }
+
+  .node-halo{ opacity:0.55; transform-origin:center; animation:pulse 3.6s ease-in-out infinite; transition:r .5s ease; }
+  @keyframes pulse{ 0%,100%{ opacity:.28; transform:scale(0.92);} 50%{ opacity:.6; transform:scale(1.08);} }
+  .node-dot{ transition:r .5s ease, fill .3s ease, stroke .3s ease; }
+  .node-dot.origin{ fill:var(--fiber); }
+  .node-dot.processing{ fill:none; stroke:var(--rose-light); stroke-width:2.1; }
+  .node-halo.origin{ fill:var(--fiber); }
+  .node-halo.processing{ fill:var(--rose-light); }
+
+  .node-group{ transition:opacity .35s ease; cursor:pointer; }
+  .node-group.dim{ opacity:0.22; }
+  .node-group.selected .node-dot.origin{ fill:var(--fiber-light); }
+  .node-group.selected .node-dot.processing{ stroke:var(--fiber-light); }
+  .node-group:focus-visible{ outline:none; }
+  .node-group:focus-visible .node-dot{ stroke:var(--focus-ring); stroke-width:2px; }
+
+  .node-label{ font-family:'IBM Plex Sans', sans-serif; font-size:10.5px; fill:var(--taupe); pointer-events:none; transition:fill .3s ease; }
+  .node-group:hover .node-label, .node-group.selected .node-label{ fill:var(--ivory); }
+
+  /* ---------- ENTRANCE ---------- */
+  .route{ stroke-dasharray:600; stroke-dashoffset:600; transition:stroke-dashoffset 1.4s cubic-bezier(.16,.75,.24,1); }
+  .is-ready .route{ stroke-dashoffset:0; }
+  .is-ready .route.active{ stroke-dasharray:1 5; }
+  .node-group{ opacity:0; transform:scale(.4); transform-box:fill-box; transform-origin:center; transition:opacity .5s ease, transform .55s cubic-bezier(.2,1.4,.4,1); transition-delay:var(--d, 0s); }
+  .is-ready .node-group{ opacity:1; transform:scale(1); }
+  .is-ready .node-group.dim{ opacity:0.22; }
+
+  /* ---------- PANEL ---------- */
+  .panel{
+    position:absolute; top:18px; right:18px; width:300px; max-height:calc(100% - 36px);
+    overflow-y:auto; background:rgba(35,30,20,0.84); backdrop-filter:blur(10px);
+    border:1px solid var(--hair-strong); border-radius:8px; padding:20px 20px 18px; pointer-events:auto;
+  }
+  .panel .role-tag{ display:inline-block; font-size:10.5px; letter-spacing:0.03em; color:#20190E; background:var(--fiber); padding:3px 9px; border-radius:999px; margin-bottom:12px; }
+  .panel .role-tag.processing{ background:var(--rose-light); }
+  .panel h2{ font-family:'Fraunces', serif; font-weight:440; font-size:23px; margin:0 0 6px; line-height:1.15; color:var(--ivory); }
+  .panel .stat-line{ font-size:13px; color:var(--fiber-light); margin:0 0 12px; font-weight:500; }
+  .panel p.body{ font-size:13px; line-height:1.6; color:#D7CDB9; margin:0 0 12px; }
+  .panel .meta{ font-size:11.5px; color:var(--taupe-dim); border-top:1px solid var(--hair); padding-top:10px; line-height:1.5; }
+  .panel .overview-num{ font-family:'Fraunces', serif; font-size:32px; color:var(--fiber-light); line-height:1; }
+  .panel .overview-lbl{ font-size:12px; color:var(--taupe); margin-top:6px; }
+  .panel .hint{ margin-top:16px; font-size:12px; color:var(--taupe-dim); line-height:1.5; }
+  .panel .close-btn{ display:none; float:right; background:transparent; border:none; color:var(--taupe); font-size:16px; cursor:pointer; line-height:1; padding:2px 4px; }
+  .panel.node-active .close-btn{ display:block; }
+
+  footer.note{ margin-top:22px; font-size:11.5px; color:var(--taupe-dim); line-height:1.6; max-width:780px; }
+
+  @media (max-width: 760px){
+    .wrap{ padding:30px 16px 32px; }
+    header.top{ align-items:flex-start; }
+    .statrail{ gap:18px; }
+    .statrail .stat .num{ font-size:26px; }
+    .statrail .stat .lbl{ max-width:96px; }
+    .panel{ position:static; width:100%; max-height:none; margin-top:14px; backdrop-filter:none; background:var(--panel-2); }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div class="titleblock">
+      <h1>Under<em>coat</em></h1>
+      <p>Behind every ball of yarn is a herd, a herding family, and a migration route worn in by generations. This map follows raw cashmere from pasture to mill across five decades — where it's combed, where it's sorted, and where it becomes cloth.</p>
+    </div>
+    <div class="statrail">
+      <div class="stat">
+        <div class="num" id="totalStat">0</div>
+        <div class="lbl" id="totalLbl">tonnes raised worldwide</div>
+      </div>
+      <div class="divider"></div>
+      <div class="stat">
+        <div class="num" id="shareStat">0%</div>
+        <div class="lbl">from Mongolia &amp; China combined</div>
+      </div>
+      <div class="divider"></div>
+      <div class="stat">
+        <div class="num" style="font-size:26px;">13–19μm</div>
+        <div class="lbl">typical fibre diameter across grades — a fraction the width of a human hair</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="timeline">
+    <div class="timeline-head">
+      <span class="lead">Raw fibre output by decade</span>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div class="year-readout"><span class="yr" id="yearNum">2025</span><span class="tag" id="yearTag">Today</span></div>
+        <button type="button" class="play-btn" id="playBtn" aria-label="Play through the decades">▶</button>
+      </div>
+    </div>
+    <input type="range" id="decadeSlider" min="0" max="5" step="1" value="5" aria-label="Select a decade">
+    <div class="ticks"><span>1980</span><span>1990</span><span>2000</span><span>2010</span><span>2020</span><span>Today</span></div>
+  </div>
+
+  <div class="controls">
+    <div class="legend">
+      <span class="item"><span class="swatch origin"></span> Raw fibre origin</span>
+      <span class="item"><span class="swatch processing"></span> Processing &amp; weaving</span>
+      <span class="item">Circle size ≈ output that decade</span>
+    </div>
+    <div class="filters" role="group" aria-label="Filter map layers">
+      <button type="button" data-filter="all" aria-pressed="true">All</button>
+      <button type="button" data-filter="origin" aria-pressed="false">Origins</button>
+      <button type="button" data-filter="processing" aria-pressed="false">Processing</button>
+    </div>
+  </div>
+
+  <div class="stage-outer">
+    <div class="map-stage" id="stage">
+      <canvas id="landCanvas"></canvas>
+      <svg class="overlay" id="overlaySvg" viewBox="0 0 1000 460" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <pattern id="weave" width="5" height="5" patternUnits="userSpaceOnUse" class="weave-pattern">
+            <circle cx="1" cy="1" r="0.6" opacity="0.55"></circle>
+          </pattern>
+        </defs>
+        <g id="graticuleLayer"></g>
+        <g id="countryLayer"></g>
+        <g id="routeLayer"></g>
+        <g id="nodeLayer"></g>
+      </svg>
+
+      <div class="panel" id="panel">
+        <button class="close-btn" id="closeBtn" aria-label="Back to overview">✕</button>
+        <div id="panelContent">
+          <div class="overview-num" id="overviewNum">24,000 t</div>
+          <div class="overview-lbl">raised across roughly a dozen producing regions today</div>
+          <p class="hint">Select a glowing point on the map to read about that region's role in the cashmere trade — or drag the slider above to see it shift across decades.</p>
+        </div>
+      </div>
+    </div>
+    <div class="caption-row">
+      <span>Equirectangular projection, cropped near the poles</span>
+      <span>Country borders simplified for legibility</span>
+    </div>
+  </div>
+
+  <footer class="note">
+    Figures are illustrative estimates reconstructed from industry and development-sector reporting — including the Mongolian Sustainable Cashmere Platform / UNDP (2021–23), World Bank analysis of Mongolia's cashmere sector (2003), and published histories of China's cashmere expansion — rather than a single official trade series, and they vary with weather, herd size and market prices. Country shapes follow simplified world boundaries for orientation, not survey-accurate or politically endorsed cartography; some borders shown are disputed.
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduceMotion){ document.body.classList.add('reduced'); }
+
+  var PROJ_W = 1000, PROJ_H = 460;
+
+  /* ---------------- data ---------------- */
+  var DECADES = [1980, 1990, 2000, 2010, 2020, 2025];
+  var DECADE_LABELS = ['1980','1990','2000','2010','2020','Today'];
+  var SERIES = {
+    mongolia:    [1100, 1400, 3400, 6000, 9000, 9600],
+    china:       [3200, 9000, 18000, 14000, 11500, 12000],
+    afghanistan: [70, 110, 200, 350, 550, 700],
+    iran:        [140, 190, 240, 300, 400, 450],
+    kyrgyzstan:  [30, 50, 80, 120, 150, 180],
+    india:       [10, 15, 25, 35, 48, 55]
+  };
+
+  var NODES = [
+    {id:'mongolia', name:'Mongolia', role:'origin', lon:103, lat:46, countryId:496, seriesKey:'mongolia',
+      body:"Herds of Mongolian cashmere goats graze the Gobi and Altai steppe, where winters below −30°C push the animals to grow the finest, most insulating undercoat of any producing region. Fibre is combed out by hand each spring, never shorn.",
+      meta:'Principal herding provinces: Arkhangai, Bayankhongor, Govi-Altai'},
+    {id:'china', name:'China', role:'origin', lon:104, lat:36, countryId:156, seriesKey:'china',
+      body:"Inner Mongolia's Erdos region anchors the largest cashmere economy on earth, spanning herding, scouring, dehairing and spinning within a single province. Smaller high-altitude herds in Xinjiang and Tibet add further volume.",
+      meta:"Also the world's largest domestic processor of raw fibre"},
+    {id:'afghanistan', name:'Afghanistan', role:'origin', lon:66, lat:34, countryId:4, seriesKey:'afghanistan',
+      body:'Herding communities across the central highlands supply a small but growing share of raw fibre, much of it still exported undehaired for processing abroad.',
+      meta:'Emerging producer'},
+    {id:'iran', name:'Iran', role:'origin', lon:53, lat:32, countryId:364, seriesKey:'iran',
+      body:'Goats raised across the arid central plateau and Khorasan region have supplied regional textile trade with coarser-grade cashmere for generations.',
+      meta:'Established regional producer'},
+    {id:'kyrgyzstan', name:'Kyrgyzstan & Central Asia', role:'origin', lon:75, lat:42, countryId:417, seriesKey:'kyrgyzstan',
+      body:"Mountain herds scattered across the Tian Shan contribute a minor but increasing share of Central Asia's raw fibre supply.",
+      meta:'Central Asian herding belt'},
+    {id:'india', name:'India · Ladakh', role:'origin', lon:77.5, lat:32, countryId:356, seriesKey:'india',
+      body:"Changthangi goats herded above 4,000 metres on the Ladakh plateau by Changpa nomads yield a tiny but exceptionally fine harvest, hand-combed and largely reserved for Kashmir's pashmina looms.",
+      meta:'Prized for a very fine micron count'},
+    {id:'italy', name:'Italy · Biella', role:'processing', lon:10, lat:44, countryId:380, r:17,
+      stat:'Global centre of scouring & spinning',
+      body:"The mills of Biella, in Piedmont, lead the world in cleaning, dehairing and spinning raw cashmere into yarn, then weaving and knitting it for the majority of the world's luxury fashion houses.",
+      meta:'Receives raw and semi-processed fibre from across Asia'},
+    {id:'uk', name:'United Kingdom · Scottish Borders', role:'processing', lon:-2, lat:54, countryId:826, r:13,
+      stat:'Heritage knitting since the 1770s',
+      body:'Hawick and the Scottish Borders have spun and knitted cashmere since the eighteenth century, known for heavyweight, fully-fashioned knitwear built on generations of mill expertise.',
+      meta:'One of the two historic European finishing hubs, with Italy'},
+    {id:'nepal', name:'Nepal · Kathmandu Valley', role:'processing', lon:84, lat:28, countryId:524, r:10,
+      stat:'Artisan hand-weaving',
+      body:"Thousands of independent workshops hand-weave imported and Himalayan fibre into pashmina shawls, one of the valley's largest artisanal export industries.",
+      meta:'Weaving & finishing, not raw production'}
+  ];
+  var ROUTES = [
+    {from:'mongolia',to:'italy'}, {from:'china',to:'italy'},
+    {from:'afghanistan',to:'italy'}, {from:'iran',to:'italy'},
+    {from:'mongolia',to:'uk'}, {from:'china',to:'uk'},
+    {from:'kyrgyzstan',to:'italy'}, {from:'india',to:'nepal'}
+  ];
+  var NODE_BY_ID = {}; NODES.forEach(function(n){ NODE_BY_ID[n.id]=n; });
+
+  var currentIdx = DECADES.length-1;
+  var selectedId = null;
+  var projectFn = null; // set once the base map is ready
+
+  function rScale(v){ return Math.max(4, Math.min(24, 4 + Math.sqrt(v)*0.16)); }
+  function decadeTotal(idx){
+    var t=0; for(var k in SERIES){ t+=SERIES[k][idx]; } return t;
+  }
+  function fmt(n){ return Math.round(n).toLocaleString('en-US'); }
+
+  /* ---------------- svg refs ---------------- */
+  var svg = document.getElementById('overlaySvg');
+  var NS = 'http://www.w3.org/2000/svg';
+  function el(tag,attrs){ var e=document.createElementNS(NS,tag); for(var k in attrs) e.setAttribute(k,attrs[k]); return e; }
+  var countryLayer = document.getElementById('countryLayer');
+  var graticuleLayer = document.getElementById('graticuleLayer');
+  var routeLayer = document.getElementById('routeLayer');
+  var nodeLayer = document.getElementById('nodeLayer');
+  var stage = document.getElementById('stage');
+
+  var countryPaths = {}; // seriesKey/id -> path element
+
+  /* ================= hand-simplified real country outlines (lon/lat) =================
+     Self-contained on purpose: no network fetch, no external map data, so the map
+     always renders the same way regardless of sandboxing or connectivity. Shapes
+     are simplified for legibility, not survey-accurate. */
+  var COUNTRY_SHAPES = {
+    mongolia: [[[87.75,49.3],[90,52],[98,52.5],[110,52.3],[116.7,49.9],[119.8,47.7],[116.5,46.7],[111.8,45.5],[104.5,42],[98.5,42.5],[95,44.3],[90.6,45.1],[87.75,49.3]]],
+    china: [[[135.0,48.5],[130,45],[124.5,40.5],[122,37],[119,34],[121,31],[117,29],[110,21],[105,22],[99,22.5],[95,29],[88,28],[81,30],[75,38],[73,40],[80,45],[87,49],[95,50],[105,51.5],[116,53],[126,53],[133,48.5],[135.0,48.5]]],
+    afghanistan: [[[61,37.3],[66,37.3],[71.5,38.2],[71.8,36.7],[69,35],[71,33],[66.5,31.3],[60.9,29.9],[61,33],[61,37.3]]],
+    iran: [[[44.0,39.7],[48,39.4],[54,37],[61.2,36.5],[61,29.9],[57,25.5],[50,27],[48.5,30],[45.5,33.5],[44.0,37],[44.0,39.7]]],
+    kyrgyzstan: [[[69.5,43.0],[71.8,43.3],[74.9,43.2],[78.3,42.9],[80.2,42.0],[78.5,41.0],[75.9,39.9],[73.6,39.5],[71.8,40.2],[69.5,40.9],[69.5,43.0]]],
+    india: [[[77,35.5],[79,32.5],[88,27.5],[92,26],[95,27],[92,22],[88.5,21.5],[80,13],[77.5,8.1],[74.8,12],[72.8,21],[68.2,23.9],[74,32],[77,35.5]]],
+    italy: [[[7.0,45.5],[10.4,46.5],[13.8,46.5],[13.6,45.6],[12.3,44.3],[16.9,41.9],[15.6,38.4],[11.1,42.4],[8.0,44.0],[7.6,45.1],[7.0,45.5]],[[12.4,38.2],[15.6,38.2],[14.3,37.0],[12.4,38.2]]],
+    uk: [[[-5.7,50.1],[-3,50.6],[1.4,51.4],[1.8,52.9],[0,53.7],[-1.2,54.6],[-2.1,55.8],[-3.06,58.6],[-5.3,58.5],[-5.7,56],[-4.8,54.6],[-4.3,53.3],[-5.3,51.7],[-4.5,51.2],[-5.7,50.1]],[[-6,54.6],[-5.4,54.9],[-6.2,55.2],[-8.2,54.5],[-7.5,54.0],[-6,54.6]]],
+    nepal: [[[80.1,30.2],[81.1,30.4],[84,29.3],[85.3,28.2],[86.9,27.9],[88.2,27.0],[87.9,26.4],[85,26.6],[82,27.5],[80.5,28.8],[80.1,30.2]]]
+  };
+
+  function buildMap(){
+    var canvas = document.getElementById('landCanvas');
+    canvas.style.display = 'block';
+    var ctx = canvas.getContext('2d');
+
+    var PX_PER_DEG = PROJ_W/360, LAT_TOP=82;
+    function proj(lon,lat){ return {x:(lon+180)*PX_PER_DEG, y:(LAT_TOP-lat)*PX_PER_DEG}; }
+    projectFn = proj;
+
+    /* soft world backdrop for geographic context (textured dot field) */
+    var CONTINENTS = [
+      {cx:18,cy:4,rx:17,ry:28,region:'f'},{cx:2,cy:16,rx:13,ry:9,region:'f'},{cx:44,cy:9,rx:9,ry:7,region:'f'},
+      {cx:15,cy:49,rx:17,ry:9,region:'f'},{cx:-4,cy:40,rx:7,ry:6,region:'f'},{cx:14,cy:61,rx:7,ry:10,region:'f'},
+      {cx:45,cy:20,rx:10,ry:12,region:'f'},{cx:54,cy:30,rx:9,ry:7,region:'f'},{cx:66,cy:32,rx:7,ry:6,region:'f'},
+      {cx:78,cy:23,rx:10,ry:13,region:'f'},{cx:63,cy:47,rx:20,ry:10,region:'f'},{cx:95,cy:62,rx:42,ry:14,region:'f'},
+      {cx:100,cy:40,rx:20,ry:13,region:'f'},{cx:87,cy:31,rx:8,ry:6,region:'f'},{cx:118,cy:34,rx:8,ry:8,region:'f'},
+      {cx:138,cy:38,rx:3,ry:8,region:'f'},{cx:-100,cy:45,rx:30,ry:20,region:'m'},{cx:-60,cy:-15,rx:14,ry:25,region:'m'},
+      {cx:134,cy:-25,rx:17,ry:10,region:'m'}
+    ];
+    function inE(lon,lat,e){ var dx=lon-e.cx,dy=lat-e.cy; return (dx*dx)/(e.rx*e.rx)+(dy*dy)/(e.ry*e.ry)<=1; }
+    function fitCanvas(){
+      var rect=stage.getBoundingClientRect(), dpr=window.devicePixelRatio||1;
+      canvas.width=Math.round(rect.width*dpr); canvas.height=Math.round(rect.height*dpr);
+      ctx.setTransform(dpr*rect.width/PROJ_W,0,0,dpr*rect.height/PROJ_H,0,0);
+    }
+    fitCanvas();
+    window.addEventListener('resize', fitCanvas);
+    function drawBackdrop(){
+      ctx.clearRect(0,0,PROJ_W,PROJ_H);
+      for(var lat=76; lat>=-58; lat-=2.2){
+        for(var lon=-178; lon<=179; lon+=2.2){
+          var region=null;
+          for(var i=0;i<CONTINENTS.length;i++){ if(inE(lon,lat,CONTINENTS[i])){ region=CONTINENTS[i].region; break; } }
+          if(!region) continue;
+          var p = proj(lon,lat);
+          ctx.beginPath(); ctx.arc(p.x,p.y,region==='f'?1.15:0.85,0,Math.PI*2);
+          ctx.fillStyle = region==='f' ? 'rgba(203,168,118,0.30)' : 'rgba(74,68,56,0.32)';
+          ctx.fill();
+        }
+      }
+    }
+    drawBackdrop();
+    window.addEventListener('resize', drawBackdrop);
+
+    /* faint graticule for cartographic feel */
+    for(var glon=-180; glon<=180; glon+=30){
+      var a=proj(glon,LAT_TOP), b=proj(glon,-58);
+      graticuleLayer.appendChild(el('path',{d:'M '+a.x+' '+a.y+' L '+b.x+' '+b.y,class:'graticule'}));
+    }
+    for(var glat=-40; glat<=80; glat+=20){
+      var c=proj(-180,glat), d=proj(180,glat);
+      graticuleLayer.appendChild(el('path',{d:'M '+c.x+' '+c.y+' L '+d.x+' '+d.y,class:'graticule'}));
+    }
+
+    /* the countries that actually carry the cashmere story, drawn as real,
+       crisply-bordered political shapes on top of the soft backdrop */
+    function ringPath(ring){
+      return ring.map(function(pt,i){
+        var p = proj(pt[0], pt[1]);
+        return (i===0?'M':'L') + p.x.toFixed(1) + ',' + p.y.toFixed(1);
+      }).join(' ') + ' Z';
+    }
+    function shapePath(rings){ return rings.map(ringPath).join(' '); }
+
+    NODES.forEach(function(n, i){
+      var rings = COUNTRY_SHAPES[n.id];
+      if(!rings) return;
+      var d = shapePath(rings);
+      var p = el('path',{ d:d, class:'country '+n.role, style:'--cd:'+(i*0.06)+'s' });
+      var title = el('title',{}); title.textContent = n.name;
+      p.appendChild(title);
+      countryLayer.appendChild(p);
+      countryPaths[n.id] = p;
+      if(n.role==='origin'){
+        var texture = el('path',{ d:d, fill:'url(#weave)', style:'pointer-events:none; opacity:.4' });
+        countryLayer.appendChild(texture);
+      }
+    });
+
+    return Promise.resolve();
+  }
+
+  /* ---------------- overlay: routes + nodes ---------------- */
+  function buildOverlay(){
+    var routeEls = {};
+    ROUTES.forEach(function(r){
+      var a = projectFn(NODE_BY_ID[r.from].lon, NODE_BY_ID[r.from].lat);
+      var b = projectFn(NODE_BY_ID[r.to].lon, NODE_BY_ID[r.to].lat);
+      var mx=(a.x+b.x)/2, my=(a.y+b.y)/2;
+      var dx=b.x-a.x, dy=b.y-a.y, len=Math.hypot(dx,dy)||1;
+      var nx=-dy/len, ny=dx/len, bend=len*0.16;
+      if(ny*bend>0){ nx=-nx; ny=-ny; }
+      var cx=mx+nx*bend, cy=my+ny*bend;
+      var path = el('path',{ d:'M '+a.x+' '+a.y+' Q '+cx+' '+cy+' '+b.x+' '+b.y, class:'route' });
+      routeLayer.appendChild(path);
+      routeEls[r.from+'>'+r.to]=path;
+    });
+
+    var nodeGroups = {};
+    NODES.forEach(function(n,i){
+      var p = projectFn(n.lon,n.lat);
+      var baseR = n.role==='origin' ? rScale(SERIES[n.seriesKey][currentIdx]) : n.r;
+      var g = el('g',{ class:'node-group', 'data-id':n.id, 'data-role':n.role, tabindex:'0', role:'button',
+        'aria-label':n.name, style:'--d:'+(i*0.05)+'s' });
+      var halo = el('circle',{cx:p.x,cy:p.y,r:baseR*1.9,class:'node-halo '+n.role,style:'animation-delay:'+(i*0.35)+'s'});
+      var dot = el('circle',{cx:p.x,cy:p.y,r:baseR*0.42,class:'node-dot '+n.role});
+      var hit = el('circle',{cx:p.x,cy:p.y,r:Math.max(baseR*0.7,14),class:'hit',fill:'transparent'});
+      var anchor = n.lon>55 ? 'start':'end';
+      var dxl = n.lon>55 ? (baseR*0.42+8) : -(baseR*0.42+8);
+      var label = el('text',{x:p.x+dxl, y:p.y+4, class:'node-label','text-anchor':anchor});
+      label.textContent = n.name.split(' · ')[0];
+      g.appendChild(halo); g.appendChild(dot); g.appendChild(label); g.appendChild(hit);
+      nodeLayer.appendChild(g);
+      nodeGroups[n.id]=g;
+      g.addEventListener('click', function(){ selectNode(n.id); });
+      g.addEventListener('keydown', function(ev){ if(ev.key==='Enter'||ev.key===' '){ ev.preventDefault(); selectNode(n.id); } });
+      g.addEventListener('mouseenter', function(){ hoverNode(n.id); });
+      g.addEventListener('mouseleave', function(){ hoverNode(selectedId); });
+    });
+
+    return {routeEls:routeEls, nodeGroups:nodeGroups};
+  }
+
+  /* ---------------- panel ---------------- */
+  var panel = document.getElementById('panel');
+  var panelContent = document.getElementById('panelContent');
+  var closeBtn = document.getElementById('closeBtn');
+
+  function renderOverview(){
+    panel.classList.remove('node-active');
+    var t = decadeTotal(currentIdx);
+    panelContent.innerHTML =
+      '<div class="overview-num">'+fmt(t)+' t</div>'+
+      '<div class="overview-lbl">raised across the mapped producing regions in '+DECADE_LABELS[currentIdx]+ (currentIdx===DECADES.length-1?'':' ('+DECADES[currentIdx]+')') +'</div>'+
+      '<p class="hint">Select a glowing point on the map to read about that region\'s role in the cashmere trade — or drag the slider above to see it shift across decades.</p>';
+  }
+
+  function renderNode(id){
+    var n = NODE_BY_ID[id];
+    panel.classList.add('node-active');
+    var statLine;
+    if(n.role==='origin'){
+      var v = SERIES[n.seriesKey][currentIdx];
+      var pct = Math.round(v/decadeTotal(currentIdx)*100);
+      statLine = '≈ '+fmt(v)+' t in '+DECADE_LABELS[currentIdx]+' · about '+pct+'% of the mapped total';
+    } else {
+      statLine = n.stat;
+    }
+    panelContent.innerHTML =
+      '<span class="role-tag '+(n.role==='processing'?'processing':'')+'">'+(n.role==='origin'?'Raw fibre origin':'Processing & weaving')+'</span>'+
+      '<h2>'+n.name+'</h2>'+ 
+      '<p class="stat-line">'+statLine+'</p>'+
+      '<p class="body">'+n.body+'</p>'+ 
+      '<p class="meta">'+n.meta+'</p>';
+  }
+
+  var refs = null;
+  function hoverNode(id){
+    if(!refs) return;
+    Object.keys(refs.nodeGroups).forEach(function(k){ refs.nodeGroups[k].classList.remove('selected'); });
+    Object.keys(refs.routeEls).forEach(function(k){ refs.routeEls[k].classList.remove('active'); });
+    if(id){
+      refs.nodeGroups[id].classList.add('selected');
+      ROUTES.forEach(function(r){ if(r.from===id||r.to===id) refs.routeEls[r.from+'>'+r.to].classList.add('active'); });
+    }
+  }
+  function selectNode(id){ selectedId=id; renderNode(id); hoverNode(id); }
+  closeBtn.addEventListener('click', function(){ selectedId=null; renderOverview(); hoverNode(null); });
+
+  /* ---------------- filters ---------------- */
+  var filterBtns = document.querySelectorAll('.filters button');
+  filterBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      filterBtns.forEach(function(b){ b.setAttribute('aria-pressed', b===btn?'true':'false'); });
+      var mode = btn.getAttribute('data-filter');
+      if(!refs) return;
+      Object.keys(refs.nodeGroups).forEach(function(id){
+        var role = refs.nodeGroups[id].getAttribute('data-role');
+        refs.nodeGroups[id].classList.toggle('dim', !(mode==='all'||mode===role));
+      });
+      ROUTES.forEach(function(r){
+        var pth = refs.routeEls[r.from+'>'+r.to];
+        var relevant = mode==='all' || mode===NODE_BY_ID[r.from].role || mode===NODE_BY_ID[r.to].role;
+        pth.classList.toggle('dim', !relevant);
+      });
+      Object.keys(countryPaths).forEach(function(key){
+        var n = NODE_BY_ID[key];
+        countryPaths[key].classList.toggle('dim', !(mode==='all'||mode===n.role));
+      });
+    });
+  });
+
+  /* ---------------- decade slider ---------------- */
+  function animateNumberTo(elm, target, dur){
+    if(reduceMotion){ elm.textContent = fmt(target); return; }
+    var start=null, from = parseFloat((elm.textContent||'0').replace(/[^0-9.-]/g,'')) || 0;
+    function step(ts){
+      if(!start) start=ts;
+      var t=Math.min((ts-start)/(dur||500),1), eased=1-Math.pow(1-t,3);
+      elm.textContent = fmt(from + (target-from)*eased);
+      if(t<1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  function setDecade(idx){
+    currentIdx = idx;
+    document.getElementById('yearNum').textContent = DECADE_LABELS[idx]==='Today' ? '2025' : DECADE_LABELS[idx];
+    document.getElementById('yearTag').textContent = DECADE_LABELS[idx]==='Today' ? 'Today' : '';
+
+    var total = decadeTotal(idx);
+    animateNumberTo(document.getElementById('totalStat'), total, 500);
+    document.getElementById('totalLbl').textContent = 'tonnes raised worldwide in '+(DECADE_LABELS[idx]==='Today' ? '2025':DECADE_LABELS[idx]);
+    var sharePct = Math.round((SERIES.china[idx]+SERIES.mongolia[idx])/total*100);
+    document.getElementById('shareStat').textContent = sharePct+'%';
+
+    NODES.forEach(function(n){
+      if(n.role!=='origin' || !refs) return;
+      var v = SERIES[n.seriesKey][idx];
+      var r = rScale(v);
+      var g = refs.nodeGroups[n.id];
+      if(!g) return;
+      g.querySelector('.node-halo').setAttribute('r', r*1.9);
+      g.querySelector('.node-dot').setAttribute('r', r*0.42);
+      if(countryPaths[n.id]){
+        var maxV = Math.max(SERIES.mongolia[idx],SERIES.china[idx],SERIES.afghanistan[idx],SERIES.iran[idx],SERIES.kyrgyzstan[idx],SERIES.india[idx]);
+        countryPaths[n.id].style.fillOpacity = (0.16 + 0.74*(v/maxV)).toFixed(2);
+      }
+    });
+
+    if(selectedId){ renderNode(selectedId); } else { renderOverview(); }
+  }
+
+  var slider = document.getElementById('decadeSlider');
+  slider.addEventListener('input', function(){ setDecade(parseInt(slider.value,10)); });
+
+  var playBtn = document.getElementById('playBtn');
+  var playing = false, playTimer = null;
+  playBtn.addEventListener('click', function(){
+    if(playing){ clearInterval(playTimer); playing=false; playBtn.textContent='▶'; return; }
+    playing = true; playBtn.textContent='⏸';
+    if(parseInt(slider.value,10) === DECADES.length-1){ slider.value = 0; setDecade(0); }
+    playTimer = setInterval(function(){
+      var next = parseInt(slider.value,10)+1;
+      if(next > DECADES.length-1){ clearInterval(playTimer); playing=false; playBtn.textContent='▶'; return; }
+      slider.value = next; setDecade(next);
+    }, 1000);
+  });
+
+  /* ---------------- entrance ---------------- */
+  function runEntrance(){
+    if(reduceMotion){ stage.classList.add('is-ready'); return; }
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){ stage.classList.add('is-ready'); }); });
+  }
+
+  /* ---------------- init ---------------- */
+  function init(){
+    refs = buildOverlay();
+    setDecade(currentIdx);
+    runEntrance();
+    window.addEventListener('resize', function(){
+      // reposition overlay elements on resize since viewBox scaling handles most of it;
+      // node/route coordinates are in logical units so no rebuild is needed.
+    });
+  }
+
+  buildMap().then(function(){ init(); });
+
+})();
+</script>
+</body>
+</html>
