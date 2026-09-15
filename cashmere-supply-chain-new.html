@@ -179,11 +179,15 @@
   .is-ready .node-group{ opacity:1; transform:scale(1); }
   .is-ready .node-group.dim{ opacity:0.22; }
 
+  /* ---------- LAYOUT: map + side panel ---------- */
+  .map-layout{ display:flex; gap:18px; align-items:flex-start; }
+  .map-col{ flex:1 1 auto; min-width:0; }
+
   /* ---------- PANEL ---------- */
   .panel{
-    position:absolute; top:18px; right:18px; width:300px; max-height:calc(100% - 36px);
-    overflow-y:auto; background:rgba(35,30,20,0.84); backdrop-filter:blur(10px);
-    border:1px solid var(--hair-strong); border-radius:8px; padding:20px 20px 18px; pointer-events:auto;
+    flex:0 0 300px; width:300px; max-height:520px; overflow-y:auto; background:var(--panel-2);
+    border:1px solid var(--hair-strong); border-radius:8px; padding:20px 20px 18px;
+    position:sticky; top:18px;
   }
   .panel .role-tag{ display:inline-block; font-size:10.5px; letter-spacing:0.03em; color:#20190E; background:var(--fiber); padding:3px 9px; border-radius:999px; margin-bottom:12px; }
   .panel .role-tag.processing{ background:var(--rose-light); }
@@ -199,13 +203,17 @@
 
   footer.note{ margin-top:22px; font-size:11.5px; color:var(--taupe-dim); line-height:1.6; max-width:780px; }
 
+  @media (max-width: 900px){
+    .map-layout{ flex-direction:column; }
+    .panel{ flex:none; width:100%; position:static; max-height:none; }
+  }
+
   @media (max-width: 760px){
     .wrap{ padding:30px 16px 32px; }
     header.top{ align-items:flex-start; }
     .statrail{ gap:18px; }
     .statrail .stat .num{ font-size:26px; }
     .statrail .stat .lbl{ max-width:96px; }
-    .panel{ position:static; width:100%; max-height:none; margin-top:14px; backdrop-filter:none; background:var(--panel-2); }
   }
 </style>
 </head>
@@ -260,32 +268,36 @@
     </div>
   </div>
 
-  <div class="stage-outer">
-    <div class="map-stage" id="stage">
-      <svg class="overlay" id="overlaySvg" viewBox="0 0 1000 460" preserveAspectRatio="xMidYMid meet">
-        <defs>
-          <pattern id="weave" width="5" height="5" patternUnits="userSpaceOnUse" class="weave-pattern">
-            <circle cx="1" cy="1" r="0.6" opacity="0.55"></circle>
-          </pattern>
-        </defs>
-        <g id="graticuleLayer"></g>
-        <g id="countryLayer"></g>
-        <g id="routeLayer"></g>
-        <g id="nodeLayer"></g>
-      </svg>
-
-      <div class="panel" id="panel">
-        <button class="close-btn" id="closeBtn" aria-label="Back to overview">✕</button>
-        <div id="panelContent">
-          <div class="overview-num" id="overviewNum">24,000 t</div>
-          <div class="overview-lbl">raised across roughly a dozen producing regions today</div>
-          <p class="hint">Select a glowing point on the map to read about that region's role in the cashmere trade — or drag the slider above to see it shift across decades.</p>
+  <div class="map-layout">
+    <div class="map-col">
+      <div class="stage-outer">
+        <div class="map-stage" id="stage">
+          <svg class="overlay" id="overlaySvg" viewBox="0 0 1000 460" preserveAspectRatio="xMidYMid meet">
+            <defs>
+              <pattern id="weave" width="5" height="5" patternUnits="userSpaceOnUse" class="weave-pattern">
+                <circle cx="1" cy="1" r="0.6" opacity="0.55"></circle>
+              </pattern>
+            </defs>
+            <g id="graticuleLayer"></g>
+            <g id="countryLayer"></g>
+            <g id="routeLayer"></g>
+            <g id="nodeLayer"></g>
+          </svg>
+        </div>
+        <div class="caption-row">
+          <span>Equirectangular projection, cropped near the poles</span>
+          <span>Country borders simplified for legibility</span>
         </div>
       </div>
     </div>
-    <div class="caption-row">
-      <span>Equirectangular projection, cropped near the poles</span>
-      <span>Country borders simplified for legibility</span>
+
+    <div class="panel" id="panel">
+      <button class="close-btn" id="closeBtn" aria-label="Back to overview">✕</button>
+      <div id="panelContent">
+        <div class="overview-num" id="overviewNum">24,000 t</div>
+        <div class="overview-lbl">raised across roughly a dozen producing regions today</div>
+        <p class="hint">Select a glowing point on the map to read about that region's role in the cashmere trade — or drag the slider above to see it shift across decades.</p>
+      </div>
     </div>
   </div>
 
@@ -313,7 +325,9 @@
     afghanistan: [70, 110, 200, 350, 550, 700],
     iran:        [140, 190, 240, 300, 400, 450],
     kyrgyzstan:  [30, 50, 80, 120, 150, 180],
-    india:       [10, 15, 25, 35, 48, 55]
+    india:       [40, 80, 150, 300, 500, 650],
+    pakistan:    [50, 80, 130, 190, 260, 300],
+    newzealand:  [50, 120, 15, 8, 5, 5]
   };
 
   var NODES = [
@@ -329,12 +343,18 @@
     {id:'iran', name:'Iran', role:'origin', lon:53, lat:32, countryId:364, seriesKey:'iran',
       body:'Goats raised across the arid central plateau and Khorasan region have supplied regional textile trade with coarser-grade cashmere for generations.',
       meta:'Established regional producer'},
-    {id:'kyrgyzstan', name:'Kyrgyzstan & Central Asia', role:'origin', lon:75, lat:42, countryId:417, seriesKey:'kyrgyzstan',
+    {id:'kyrgyzstan', name:'Kyrgyzstan & Central Asia', short:'Kyrgyzstan', role:'origin', lon:75, lat:42, countryId:417, seriesKey:'kyrgyzstan',
       body:"Mountain herds scattered across the Tian Shan contribute a minor but increasing share of Central Asia's raw fibre supply.",
       meta:'Central Asian herding belt'},
-    {id:'india', name:'India · Ladakh', role:'origin', lon:77.5, lat:32, countryId:356, seriesKey:'india',
-      body:"Changthangi goats herded above 4,000 metres on the Ladakh plateau by Changpa nomads yield a tiny but exceptionally fine harvest, hand-combed and largely reserved for Kashmir's pashmina looms.",
-      meta:'Prized for a very fine micron count'},
+    {id:'india', name:'India · Kashmir & Ladakh', short:'India', role:'origin', lon:77.5, lat:32, countryId:356, seriesKey:'india',
+      body:"Changthangi goats herded above 4,000 metres on the Ladakh plateau, alongside a wider network of highland herders across Jammu & Kashmir, feed a growing raw-fibre trade tied to the region's famed pashmina looms.",
+      meta:'Rising output tracks growing global demand for pashmina'},
+    {id:'pakistan', name:'Pakistan', role:'origin', lon:68, lat:29, countryId:586, seriesKey:'pakistan',
+      body:"Herding communities across Balochistan and the northern highlands raise cashmere goats for a growing export trade, with most raw fibre currently dehaired and spun abroad rather than processed locally.",
+      meta:'Expanding raw-fibre exporter'},
+    {id:'newzealand', name:'New Zealand', role:'origin', lon:170, lat:-43, countryId:554, seriesKey:'newzealand',
+      body:"Farmers built a cashmere goat industry through the 1980s, breeding feral goats for their fine undercoat. A sharp price collapse at the decade's end shrank the sector dramatically, leaving a small specialist industry today.",
+      meta:'A boom-and-bust history rather than steady growth'},
     {id:'italy', name:'Italy · Biella', role:'processing', lon:10, lat:44, countryId:380, r:17,
       stat:'Global centre of scouring & spinning',
       body:"The mills of Biella, in Piedmont, lead the world in cleaning, dehairing and spinning raw cashmere into yarn, then weaving and knitting it for the majority of the world's luxury fashion houses.",
@@ -343,7 +363,7 @@
       stat:'Heritage knitting since the 1770s',
       body:'Hawick and the Scottish Borders have spun and knitted cashmere since the eighteenth century, known for heavyweight, fully-fashioned knitwear built on generations of mill expertise.',
       meta:'One of the two historic European finishing hubs, with Italy'},
-    {id:'nepal', name:'Nepal · Kathmandu Valley', role:'processing', lon:84, lat:28, countryId:524, r:10,
+    {id:'nepal', name:'Nepal · Kathmandu Valley', role:'processing', lon:84, lat:28, countryId:524, r:8,
       stat:'Artisan hand-weaving',
       body:"Thousands of independent workshops hand-weave imported and Himalayan fibre into pashmina shawls, one of the valley's largest artisanal export industries.",
       meta:'Weaving & finishing, not raw production'}
@@ -352,7 +372,8 @@
     {from:'mongolia',to:'italy'}, {from:'china',to:'italy'},
     {from:'afghanistan',to:'italy'}, {from:'iran',to:'italy'},
     {from:'mongolia',to:'uk'}, {from:'china',to:'uk'},
-    {from:'kyrgyzstan',to:'italy'}, {from:'india',to:'nepal'}
+    {from:'kyrgyzstan',to:'italy'}, {from:'india',to:'nepal'}, {from:'newzealand',to:'italy'},
+    {from:'pakistan',to:'italy'}
   ];
   var NODE_BY_ID = {}; NODES.forEach(function(n){ NODE_BY_ID[n.id]=n; });
 
@@ -494,6 +515,20 @@
       routeEls[r.from+'>'+r.to]=path;
     });
 
+    var LABEL_OFFSETS = {
+      mongolia:    {dx:0,   dy:-14, anchor:'middle'},
+      china:       {dx:12,  dy:-2,  anchor:'start'},
+      kyrgyzstan:  {dx:-12, dy:-10, anchor:'end'},
+      afghanistan: {dx:-12, dy:6,   anchor:'end'},
+      iran:        {dx:-12, dy:18,  anchor:'end'},
+      india:       {dx:0,   dy:20,  anchor:'middle'},
+      pakistan:    {dx:-12, dy:30,  anchor:'end'},
+      nepal:       {dx:12,  dy:16,  anchor:'start'},
+      italy:       {dx:-12, dy:2,   anchor:'end'},
+      uk:          {dx:-12, dy:2,   anchor:'end'},
+      newzealand:  {dx:12,  dy:4,   anchor:'start'}
+    };
+
     var nodeGroups = {};
     NODES.forEach(function(n,i){
       var p = projectFn(n.lon, n.lat);
@@ -503,10 +538,9 @@
       var halo = el('circle',{cx:p.x,cy:p.y,r:baseR*1.9,class:'node-halo '+n.role,style:'animation-delay:'+(i*0.35)+'s'});
       var dot = el('circle',{cx:p.x,cy:p.y,r:baseR*0.42,class:'node-dot '+n.role});
       var hit = el('circle',{cx:p.x,cy:p.y,r:Math.max(baseR*0.7,14),class:'hit',fill:'transparent'});
-      var anchor = n.lon>55 ? 'start':'end';
-      var dxl = n.lon>55 ? (baseR*0.42+8) : -(baseR*0.42+8);
-      var label = el('text',{x:p.x+dxl, y:p.y+4, class:'node-label','text-anchor':anchor});
-      label.textContent = n.name.split(' · ')[0];
+      var lo = LABEL_OFFSETS[n.id] || {dx:10, dy:4, anchor:'start'};
+      var label = el('text',{x:p.x+lo.dx, y:p.y+lo.dy, class:'node-label','text-anchor':lo.anchor});
+      label.textContent = n.short || n.name.split(' · ')[0];
       g.appendChild(halo); g.appendChild(dot); g.appendChild(label); g.appendChild(hit);
       nodeLayer.appendChild(g);
       nodeGroups[n.id]=g;
@@ -516,7 +550,39 @@
       g.addEventListener('mouseleave', function(){ hoverNode(selectedId); });
     });
 
+    resolveLabelCollisions();
+
     return {routeEls:routeEls, nodeGroups:nodeGroups};
+  }
+
+  /* Nudges any node labels that still overlap after their initial hand-tuned
+     placement, using real measured text boxes rather than guessed widths —
+     a safety net for however dense a given cluster of countries turns out to be. */
+  function resolveLabelCollisions(){
+    var items = [];
+    nodeLayer.querySelectorAll('.node-label').forEach(function(t){
+      try{
+        var b = t.getBBox();
+        items.push({ el:t, x:b.x-3, y:b.y-2, w:b.width+6, h:b.height+4 });
+      }catch(e){}
+    });
+    function hit(a,b){ return a.x < b.x+b.w && b.x < a.x+a.w && a.y < b.y+b.h && b.y < a.y+a.h; }
+    for(var pass=0; pass<8; pass++){
+      var moved = false;
+      for(var i=0;i<items.length;i++){
+        for(var j=i+1;j<items.length;j++){
+          var a=items[i], b=items[j];
+          if(hit(a,b)){
+            moved = true;
+            var shift = 12;
+            var mover = a.y <= b.y ? b : a;
+            mover.y += shift;
+            mover.el.setAttribute('y', (parseFloat(mover.el.getAttribute('y')) + shift).toFixed(1));
+          }
+        }
+      }
+      if(!moved) break;
+    }
   }
 
   /* ---------------- panel ---------------- */
@@ -622,7 +688,7 @@
       g.querySelector('.node-halo').setAttribute('r', r*1.9);
       g.querySelector('.node-dot').setAttribute('r', r*0.42);
       if(countryPaths[n.id]){
-        var maxV = Math.max(SERIES.mongolia[idx],SERIES.china[idx],SERIES.afghanistan[idx],SERIES.iran[idx],SERIES.kyrgyzstan[idx],SERIES.india[idx]);
+        var maxV = Math.max(SERIES.mongolia[idx],SERIES.china[idx],SERIES.afghanistan[idx],SERIES.iran[idx],SERIES.kyrgyzstan[idx],SERIES.india[idx],SERIES.pakistan[idx],SERIES.newzealand[idx]);
         countryPaths[n.id].style.fillOpacity = (0.16 + 0.74*(v/maxV)).toFixed(2);
       }
     });
