@@ -19,9 +19,8 @@
 @media(max-width:560px){.scm{padding:48px 0 56px}.scm-wrap{padding:0 18px}.scm-intro{margin-bottom:40px}.scm-intro h1{font-size:36px}.scm-lead{font-size:15px}.cashmere-map{height:310px}.map-label{font-size:7.5px}.map-legend{right:5px;top:8px;bottom:auto;left:auto;transform:none;gap:6px;padding:7px 8px;font-size:6.5px}.pathway{padding-top:24px}.pathway-title{font-size:22px}.pathway-caption{font-size:8px}.pathway-track{grid-template-columns:repeat(2,1fr);gap:22px 0}.node-core{width:40px;height:40px}.node-name{font-size:13px}.pathway-detail{min-height:0;padding-top:24px}.pathway-detail h3{font-size:27px}.pathway-detail p{font-size:13.5px}.pathway-side{grid-template-columns:1fr 1fr}.pathway-controls{flex-wrap:wrap}.pathway-progress{order:3;flex-basis:100%;max-width:none}.context{grid-template-columns:1fr}.context-card{padding:23px 20px}.production-table th,.production-table td{padding:7px 6px}.production-table th:nth-child(3),.production-table td:nth-child(3){display:none}}
 @media(prefers-reduced-motion:reduce){.scm *,.scm *::before,.scm *::after{animation:none!important;transition:none!important}}
 </style>
-<style id="cashmere-map-inline-styles">
-
-  .cashmere-map-embed{
+<style>
+  :root{
     --ink:#17140F;
     --hair:rgba(241,233,218,0.09);
     --hair-strong:rgba(241,233,218,0.18);
@@ -39,8 +38,8 @@
   }
 
   *{box-sizing:border-box;}
-  .cashmere-map-embed{margin:0;padding:0;}
-  .cashmere-map-embed{
+  html,body{margin:0;padding:0;}
+  body{
     background:
       radial-gradient(ellipse 90% 60% at 50% -10%, #2A2417 0%, transparent 60%),
       radial-gradient(ellipse 80% 70% at 80% 110%, #221D14 0%, transparent 55%),
@@ -50,10 +49,10 @@
     -webkit-font-smoothing:antialiased;
     min-height:100vh;
   }
-  .cashmere-map-embed.reduced *{animation:none !important; transition:none !important;}
-  .cashmere-map-embed a{color:inherit;}
+  .reduced *{animation:none !important; transition:none !important;}
+  a{color:inherit;}
 
-  .cashmere-map-embed .wrap{ max-width:1220px; margin:0 auto; padding:48px 28px 40px; }
+  .wrap{ max-width:1220px; margin:0 auto; padding:48px 28px 40px; }
 
   /* ---------- HEADER ---------- */
   header.top{
@@ -146,8 +145,7 @@
   /* ---------- COUNTRIES ---------- */
   .graticule{ fill:none; stroke:rgba(241,233,218,0.045); stroke-width:1; }
   .country{
-    stroke:none;
-    stroke-width:0;
+    stroke:none; stroke-width:0;
     stroke-linejoin:round; pointer-events:auto;
     opacity:0; transform-box:fill-box; transform-origin:center;
     transition:opacity .6s ease, fill-opacity .5s ease, stroke .3s ease;
@@ -157,7 +155,7 @@
   .country.origin{ fill:var(--fiber); stroke:none; stroke-width:0; }
   .country.processing{ fill:var(--rose); fill-opacity:0.34; stroke:none; stroke-width:0; }
   .country.dim{ opacity:0.28 !important; }
-  .country:hover{ filter:brightness(1.14); stroke:none; }
+  .country:hover{ filter:brightness(1.14); }
   .weave-pattern circle{ fill:var(--fiber-light); }
   .sea{ fill:#100E0A; }
 
@@ -207,7 +205,7 @@
   .panel .role-tag.processing{ background:var(--rose-light); }
   .panel h2{ font-family:'Fraunces', serif; font-weight:440; font-size:23px; margin:0 0 6px; line-height:1.15; color:var(--ivory); }
   .panel .stat-line{ font-size:13px; color:var(--fiber-light); margin:0 0 12px; font-weight:500; }
-  .panel p..cashmere-map-embed{ font-size:13px; line-height:1.6; color:#D7CDB9; margin:0 0 12px; }
+  .panel p.body{ font-size:13px; line-height:1.6; color:#D7CDB9; margin:0 0 12px; }
   .panel .meta{ font-size:11.5px; color:var(--taupe-dim); border-top:1px solid var(--hair); padding-top:10px; line-height:1.5; }
   .panel .overview-num{ font-family:'Fraunces', serif; font-size:32px; color:var(--fiber-light); line-height:1; }
   .panel .overview-lbl{ font-size:12px; color:var(--taupe); margin-top:6px; }
@@ -223,13 +221,12 @@
   }
 
   @media (max-width: 760px){
-    .cashmere-map-embed .wrap{ padding:30px 16px 32px; }
+    .wrap{ padding:30px 16px 32px; }
     header.top{ align-items:flex-start; }
     .statrail{ gap:18px; }
     .statrail .stat .num{ font-size:26px; }
     .statrail .stat .lbl{ max-width:96px; }
   }
-
 </style>
 </head>
 <body>
@@ -314,7 +311,7 @@
       <button class="close-btn" id="closeBtn" aria-label="Back to overview">✕</button>
       <div id="panelContent">
         <div class="overview-num" id="overviewNum">24,000 t</div>
-        <div class="overview-lbl">raised across the mapped producing regions in 2025</div>
+        <div class="overview-lbl">raised across roughly a dozen producing regions today</div>
         <p class="hint">Select a glowing point on the map to read about that region's role in the cashmere trade — or drag the slider above to see it shift across decades.</p>
       </div>
     </div>
@@ -325,6 +322,8 @@
   </footer>
 
 </div>
+
+
 
 <script>
 (function(){
@@ -337,7 +336,7 @@
 
   /* ---------------- data ---------------- */
   var DECADES = [1980, 1990, 2000, 2010, 2020, 2025];
-  var DECADE_LABELS = ['1980','1990','2000','2010','2020','2025'];
+  var DECADE_LABELS = ['1980','1990','2000','2010','2020','Today'];
   var SERIES = {
     mongolia:    [1100, 1400, 3400, 6000, 9000, 9600],
     china:       [3200, 9000, 18000, 14000, 11500, 12000],
