@@ -146,17 +146,18 @@
   /* ---------- COUNTRIES ---------- */
   .graticule{ fill:none; stroke:rgba(241,233,218,0.045); stroke-width:1; }
   .country{
-    stroke:rgba(241,233,218,0.24); stroke-width:0.55;
+    stroke:none;
+    stroke-width:0;
     stroke-linejoin:round; pointer-events:auto;
     opacity:0; transform-box:fill-box; transform-origin:center;
     transition:opacity .6s ease, fill-opacity .5s ease, stroke .3s ease;
     transition-delay:var(--cd, 0s);
   }
   .is-ready .country{ opacity:1; }
-  .country.origin{ fill:var(--fiber); stroke:rgba(241,233,218,0.4); stroke-width:0.7; }
-  .country.processing{ fill:var(--rose); fill-opacity:0.34; stroke:rgba(241,233,218,0.4); stroke-width:0.7; }
+  .country.origin{ fill:var(--fiber); stroke:none; stroke-width:0; }
+  .country.processing{ fill:var(--rose); fill-opacity:0.34; stroke:none; stroke-width:0; }
   .country.dim{ opacity:0.28 !important; }
-  .country:hover{ filter:brightness(1.14); }
+  .country:hover{ filter:brightness(1.14); stroke:none; }
   .weave-pattern circle{ fill:var(--fiber-light); }
   .sea{ fill:#100E0A; }
 
