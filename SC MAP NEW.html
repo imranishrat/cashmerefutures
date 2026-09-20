@@ -17,6 +17,8 @@
     --fiber-dim:#8A754F;
     --rose:#BD7F58;
     --rose-light:#E0AC85;
+    --hand:#5FA84A;
+    --hand-light:#9ED17F;
     --ivory:#F2EAD9;
     --taupe:#A79C8B;
     --taupe-dim:#7A705F;
@@ -108,7 +110,8 @@
   .legend .item{ display:flex; align-items:center; gap:8px; }
   .legend .swatch{ width:11px; height:11px; border-radius:50%; flex:none; }
   .legend .swatch.origin{ background:var(--fiber); }
-  .legend .swatch.processing{ border:2px solid var(--rose-light); background:transparent; }
+  .legend .swatch.mechanical{ border:2px solid var(--rose-light); background:transparent; }
+  .legend .swatch.hand{ border:2px solid var(--hand-light); background:transparent; }
 
   .filters{ display:flex; gap:6px; background:var(--panel-2); border:1px solid var(--hair); border-radius:999px; padding:4px; }
   .filters button{
@@ -141,7 +144,8 @@
   }
   .is-ready .country{ opacity:1; }
   .country.origin{ fill:var(--fiber); stroke:rgba(241,233,218,0.4); stroke-width:0.7; }
-  .country.processing{ fill:var(--rose); fill-opacity:0.34; stroke:rgba(241,233,218,0.4); stroke-width:0.7; }
+  .country.mechanical{ fill:var(--rose); fill-opacity:0.34; stroke:rgba(241,233,218,0.4); stroke-width:0.7; }
+  .country.hand{ fill:var(--hand); fill-opacity:0.34; stroke:rgba(241,233,218,0.4); stroke-width:0.7; }
   .country.dim{ opacity:0.28 !important; }
   .country:hover{ filter:brightness(1.14); }
   .weave-pattern circle{ fill:var(--fiber-light); }
@@ -153,18 +157,26 @@
   .route.active{ opacity:0.9; stroke-width:1.4; stroke:var(--rose-light); stroke-dasharray:1 5; animation:dashflow 1.1s linear infinite; }
   @keyframes dashflow{ to{ stroke-dashoffset:-24; } }
 
-  .node-halo{ opacity:0.55; transform-origin:center; animation:pulse 3.6s ease-in-out infinite; transition:r .5s ease; }
-  @keyframes pulse{ 0%,100%{ opacity:.28; transform:scale(0.92);} 50%{ opacity:.6; transform:scale(1.08);} }
-  .node-dot{ transition:r .5s ease, fill .3s ease, stroke .3s ease; }
-  .node-dot.origin{ fill:var(--fiber); }
-  .node-dot.processing{ fill:none; stroke:var(--rose-light); stroke-width:2.1; }
-  .node-halo.origin{ fill:var(--fiber); }
-  .node-halo.processing{ fill:var(--rose-light); }
+  .node-dot{ fill:var(--ink); stroke:var(--hair-strong); stroke-width:1.1; transition:r .5s ease; }
+
+  .role-ring{ fill:none; transition:r .5s ease, stroke-width .5s ease; }
+  .ring-spin{ transform-box:fill-box; transform-origin:center; animation:spin 14s linear infinite; }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+  .role-ring.origin{ stroke:var(--fiber); }
+  .role-ring.mechanical{ stroke:var(--rose); }
+  .role-ring.hand{ stroke:var(--hand); }
+
+  .role-arc{ fill:none; transition:d .5s ease, stroke-width .5s ease; }
+  .role-arc.origin{ stroke:var(--fiber); }
+  .role-arc.mechanical{ stroke:var(--rose); }
+  .role-arc.hand{ stroke:var(--hand); }
+  .role-arc.garment{ stroke:var(--ivory); }
 
   .node-group{ transition:opacity .35s ease; cursor:pointer; }
   .node-group.dim{ opacity:0.22; }
-  .node-group.selected .node-dot.origin{ fill:var(--fiber-light); }
-  .node-group.selected .node-dot.processing{ stroke:var(--fiber-light); }
+  .node-group.selected .node-dot{ fill:var(--fiber-light); }
+  .node-group.selected .role-ring{ stroke-width:4; }
+  .node-group.selected .role-arc{ stroke-width:4; }
   .node-group:focus-visible{ outline:none; }
   .node-group:focus-visible .node-dot{ stroke:var(--focus-ring); stroke-width:2px; }
 
@@ -189,8 +201,11 @@
     border:1px solid var(--hair-strong); border-radius:8px; padding:20px 20px 18px;
     position:sticky; top:18px;
   }
-  .panel .role-tag{ display:inline-block; font-size:10.5px; letter-spacing:0.03em; color:#20190E; background:var(--fiber); padding:3px 9px; border-radius:999px; margin-bottom:12px; }
-  .panel .role-tag.processing{ background:var(--rose-light); }
+  .panel .role-tags{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px; }
+  .panel .role-tag{ display:inline-block; font-size:10.5px; letter-spacing:0.03em; color:#20190E; background:var(--fiber); padding:3px 9px; border-radius:999px; }
+  .panel .role-tag.mechanical{ background:var(--rose-light); }
+  .panel .role-tag.hand{ background:var(--hand-light); }
+  .panel .role-tag.garment{ background:var(--ivory); }
   .panel h2{ font-family:'Fraunces', serif; font-weight:440; font-size:23px; margin:0 0 6px; line-height:1.15; color:var(--ivory); }
   .panel .stat-line{ font-size:13px; color:var(--fiber-light); margin:0 0 12px; font-weight:500; }
   .panel p.body{ font-size:13px; line-height:1.6; color:#D7CDB9; margin:0 0 12px; }
@@ -258,7 +273,9 @@
   <div class="controls">
     <div class="legend">
       <span class="item"><span class="swatch origin"></span> Raw fibre origin</span>
-      <span class="item"><span class="swatch processing"></span> Processing &amp; weaving</span>
+      <span class="item"><span class="swatch mechanical"></span> Mechanical processing</span>
+      <span class="item"><span class="swatch hand"></span> Hand processing</span>
+      <span class="item">Split ring = more than one stage in one country</span>
       <span class="item">Circle size ≈ output that decade</span>
     </div>
     <div class="filters" role="group" aria-label="Filter map layers">
@@ -333,45 +350,47 @@
   };
 
   var NODES = [
-    {id:'mongolia', name:'Mongolia', role:'origin', lon:103, lat:46, countryId:496, seriesKey:'mongolia',
-      body:"Herds of Mongolian cashmere goats graze the Gobi and Altai steppe, where winters below −30°C push the animals to grow the finest, most insulating undercoat of any producing region. Fibre is combed out by hand each spring, never shorn.",
-      meta:'Principal herding provinces: Arkhangai, Bayankhongor, Govi-Altai'},
-    {id:'china', name:'China', role:'origin', lon:104, lat:36, countryId:156, seriesKey:'china',
+    {id:'mongolia', name:'Mongolia', roles:['origin','mechanical','garment'], lon:103, lat:46, countryId:496, seriesKey:'mongolia',
+      body:"Herds of Mongolian cashmere goats graze the Gobi and Altai steppe, where winters below −30°C push the animals to grow the finest, most insulating undercoat of any producing region. Fibre is combed out by hand each spring, never shorn. Uniquely, much of it never leaves the country: domestic mills now scour, spin, knit and sew raw fibre into finished garments within Mongolia's own borders — the only cashmere economy that runs the full chain in one place.",
+      meta:'Principal herding provinces: Arkhangai, Bayankhongor, Govi-Altai',
+      stat:'One of the only fully vertically-integrated cashmere economies'},
+    {id:'china', name:'China', roles:['origin','mechanical'], lon:104, lat:36, countryId:156, seriesKey:'china',
       body:"Inner Mongolia's Erdos region anchors the largest cashmere economy on earth, spanning herding, scouring, dehairing and spinning within a single province. Smaller high-altitude herds in Xinjiang and Tibet add further volume.",
       meta:"Also the world's largest domestic processor of raw fibre"},
-    {id:'afghanistan', name:'Afghanistan', role:'origin', lon:66, lat:34, countryId:4, seriesKey:'afghanistan',
+    {id:'afghanistan', name:'Afghanistan', roles:['origin'], lon:66, lat:34, countryId:4, seriesKey:'afghanistan',
       body:'Herding communities across the central highlands supply a small but growing share of raw fibre, much of it still exported undehaired for processing abroad.',
       meta:'Emerging producer'},
-    {id:'iran', name:'Iran', role:'origin', lon:53, lat:32, countryId:364, seriesKey:'iran',
+    {id:'iran', name:'Iran', roles:['origin'], lon:53, lat:32, countryId:364, seriesKey:'iran',
       body:'Goats raised across the arid central plateau and Khorasan region have supplied regional textile trade with coarser-grade cashmere for generations.',
       meta:'Established regional producer'},
-    {id:'kyrgyzstan', name:'Kyrgyzstan & Central Asia', short:'Kyrgyzstan', role:'origin', lon:75, lat:42, countryId:417, seriesKey:'kyrgyzstan',
+    {id:'kyrgyzstan', name:'Kyrgyzstan & Central Asia', short:'Kyrgyzstan', roles:['origin'], lon:75, lat:42, countryId:417, seriesKey:'kyrgyzstan',
       body:"Mountain herds scattered across the Tian Shan contribute a minor but increasing share of Central Asia's raw fibre supply.",
       meta:'Central Asian herding belt'},
-    {id:'kazakhstan', name:'Kazakhstan', role:'origin', lon:70, lat:47, countryId:398, seriesKey:'kazakhstan',
+    {id:'kazakhstan', name:'Kazakhstan', roles:['origin'], lon:70, lat:47, countryId:398, seriesKey:'kazakhstan',
       body:"Herds raised across the plains and foothills of southern Kazakhstan add a further, still-developing share of Central Asia's raw cashmere supply, much of it exported onward for processing.",
       meta:'Central Asian herding belt'},
-    {id:'tajikistan', name:'Tajikistan', role:'origin', lon:71, lat:38.7, countryId:762, seriesKey:'tajikistan',
+    {id:'tajikistan', name:'Tajikistan', roles:['origin'], lon:71, lat:38.7, countryId:762, seriesKey:'tajikistan',
       body:'Herding communities in the Pamir and Fergana Valley foothills contribute a small but growing volume of raw fibre to the regional Central Asian trade.',
       meta:'Emerging Central Asian producer'},
-    {id:'india', name:'India · Kashmir & Ladakh', short:'India', role:'origin', lon:77.5, lat:32, countryId:356, seriesKey:'india',
-      body:"Changthangi goats herded above 4,000 metres on the Ladakh plateau, alongside a wider network of highland herders across Jammu & Kashmir, feed a growing raw-fibre trade tied to the region's famed pashmina looms.",
-      meta:'Rising output tracks growing global demand for pashmina'},
-    {id:'pakistan', name:'Pakistan', role:'origin', lon:68, lat:29, countryId:586, seriesKey:'pakistan',
+    {id:'india', name:'India · Kashmir & Ladakh', short:'India', roles:['origin','hand'], lon:77.5, lat:32, countryId:356, seriesKey:'india',
+      body:"Changthangi goats herded above 4,000 metres on the Ladakh plateau feed a self-contained hand-craft chain: fibre is hand-spun on a traditional charkha wheel and hand-woven on wooden pit-looms by Kashmiri artisans in and around Srinagar, entirely without mechanization — the source and the craft in one region.",
+      meta:'Home of hand-spun, hand-woven pashmina — Sozni and Kani work',
+      stat:'Hand-spun and hand-woven, start to finish'},
+    {id:'pakistan', name:'Pakistan', roles:['origin'], lon:68, lat:29, countryId:586, seriesKey:'pakistan',
       body:"Herding communities across Balochistan and the northern highlands raise cashmere goats for a growing export trade, with most raw fibre currently dehaired and spun abroad rather than processed locally.",
       meta:'Expanding raw-fibre exporter'},
-    {id:'newzealand', name:'New Zealand', role:'origin', lon:170, lat:-43, countryId:554, seriesKey:'newzealand',
+    {id:'newzealand', name:'New Zealand', roles:['origin'], lon:170, lat:-43, countryId:554, seriesKey:'newzealand',
       body:"Farmers built a cashmere goat industry through the 1980s, breeding feral goats for their fine undercoat. A sharp price collapse at the decade's end shrank the sector dramatically, leaving a small specialist industry today.",
       meta:'A boom-and-bust history rather than steady growth'},
-    {id:'italy', name:'Italy · Biella', role:'processing', lon:10, lat:44, countryId:380, r:17,
+    {id:'italy', name:'Italy · Biella', roles:['mechanical'], lon:10, lat:44, countryId:380, r:17,
       stat:'Global centre of scouring & spinning',
       body:"The mills of Biella, in Piedmont, lead the world in cleaning, dehairing and spinning raw cashmere into yarn, then weaving and knitting it for the majority of the world's luxury fashion houses.",
       meta:'Receives raw and semi-processed fibre from across Asia'},
-    {id:'scotland', name:'Scotland · Scottish Borders', short:'Scotland', role:'processing', lon:-3.2, lat:56.5, countryId:900001, r:13,
+    {id:'scotland', name:'Scotland · Scottish Borders', short:'Scotland', roles:['mechanical'], lon:-3.2, lat:56.5, countryId:900001, r:13,
       stat:'Heritage knitting since the 1770s',
       body:'Hawick and the Scottish Borders have spun and knitted cashmere since the eighteenth century, known for heavyweight, fully-fashioned knitwear built on generations of mill expertise.',
       meta:'One of the two historic European finishing hubs, with Italy'},
-    {id:'nepal', name:'Nepal · Kathmandu Valley', role:'processing', lon:84, lat:28, countryId:524, r:8,
+    {id:'nepal', name:'Nepal · Kathmandu Valley', roles:['hand'], lon:84, lat:28, countryId:524, r:8,
       stat:'Artisan hand-weaving',
       body:"Thousands of independent workshops hand-weave imported and Himalayan fibre into pashmina shawls, one of the valley's largest artisanal export industries.",
       meta:'Weaving & finishing, not raw production'}
@@ -391,6 +410,17 @@
   var projectFn = null; // set once the base map (real or fallback) is ready
 
   function rScale(v){ return Math.max(4, Math.min(24, 4 + Math.sqrt(v)*0.16)); }
+  /* Returns an SVG arc path from startDeg to endDeg (clockwise from
+     12 o'clock) at radius r around (cx,cy) — used to draw one segment
+     of a multi-role node's split ring. Shared by buildOverlay() (which
+     draws the arcs) and setDecade() (which resizes them), so it needs
+     to live at this outer scope rather than inside either function. */
+  function describeArc(cx, cy, r, startDeg, endDeg){
+    function pt(deg){ var rad=(deg-90)*Math.PI/180; return {x:cx+r*Math.cos(rad), y:cy+r*Math.sin(rad)}; }
+    var s = pt(startDeg), e = pt(endDeg);
+    var largeArc = (endDeg-startDeg) <= 180 ? 0 : 1;
+    return 'M '+s.x.toFixed(1)+' '+s.y.toFixed(1)+' A '+r.toFixed(1)+' '+r.toFixed(1)+' 0 '+largeArc+' 1 '+e.x.toFixed(1)+' '+e.y.toFixed(1);
+  }
   function decadeTotal(idx){
     var t=0; for(var k in SERIES){ t+=SERIES[k][idx]; } return t;
   }
@@ -571,7 +601,7 @@
       var node = focusById[cid];
       var cls = 'country';
       var attrs = { d:d, class:cls, style:'--cd:'+Math.min(i*0.01,0.9).toFixed(2)+'s' };
-      if(node){ attrs.class += ' ' + node.role; }
+      if(node){ attrs.class += ' ' + node.roles[0]; }
       else { attrs.fill = mutedShade(cid); }
       var p = el('path', attrs);
       var title = el('title',{});
@@ -580,7 +610,7 @@
       countryLayer.appendChild(p);
       if(node){
         countryPaths[node.id] = p;
-        if(node.role==='origin'){
+        if(node.roles[0]==='origin'){
           var texture = el('path',{ d:d, fill:'url(#weave)', style:'pointer-events:none; opacity:.4' });
           countryLayer.appendChild(texture);
         }
@@ -639,8 +669,8 @@
     Object.keys(HAND_DRAWN).forEach(function(idStr){
       var cid = Number(idStr), entry = HAND_DRAWN[cid], node = focusById[cid];
       var d = entry.rings.map(ringToPathD).join(' ');
-      var attrs = { d:d, class:'country' + (node ? ' ' + node.role : ''), style:'--cd:0.9s' };
-      if(node){ /* focus country: styled by the .origin/.processing CSS classes */ }
+      var attrs = { d:d, class:'country' + (node ? ' ' + node.roles[0] : ''), style:'--cd:0.9s' };
+      if(node){ /* focus country: styled by the .origin/.mechanical/.hand CSS classes */ }
       else { attrs.fill = mutedShade(cid); }
       var p = el('path', attrs);
       var title = el('title',{});
@@ -649,7 +679,7 @@
       countryLayer.appendChild(p);
       if(node){
         countryPaths[node.id] = p;
-        if(node.role==='origin'){
+        if(node.roles[0]==='origin'){
           var texture = el('path',{ d:d, fill:'url(#weave)', style:'pointer-events:none; opacity:.4' });
           countryLayer.appendChild(texture);
         }
@@ -691,19 +721,48 @@
       newzealand:  {dx:-12, dy:4,   anchor:'end'}
     };
 
+    var ARC_GAP = 8; // degrees of gap between segments on a split ring
+
     var nodeGroups = {};
     NODES.forEach(function(n,i){
       var p = projectFn(n.lon, n.lat);
-      var baseR = n.role==='origin' ? rScale(SERIES[n.seriesKey][currentIdx]) : n.r;
-      var g = el('g',{ class:'node-group', 'data-id':n.id, 'data-role':n.role, tabindex:'0', role:'button',
+      var baseR = n.seriesKey ? rScale(SERIES[n.seriesKey][currentIdx]) : n.r;
+      var g = el('g',{ class:'node-group', 'data-id':n.id, 'data-roles':n.roles.join(','), tabindex:'0', role:'button',
         'aria-label':n.name, style:'--d:'+(i*0.05)+'s' });
-      var halo = el('circle',{cx:p.x,cy:p.y,r:baseR*1.9,class:'node-halo '+n.role,style:'animation-delay:'+(i*0.35)+'s'});
-      var dot = el('circle',{cx:p.x,cy:p.y,r:baseR*0.42,class:'node-dot '+n.role});
+      /* Every country is drawn the same way now: a ring with one
+         coloured segment per role it plays, plus a plain neutral dot
+         at the centre. A single-role country (most of them) just gets
+         a full, unsplit ring in its one colour — a multi-role country
+         (Mongolia, China, India) gets that ring visibly divided. This
+         keeps one consistent visual language across the whole map
+         instead of a handful of special-cased countries standing out
+         against plain dots everywhere else.
+         The ring sits in its own <g> so it can rotate independently of
+         the label/dot — a nod to spinning fibre into yarn. A negative
+         delay staggers each node to a different point in the rotation
+         so they don't all spin in lockstep. */
+      var ringGroup = el('g',{ class:'ring-spin', style:'animation-delay:-'+(i*1.7)+'s' });
+      if(n.roles.length > 1){
+        var segDeg = 360/n.roles.length;
+        n.roles.forEach(function(role, ri){
+          var startDeg = ri*segDeg + ARC_GAP/2, endDeg = (ri+1)*segDeg - ARC_GAP/2;
+          var arc = el('path',{ d:describeArc(p.x,p.y,baseR*0.85,startDeg,endDeg), class:'role-arc '+role,
+            'stroke-width':Math.max(2.5, baseR*0.3).toFixed(1), 'data-start':startDeg, 'data-end':endDeg });
+          ringGroup.appendChild(arc);
+        });
+      } else {
+        var ring = el('circle',{ cx:p.x, cy:p.y, r:baseR*0.85, class:'role-ring '+n.roles[0],
+          'stroke-width':Math.max(2.5, baseR*0.3).toFixed(1), 'stroke-dasharray':'3 4' });
+        ringGroup.appendChild(ring);
+      }
+      g.appendChild(ringGroup);
+      var dot = el('circle',{cx:p.x,cy:p.y,r:baseR*0.28,class:'node-dot'});
+      g.appendChild(dot);
       var hit = el('circle',{cx:p.x,cy:p.y,r:Math.max(baseR*0.7,14),class:'hit',fill:'transparent'});
       var lo = LABEL_OFFSETS[n.id] || {dx:10, dy:4, anchor:'start'};
       var label = el('text',{x:p.x+lo.dx, y:p.y+lo.dy, class:'node-label','text-anchor':lo.anchor});
       label.textContent = n.short || n.name.split(' · ')[0];
-      g.appendChild(halo); g.appendChild(dot); g.appendChild(label); g.appendChild(hit);
+      g.appendChild(label); g.appendChild(hit);
       nodeLayer.appendChild(g);
       nodeGroups[n.id]=g;
       g.addEventListener('click', function(){ selectNode(n.id); });
@@ -761,21 +820,22 @@
       '<p class="hint">Select a glowing point on the map to read about that region\'s role in the cashmere trade — or drag the slider above to see it shift across decades.</p>';
   }
 
+  var ROLE_LABELS = { origin:'Raw fibre origin', mechanical:'Mechanical processing', hand:'Hand processing', garment:'Garment-making' };
   function renderNode(id){
     var n = NODE_BY_ID[id];
     panel.classList.add('node-active');
-    var statLine;
-    if(n.role==='origin'){
+    var statLines = [];
+    if(n.seriesKey){
       var v = SERIES[n.seriesKey][currentIdx];
       var pct = Math.round(v/decadeTotal(currentIdx)*100);
-      statLine = '≈ '+fmt(v)+' t in '+DECADE_LABELS[currentIdx]+' · about '+pct+'% of the mapped total';
-    } else {
-      statLine = n.stat;
+      statLines.push('≈ '+fmt(v)+' t in '+DECADE_LABELS[currentIdx]+' · about '+pct+'% of the mapped total');
     }
+    if(n.stat) statLines.push(n.stat);
+    var roleTags = n.roles.map(function(role){ return '<span class="role-tag '+role+'">'+ROLE_LABELS[role]+'</span>'; }).join('');
     panelContent.innerHTML =
-      '<span class="role-tag '+(n.role==='processing'?'processing':'')+'">'+(n.role==='origin'?'Raw fibre origin':'Processing & weaving')+'</span>'+
+      '<div class="role-tags">'+roleTags+'</div>'+
       '<h2>'+n.name+'</h2>'+
-      '<p class="stat-line">'+statLine+'</p>'+
+      statLines.map(function(s){ return '<p class="stat-line">'+s+'</p>'; }).join('')+
       '<p class="body">'+n.body+'</p>'+
       '<p class="meta">'+n.meta+'</p>';
   }
@@ -795,23 +855,34 @@
 
   /* ---------------- filters ---------------- */
   var filterBtns = document.querySelectorAll('.filters button');
+  /* "Processing" as a filter covers mechanical, hand and garment roles
+     together — the toggle is about stage of the chain (raw vs. worked),
+     not which of the newer sub-categories a country falls into. A
+     multi-role country matches a filter if ANY of its roles do, so it
+     stays visible under both "Origins" and "Processing" rather than
+     being arbitrarily assigned to one. */
+  function matchesFilter(roles, mode){
+    if(mode==='all') return true;
+    if(mode==='origin') return roles.indexOf('origin')>-1;
+    if(mode==='processing') return roles.indexOf('mechanical')>-1 || roles.indexOf('hand')>-1 || roles.indexOf('garment')>-1;
+    return false;
+  }
   filterBtns.forEach(function(btn){
     btn.addEventListener('click', function(){
       filterBtns.forEach(function(b){ b.setAttribute('aria-pressed', b===btn?'true':'false'); });
       var mode = btn.getAttribute('data-filter');
       if(!refs) return;
       Object.keys(refs.nodeGroups).forEach(function(id){
-        var role = refs.nodeGroups[id].getAttribute('data-role');
-        refs.nodeGroups[id].classList.toggle('dim', !(mode==='all'||mode===role));
+        refs.nodeGroups[id].classList.toggle('dim', !matchesFilter(NODE_BY_ID[id].roles, mode));
       });
       ROUTES.forEach(function(r){
         var pth = refs.routeEls[r.from+'>'+r.to];
-        var relevant = mode==='all' || mode===NODE_BY_ID[r.from].role || mode===NODE_BY_ID[r.to].role;
+        var relevant = matchesFilter(NODE_BY_ID[r.from].roles, mode) || matchesFilter(NODE_BY_ID[r.to].roles, mode);
         pth.classList.toggle('dim', !relevant);
       });
       Object.keys(countryPaths).forEach(function(key){
         var n = NODE_BY_ID[key];
-        countryPaths[key].classList.toggle('dim', !(mode==='all'||mode===n.role));
+        countryPaths[key].classList.toggle('dim', !matchesFilter(n.roles, mode));
       });
     });
   });
@@ -841,13 +912,24 @@
     document.getElementById('shareStat').textContent = sharePct+'%';
 
     NODES.forEach(function(n){
-      if(n.role!=='origin' || !refs) return;
+      if(!n.seriesKey || !refs) return;
       var v = SERIES[n.seriesKey][idx];
       var r = rScale(v);
       var g = refs.nodeGroups[n.id];
       if(!g) return;
-      g.querySelector('.node-halo').setAttribute('r', r*1.9);
-      g.querySelector('.node-dot').setAttribute('r', r*0.42);
+      if(n.roles.length > 1){
+        var p = projectFn(n.lon, n.lat);
+        g.querySelectorAll('.role-arc').forEach(function(arc){
+          var startDeg = parseFloat(arc.getAttribute('data-start')), endDeg = parseFloat(arc.getAttribute('data-end'));
+          arc.setAttribute('d', describeArc(p.x, p.y, r*0.85, startDeg, endDeg));
+          arc.setAttribute('stroke-width', Math.max(2.5, r*0.3).toFixed(1));
+        });
+      } else {
+        var ring = g.querySelector('.role-ring');
+        ring.setAttribute('r', r*0.85);
+        ring.setAttribute('stroke-width', Math.max(2.5, r*0.3).toFixed(1));
+      }
+      g.querySelector('.node-dot').setAttribute('r', r*0.28);
       if(countryPaths[n.id]){
         var maxV = Math.max(SERIES.mongolia[idx],SERIES.china[idx],SERIES.afghanistan[idx],SERIES.iran[idx],SERIES.kyrgyzstan[idx],SERIES.kazakhstan[idx],SERIES.tajikistan[idx],SERIES.india[idx],SERIES.pakistan[idx],SERIES.newzealand[idx]);
         countryPaths[n.id].style.fillOpacity = (0.16 + 0.74*(v/maxV)).toFixed(2);
