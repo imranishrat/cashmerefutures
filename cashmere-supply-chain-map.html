@@ -171,6 +171,11 @@
   .role-arc.mechanical{ stroke:var(--rose); }
   .role-arc.hand{ stroke:var(--hand); }
   .role-arc.garment{ stroke:var(--ivory); }
+  /* India's ring specifically brightened on request — a targeted boost
+     rather than changing --hand/--fiber globally, which would have
+     brightened every origin and hand-processing country's ring, not
+     just India's. */
+  .node-group[data-id="india"] .role-arc{ filter:brightness(1.4) saturate(1.2); }
 
   .node-group{ transition:opacity .35s ease; cursor:pointer; }
   .node-group.dim{ opacity:0.22; }
@@ -706,15 +711,15 @@
     });
 
     var LABEL_OFFSETS = {
-      mongolia:    {dx:0,   dy:-14, anchor:'middle'},
-      china:       {dx:12,  dy:-2,  anchor:'start'},
+      mongolia:    {dx:0,   dy:-30, anchor:'middle'},
+      china:       {dx:0,   dy:32,  anchor:'middle'},
       kyrgyzstan:  {dx:-12, dy:-10, anchor:'end'},
       kazakhstan:  {dx:0,   dy:-14, anchor:'middle'},
       tajikistan:  {dx:12,  dy:10,  anchor:'start'},
-      afghanistan: {dx:-12, dy:6,   anchor:'end'},
+      afghanistan: {dx:0,   dy:-11,  anchor:'middle'},
       iran:        {dx:-12, dy:18,  anchor:'end'},
       india:       {dx:0,   dy:20,  anchor:'middle'},
-      pakistan:    {dx:-12, dy:30,  anchor:'end'},
+      pakistan:    {dx:-12, dy:16,  anchor:'end'},
       nepal:       {dx:12,  dy:16,  anchor:'start'},
       italy:       {dx:-12, dy:2,   anchor:'end'},
       scotland:    {dx:-12, dy:2,   anchor:'end'},
