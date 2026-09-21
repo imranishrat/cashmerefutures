@@ -522,3 +522,15 @@ a:focus-visible, .area-card:focus-visible{
 @media (max-width: 560px){
   .form-row{ grid-template-columns: 1fr; }
 }
+
+/* Subtle founder link treatment */
+.hero-intro .founder-link {
+  color: var(--indigo-deep);
+  font-weight: 500;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.hero-intro .founder-link:hover {
+  color: var(--copper);
+}
