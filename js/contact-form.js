@@ -31,20 +31,10 @@
       body: JSON.stringify(data)
     })
       .then(function (response) {
-        return response.text().then(function (text) {
-          var json = {};
-          try {
-            json = text ? JSON.parse(text) : {};
-          } catch (err) {
-            json = { message: text };
-          }
-
-          if (!response.ok) {
-            throw new Error(json.message || json.error || "The form service rejected the submission (HTTP " + response.status + ").");
-          }
-
-          return json;
-        });
+        if (!response.ok) {
+          throw new Error("HTTP " + response.status);
+        }
+        return response;
       })
       .then(function () {
         statusEl.textContent = "Thanks — your message has been sent. We'll be in touch.";
@@ -53,7 +43,7 @@
       })
       .catch(function (error) {
         console.error("Contact form error:", error);
-        statusEl.textContent = error.message || "Something went wrong sending this. Please try again or email us directly.";
+        statusEl.textContent = "The message could not be confirmed as sent. Please try again or email us directly.";
         statusEl.className = "form-status error";
       })
       .finally(function () {
