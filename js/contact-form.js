@@ -6,12 +6,17 @@
 
   form.addEventListener("submit", function (e) {
     e.preventDefault();
-    var data = new FormData(form);
+
     var submitBtn = form.querySelector("button[type='submit']");
     var emailField = form.querySelector("[name='email']");
     var replyToField = form.querySelector("[name='_replyto']");
 
     if (replyToField && emailField) replyToField.value = emailField.value;
+
+    var data = {};
+    new FormData(form).forEach(function (value, key) {
+      data[key] = value;
+    });
 
     statusEl.textContent = "Sending…";
     statusEl.className = "form-status";
@@ -19,14 +24,25 @@
 
     fetch(form.action, {
       method: "POST",
-      body: data,
-      headers: { "Accept": "application/json" }
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify(data)
     })
       .then(function (response) {
-        return response.json().then(function (json) {
-          if (!response.ok || !json.success) {
-            throw new Error((json && json.message) || (json && json.error) || "Something went wrong.");
+        return response.text().then(function (text) {
+          var json;
+          try {
+            json = JSON.parse(text);
+          } catch (err) {
+            throw new Error("Unexpected response from form service.");
           }
+
+          if (!response.ok || json.success !== true) {
+            throw new Error(json.message || json.error || "The form service rejected the submission.");
+          }
+
           return json;
         });
       })
@@ -35,8 +51,9 @@
         statusEl.className = "form-status success";
         form.reset();
       })
-      .catch(function () {
-        statusEl.textContent = "Something went wrong sending this — please try emailing us directly instead.";
+      .catch(function (error) {
+        console.error("Contact form error:", error);
+        statusEl.textContent = "Something went wrong sending this. Please try again or email us directly.";
         statusEl.className = "form-status error";
       })
       .finally(function () {
