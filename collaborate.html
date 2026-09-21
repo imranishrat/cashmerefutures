@@ -139,7 +139,7 @@
           Whatever your connection to cashmere, we'd like to hear from you — tell us a little about what you're working on and we'll get back to you.
         </p>
 
-        <form class="contact-form" id="contact-form" action="https://formsubmit.co/ajax/hello@cashmerefutures.com" method="POST">
+        <form class="contact-form" id="contact-form" action="https://formsubmit.co/hello@cashmerefutures.com" method="POST">
           <div class="form-row">
             <div class="form-field">
               <label for="cf-name">Name</label>
@@ -172,11 +172,12 @@
             <textarea id="cf-message" name="message" required></textarea>
           </div>
           <!-- Honeypot spam trap — hidden from real visitors, left blank by them, filled by bots -->
-          <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+          <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
           <input type="hidden" name="_subject" value="New Cashmere Futures collaboration enquiry">
           <input type="hidden" name="_replyto" value="">
           <input type="hidden" name="_template" value="table">
           <input type="hidden" name="_url" value="https://cashmerefutures.com/collaborate.html">
+          <input type="hidden" name="_next" value="https://cashmerefutures.com/thanks.html">
           <div class="form-submit-row">
             <button type="submit" class="btn primary">Send message →</button>
             <span class="form-status" id="form-status"></span>
