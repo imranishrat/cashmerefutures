@@ -32,15 +32,15 @@
     })
       .then(function (response) {
         return response.text().then(function (text) {
-          var json;
+          var json = {};
           try {
-            json = JSON.parse(text);
+            json = text ? JSON.parse(text) : {};
           } catch (err) {
-            throw new Error("Form service returned an unexpected response (HTTP " + response.status + ").");
+            json = { message: text };
           }
 
-          if (!response.ok || json.success !== true) {
-            throw new Error(json.message || json.error || "Form service rejected the submission (HTTP " + response.status + ").");
+          if (!response.ok) {
+            throw new Error(json.message || json.error || "The form service rejected the submission (HTTP " + response.status + ").");
           }
 
           return json;
@@ -53,7 +53,7 @@
       })
       .catch(function (error) {
         console.error("Contact form error:", error);
-        statusEl.textContent = error.message + " Please try again or email us directly.";
+        statusEl.textContent = error.message || "Something went wrong sending this. Please try again or email us directly.";
         statusEl.className = "form-status error";
       })
       .finally(function () {
