@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="An analytical overview of the cashmere supply chain, from herding and raw-fibre processing through spinning, dyeing, weaving, garment making and retailing.">
+<!-- PREVIEW ONLY: original supply-chain.html is unchanged. -->
+<title>Supply Chain 2025 Data Preview — Cashmere Futures</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+.scm{--fiber:#EAE3D3;--ink:#21252A;--soft:#4B4F55;--blue:#3A4F66;--deep:#263846;--rust:#8B5A3C;--green:#6B7A5E;--line:rgba(33,37,42,.14);padding:68px 0 76px;overflow:hidden}.scm *{box-sizing:border-box}.scm-wrap{max-width:1100px;margin:auto;padding:0 24px}.scm-kicker{font:500 11px/1.4 'IBM Plex Mono',monospace;letter-spacing:.05em;text-transform:uppercase;color:var(--rust);margin:0 0 11px}.scm-intro{max-width:790px;margin-bottom:52px}.scm-intro h1{font:500 clamp(34px,5vw,56px)/1.05 Fraunces,Georgia,serif;letter-spacing:-.02em;color:var(--ink);margin:0 0 18px}.scm-lead{font:400 17px/1.72 Archivo,Arial,sans-serif;color:var(--soft);max-width:760px;margin:0}.scm-heading,.map-heading{font:500 28px/1.2 Fraunces,Georgia,serif;color:var(--ink);margin:0 0 10px}.scm-sub,.map-sub{font:400 14px/1.65 Archivo,Arial,sans-serif;color:var(--soft);max-width:760px;margin:0 0 18px}.map-block{margin:0 0 58px;border-top:1px solid var(--line);padding-top:30px}.cashmere-map{position:relative;width:100%;height:520px;background:#e7eae6;border:1px solid rgba(33,37,42,.15);overflow:hidden;box-shadow:0 12px 30px rgba(33,37,42,.055)}.cashmere-map::before{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(255,255,255,.18),rgba(255,255,255,0) 38%,rgba(214,220,216,.10));z-index:1}.cashmere-map::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(58,79,102,.035),transparent 18%,transparent 82%,rgba(58,79,102,.035));z-index:1}.cashmere-map svg{position:relative;z-index:2;display:block;width:100%;height:100%}.map-country{fill:#d5d8d3;stroke:rgba(255,255,255,.92);stroke-width:.42;vector-effect:non-scaling-stroke;transition:fill .25s ease,filter .25s ease}.map-country:hover{stroke:rgba(33,37,42,.34);stroke-width:.62;filter:brightness(1.025)}.map-country.volume-high{fill:#82563c}.map-country.volume-medium{fill:#a8785c}.map-country.volume-low{fill:#b9aa92}.map-country.volume-trace{fill:#d0c8b9}.map-country.volume-unknown{fill:#ddd9d1}.map-graticule{fill:none;stroke:rgba(58,79,102,.075);stroke-width:.48;vector-effect:non-scaling-stroke}.map-label{font:500 10px/1 Fraunces,Georgia,serif;letter-spacing:.012em;fill:#30363b;paint-order:stroke;stroke:#e7eae6;stroke-width:2.8px;stroke-linejoin:round;pointer-events:none}.map-label.volume-high{font-weight:600;fill:#5e3928}.map-label.volume-medium{font-weight:500;fill:#4c3a31}.map-label.volume-low,.map-label.volume-trace,.map-label.volume-unknown{font-weight:400}.map-leader{fill:none;stroke:#697378;stroke-width:.42;vector-effect:non-scaling-stroke;opacity:.36}.map-legend{position:absolute;right:8px;top:16px;bottom:auto;left:auto;transform:none;z-index:4;display:flex;flex-direction:column;gap:8px;align-items:flex-start;padding:10px 11px;background:rgba(245,242,233,.84);border:1px solid rgba(33,37,42,.10);box-shadow:none;font:400 8px/1.3 'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:.02em;color:var(--soft)}.legend-item{display:flex;align-items:center;gap:7px;white-space:nowrap}.legend-swatch{width:11px;height:11px;flex:0 0 11px;border:1px solid rgba(33,37,42,.13)}.legend-swatch.high{background:#82563c}.legend-swatch.medium{background:#a8785c}.legend-swatch.low{background:#b9aa92}.legend-swatch.trace{background:#d0c8b9}.legend-swatch.unknown{background:#ddd9d1}.map-note{margin:12px 0 0;max-width:920px;font:400 11px/1.6 Archivo,Arial,sans-serif;color:var(--soft)}.production-wrap{margin-top:22px;border-top:1px solid var(--line);padding-top:20px}.production-title{font:500 17px/1.25 Fraunces,Georgia,serif;color:var(--ink);margin:0 0 10px}.production-table{width:100%;border-collapse:collapse;font:400 11.5px/1.45 Archivo,Arial,sans-serif;color:var(--soft)}.production-table th{font:500 9px/1.4 'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:.04em;color:var(--soft);text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}.production-table td{padding:8px 10px;border-bottom:1px solid rgba(33,37,42,.08);vertical-align:top}.production-table td:first-child{color:var(--ink);font-weight:500}.production-country{display:inline-block;color:inherit;text-decoration:none;padding:2px 6px;margin:-2px -6px;border-radius:2px;transition:background-color .2s ease,color .2s ease}.production-country:hover{background:var(--rust);color:#fff}.production-country:focus-visible{outline:2px solid var(--blue);outline-offset:2px}.production-table td:nth-child(2){white-space:nowrap;color:var(--ink)}.production-table tr:last-child td{border-bottom:0}.production-footnote{margin:10px 0 0;font:400 10.5px/1.55 Archivo,Arial,sans-serif;color:var(--soft)}
+.map-frame{fill:none;stroke:rgba(58,79,102,.16);stroke-width:.65;vector-effect:non-scaling-stroke}.map-tick{stroke:rgba(58,79,102,.22);stroke-width:.65;vector-effect:non-scaling-stroke}.map-axis-label{font:400 7px/1 'IBM Plex Mono',monospace;letter-spacing:.03em;fill:rgba(58,79,102,.44);pointer-events:none}.map-north{fill:#3a4f66;opacity:.65}.map-scale-line{stroke:#3a4f66;stroke-width:.9;opacity:.38;vector-effect:non-scaling-stroke}.map-scale-label{font:400 7px/1 'IBM Plex Mono',monospace;fill:#59646b;letter-spacing:.03em}
+.pathway{margin-top:34px;padding:30px 0 6px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.pathway-head{display:flex;justify-content:space-between;align-items:center;gap:24px;margin-bottom:26px}.pathway-title-row{display:flex;align-items:center;gap:16px;min-width:0}.pathway-title{font:500 25px/1.2 Fraunces,Georgia,serif;color:var(--ink);margin:0}.pathway-caption{font:400 10px/1.4 'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:.04em;color:var(--soft);white-space:nowrap}.pathway-track{position:relative;display:grid;grid-template-columns:repeat(7,1fr);gap:0;padding:0 0 28px}.pathway-line{position:absolute;left:2.8%;right:2.8%;top:22px;height:1px;background:rgba(139,90,60,.3);z-index:0}.pathway-line::after{content:'';position:absolute;left:0;top:-1px;width:12%;height:3px;background:var(--rust);border-radius:3px;animation:fibre-flow 4.8s linear infinite}.pathway-node{position:relative;z-index:1;text-align:center;padding:0 6px;cursor:pointer;background:transparent;border:0;color:var(--ink);font:inherit}.pathway-node:focus-visible{outline:2px solid var(--blue);outline-offset:5px}.node-core{width:44px;height:44px;margin:0 auto 12px;border:1px solid rgba(139,90,60,.45);background:var(--fiber);display:flex;align-items:center;justify-content:center;position:relative;transition:transform .25s ease,background .25s ease,border-color .25s ease}.node-core::before{content:'';width:9px;height:9px;border-radius:50%;background:#c7b89c;transition:transform .25s ease,background .25s ease}.pathway-node:hover .node-core{transform:translateY(-3px);border-color:var(--rust)}.pathway-node.active .node-core{background:var(--rust);border-color:var(--rust);transform:translateY(-3px)}.pathway-node.active .node-core::before{background:var(--fiber);transform:scale(.8)}.node-num{display:block;font:500 8px/1 'IBM Plex Mono',monospace;letter-spacing:.05em;color:var(--rust);margin-bottom:5px}.node-name{display:block;font:500 14px/1.2 Fraunces,Georgia,serif;color:var(--ink)}.node-type{display:block;margin-top:5px;font:400 8px/1.35 'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:.03em;color:var(--soft)}.pathway-detail{display:grid;grid-template-columns:1fr 1.15fr;gap:46px;padding:26px 0 4px;min-height:176px}.pathway-detail-main{border-left:3px solid var(--rust);padding-left:20px}.pathway-index{font:400 9px/1.4 'IBM Plex Mono',monospace;text-transform:uppercase;color:var(--rust);letter-spacing:.05em}.pathway-detail h3{font:500 31px/1.1 Fraunces,Georgia,serif;color:var(--ink);margin:7px 0 10px}.pathway-detail p{font:400 14px/1.65 Archivo,Arial,sans-serif;color:var(--soft);margin:0;max-width:600px}.pathway-side{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;align-content:start}.pathway-side span{display:block;font:500 8px/1.4 'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:.04em;color:var(--soft);margin-bottom:6px}.pathway-side strong{display:block;font:400 12px/1.45 Archivo,Arial,sans-serif;color:var(--ink)}.pathway-change{grid-column:1/-1;margin-top:4px;padding-top:14px;border-top:1px solid var(--line);font:400 12px/1.55 Archivo,Arial,sans-serif;color:var(--ink)}.pathway-change em{font-style:normal;color:var(--green);font-family:'IBM Plex Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.04em;margin-right:8px}.pathway-controls{display:flex;justify-content:space-between;align-items:center;gap:16px;margin:24px 0 4px}.pathway-controls button{font:500 9px/1 'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:.04em;background:transparent;border:1px solid var(--line);padding:10px 13px;color:var(--ink);cursor:pointer}.pathway-controls button:hover:not(:disabled){border-color:var(--blue);background:#faf9f5}.pathway-controls button:disabled{opacity:.3;cursor:default}.pathway-play{display:inline-flex!important;align-items:center;gap:8px}.pathway-play-dot{width:6px;height:6px;border-radius:50%;background:var(--rust)}.pathway-play.is-playing .pathway-play-dot{animation:fibre-pulse .8s infinite}.pathway-progress{height:2px;background:rgba(139,90,60,.15);position:relative;overflow:hidden;flex:1;max-width:300px}.pathway-progress::after{content:'';position:absolute;left:0;top:0;width:100%;height:100%;background:var(--rust);transform:scaleX(0);transform-origin:left}.pathway.is-playing .pathway-progress::after{animation:pathway-progress 4.8s linear infinite}@keyframes fibre-flow{0%{transform:translateX(-10%)}100%{transform:translateX(720%)}}@keyframes fibre-pulse{50%{opacity:.35;transform:scale(.7)}}@keyframes pathway-progress{0%{transform:scaleX(0)}100%{transform:scaleX(1)}}
+.context{margin-top:58px;display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.context-card{background:var(--fiber);padding:27px 24px}.context-card h3{font:500 21px/1.2 Fraunces,Georgia,serif;color:var(--ink);margin:0 0 10px}.context-card p{font:400 13.5px/1.65 Archivo,Arial,sans-serif;color:var(--soft);margin:0}.note{margin:28px 0 0;max-width:820px;font:400 12px/1.65 Archivo,Arial,sans-serif;color:var(--soft)}.note strong{color:var(--ink)}
+@media(max-width:900px){.pathway-track{grid-template-columns:repeat(4,1fr);row-gap:24px}.pathway-line{display:none}.pathway-detail{grid-template-columns:1fr;gap:24px}.pathway-side{grid-template-columns:repeat(3,1fr)}.cashmere-map{height:410px}.map-label{font-size:9px}.production-table{font-size:11px}.pathway-head{align-items:flex-start;flex-direction:column;gap:8px}}
+@media(max-width:560px){.scm{padding:48px 0 56px}.scm-wrap{padding:0 18px}.scm-intro{margin-bottom:40px}.scm-intro h1{font-size:36px}.scm-lead{font-size:15px}.cashmere-map{height:310px}.map-label{font-size:7.5px}.map-legend{right:5px;top:8px;bottom:auto;left:auto;transform:none;gap:6px;padding:7px 8px;font-size:6.5px}.pathway{padding-top:24px}.pathway-title{font-size:22px}.pathway-caption{font-size:8px}.pathway-track{grid-template-columns:repeat(2,1fr);gap:22px 0}.node-core{width:40px;height:40px}.node-name{font-size:13px}.pathway-detail{min-height:0;padding-top:24px}.pathway-detail h3{font-size:27px}.pathway-detail p{font-size:13.5px}.pathway-side{grid-template-columns:1fr 1fr}.pathway-controls{flex-wrap:wrap}.pathway-progress{order:3;flex-basis:100%;max-width:none}.context{grid-template-columns:1fr}.context-card{padding:23px 20px}.production-table th,.production-table td{padding:7px 6px}.production-table th:nth-child(3),.production-table td:nth-child(3){display:none}}
+@media(prefers-reduced-motion:reduce){.scm *,.scm *::before,.scm *::after{animation:none!important;transition:none!important}}
+</style>
+<style>
+  :root{
+    --ink:#17140F;
+    --hair:rgba(241,233,218,0.09);
+    --hair-strong:rgba(241,233,218,0.18);
+    --fiber:#CBA876;
+    --fiber-light:#EAD3A0;
+    --fiber-dim:#8A754F;
+    --rose:#BD7F58;
+    --rose-light:#E0AC85;
+    --ivory:#F2EAD9;
+    --taupe:#A79C8B;
+    --taupe-dim:#7A705F;
+    --panel-2:#2B2620;
+    --muted-land:#221D16;
+    --focus-ring:#EAD3A0;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(ellipse 90% 60% at 50% -10%, #2A2417 0%, transparent 60%),
+      radial-gradient(ellipse 80% 70% at 80% 110%, #221D14 0%, transparent 55%),
+      var(--ink);
+    color:var(--ivory);
+    font-family:'IBM Plex Sans', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+  }
+  .reduced *{animation:none !important; transition:none !important;}
+  a{color:inherit;}
+
+  .wrap{ max-width:1220px; margin:0 auto; padding:48px 28px 40px; }
+
+  /* ---------- HEADER ---------- */
+  header.top{
+    display:flex; justify-content:space-between; align-items:flex-end;
+    gap:32px; flex-wrap:wrap;
+    padding-bottom:34px; border-bottom:1px solid var(--hair); margin-bottom:30px;
+  }
+  .titleblock h1{
+    font-family:'Fraunces', serif; font-optical-sizing:auto; font-weight:440;
+    font-size:clamp(40px, 6.4vw, 74px); line-height:0.98; margin:0 0 6px;
+    color:var(--ivory); letter-spacing:-0.01em;
+  }
+  .titleblock h1 em{ font-style:italic; font-weight:300; color:var(--fiber); }
+  .titleblock p{ font-size:15px; line-height:1.6; color:var(--taupe); max-width:470px; margin:12px 0 0; }
+
+  .statrail{ display:flex; gap:26px; align-items:flex-end; }
+  .statrail .stat{ text-align:right; }
+  .statrail .stat .num{
+    font-family:'Fraunces', serif; font-weight:440; font-size:34px;
+    color:var(--fiber-light); line-height:1; font-variant-numeric:tabular-nums;
+  }
+  .statrail .stat .lbl{ font-size:11px; color:var(--taupe-dim); margin-top:6px; max-width:118px; line-height:1.35; }
+  .statrail .divider{ width:1px; align-self:stretch; background:var(--hair); }
+
+  /* ---------- TIMELINE ---------- */
+  .timeline{
+    border:1px solid var(--hair); border-radius:8px;
+    background:var(--panel-2);
+    padding:16px 22px 14px;
+    margin-bottom:18px;
+  }
+  .timeline-head{ display:flex; align-items:baseline; justify-content:space-between; margin-bottom:10px; }
+  .timeline-head .lead{ font-size:12px; color:var(--taupe); letter-spacing:0.01em; }
+  .year-readout{ display:flex; align-items:baseline; gap:9px; }
+  .year-readout .yr{ font-family:'Fraunces', serif; font-size:26px; color:var(--fiber-light); font-variant-numeric:tabular-nums; }
+  .year-readout .tag{ font-size:11px; color:var(--taupe-dim); }
+  .play-btn{
+    width:30px; height:30px; border-radius:50%; border:1px solid var(--hair-strong);
+    background:transparent; color:var(--fiber-light); cursor:pointer; font-size:11px;
+    display:flex; align-items:center; justify-content:center; flex:none;
+  }
+  .play-btn:hover{ background:rgba(203,168,118,0.12); }
+  .play-btn:focus-visible{ outline:2px solid var(--focus-ring); outline-offset:2px; }
+
+  input[type=range]{ -webkit-appearance:none; appearance:none; width:100%; background:transparent; margin:6px 0 4px; }
+  input[type=range]::-webkit-slider-runnable-track{ height:2px; background:var(--hair-strong); border-radius:2px; }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none; width:14px; height:14px; border-radius:50%;
+    background:var(--fiber-light); margin-top:-6px; cursor:pointer;
+    box-shadow:0 0 0 5px rgba(234,211,160,0.14);
+  }
+  input[type=range]::-moz-range-track{ height:2px; background:var(--hair-strong); border-radius:2px; }
+  input[type=range]::-moz-range-thumb{
+    width:14px; height:14px; border:none; border-radius:50%;
+    background:var(--fiber-light); cursor:pointer; box-shadow:0 0 0 5px rgba(234,211,160,0.14);
+  }
+  input[type=range]:focus-visible{ outline:none; }
+  input[type=range]:focus-visible::-webkit-slider-thumb{ outline:2px solid var(--focus-ring); outline-offset:2px; }
+
+  .ticks{ display:flex; justify-content:space-between; font-size:10.5px; color:var(--taupe-dim); padding:0 1px; }
+
+  /* ---------- CONTROLS ---------- */
+  .controls{ display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; margin-bottom:18px; }
+  .legend{ display:flex; gap:22px; align-items:center; flex-wrap:wrap; font-size:12.5px; color:var(--taupe); }
+  .legend .item{ display:flex; align-items:center; gap:8px; }
+  .legend .swatch{ width:11px; height:11px; border-radius:50%; flex:none; }
+  .legend .swatch.origin{ background:var(--fiber); }
+  .legend .swatch.processing{ border:2px solid var(--rose-light); background:transparent; }
+
+  .filters{ display:flex; gap:6px; background:var(--panel-2); border:1px solid var(--hair); border-radius:999px; padding:4px; }
+  .filters button{
+    font-family:'IBM Plex Sans', sans-serif; font-size:12px; letter-spacing:0.01em;
+    color:var(--taupe); background:transparent; border:none; padding:7px 15px;
+    border-radius:999px; cursor:pointer; transition:background .25s ease, color .25s ease;
+  }
+  .filters button[aria-pressed="true"]{ background:var(--fiber); color:#20190E; }
+  .filters button:hover:not([aria-pressed="true"]){ color:var(--ivory); }
+  .filters button:focus-visible{ outline:2px solid var(--focus-ring); outline-offset:2px; }
+
+  /* ---------- MAP STAGE ---------- */
+  .stage-outer{ position:relative; border:1px solid var(--hair); border-radius:6px; background:linear-gradient(180deg, #1A1610, #161209); padding:1px; overflow:hidden; }
+  .map-stage{ position:relative; width:100%; aspect-ratio: 1000 / 558; }
+  .map-stage canvas, .map-stage svg.overlay{ position:absolute; inset:0; width:100%; height:100%; display:block; }
+  .map-stage canvas{ display:none; }
+  .map-stage svg.overlay{ pointer-events:none; }
+  .map-stage svg.overlay .hit{ pointer-events:auto; cursor:pointer; }
+
+  .caption-row{ display:flex; justify-content:space-between; font-size:11px; color:var(--taupe-dim); padding:10px 4px 0; }
+
+  /* ---------- COUNTRIES ---------- */
+  .graticule{ fill:none; stroke:rgba(241,233,218,0.045); stroke-width:1; }
+  .country{
+    stroke:none; stroke-width:0;
+    stroke-linejoin:round; pointer-events:auto;
+    opacity:0; transform-box:fill-box; transform-origin:center;
+    transition:opacity .6s ease, fill-opacity .5s ease, stroke .3s ease;
+    transition-delay:var(--cd, 0s);
+  }
+  .is-ready .country{ opacity:1; }
+  .country.origin{ fill:var(--fiber); stroke:none; stroke-width:0; }
+  .country.processing{ fill:var(--rose); fill-opacity:0.34; stroke:none; stroke-width:0; }
+  .country.dim{ opacity:0.28 !important; }
+  .country:hover{ filter:brightness(1.14); }
+  .weave-pattern circle{ fill:var(--fiber-light); }
+  .sea{ fill:#100E0A; }
+
+  /* ---------- ROUTES & NODES ---------- */
+  .route{ fill:none; stroke:var(--rose); stroke-width:0.9; opacity:0.34; stroke-linecap:round; transition:opacity .35s ease, stroke-width .35s ease; }
+  .route.dim{ opacity:0.06; }
+  .route.active{ opacity:0.9; stroke-width:1.4; stroke:var(--rose-light); stroke-dasharray:1 5; animation:dashflow 1.1s linear infinite; }
+  @keyframes dashflow{ to{ stroke-dashoffset:-24; } }
+
+  .node-halo{ opacity:0.55; transform-origin:center; animation:pulse 3.6s ease-in-out infinite; transition:r .5s ease; }
+  @keyframes pulse{ 0%,100%{ opacity:.28; transform:scale(0.92);} 50%{ opacity:.6; transform:scale(1.08);} }
+  .node-dot{ transition:r .5s ease, fill .3s ease, stroke .3s ease; }
+  .node-dot.origin{ fill:var(--fiber); }
+  .node-dot.processing{ fill:none; stroke:var(--rose-light); stroke-width:2.1; }
+  .node-halo.origin{ fill:var(--fiber); }
+  .node-halo.processing{ fill:var(--rose-light); }
+
+  .node-group{ transition:opacity .35s ease; cursor:pointer; }
+  .node-group.dim{ opacity:0.22; }
+  .node-group.selected .node-dot.origin{ fill:var(--fiber-light); }
+  .node-group.selected .node-dot.processing{ stroke:var(--fiber-light); }
+  .node-group:focus-visible{ outline:none; }
+  .node-group:focus-visible .node-dot{ stroke:var(--focus-ring); stroke-width:2px; }
+
+  .node-label{ font-family:'IBM Plex Sans', sans-serif; font-size:10.5px; fill:var(--taupe); pointer-events:none; transition:fill .3s ease; }
+  .node-group:hover .node-label, .node-group.selected .node-label{ fill:var(--ivory); }
+
+  /* ---------- ENTRANCE ---------- */
+  .route{ stroke-dasharray:600; stroke-dashoffset:600; transition:stroke-dashoffset 1.4s cubic-bezier(.16,.75,.24,1); }
+  .is-ready .route{ stroke-dashoffset:0; }
+  .is-ready .route.active{ stroke-dasharray:1 5; }
+  .node-group{ opacity:0; transform:scale(.4); transform-box:fill-box; transform-origin:center; transition:opacity .5s ease, transform .55s cubic-bezier(.2,1.4,.4,1); transition-delay:var(--d, 0s); }
+  .is-ready .node-group{ opacity:1; transform:scale(1); }
+  .is-ready .node-group.dim{ opacity:0.22; }
+
+  /* ---------- LAYOUT: map + side panel ---------- */
+  .map-layout{ display:flex; gap:18px; align-items:flex-start; }
+  .map-col{ flex:1 1 auto; min-width:0; }
+
+  /* ---------- PANEL ---------- */
+  .panel{
+    flex:0 0 300px; width:300px; max-height:520px; overflow-y:auto; background:var(--panel-2);
+    border:1px solid var(--hair-strong); border-radius:8px; padding:20px 20px 18px;
+    position:sticky; top:18px;
+  }
+  .panel .role-tag{ display:inline-block; font-size:10.5px; letter-spacing:0.03em; color:#20190E; background:var(--fiber); padding:3px 9px; border-radius:999px; margin-bottom:12px; }
+  .panel .role-tag.processing{ background:var(--rose-light); }
+  .panel h2{ font-family:'Fraunces', serif; font-weight:440; font-size:23px; margin:0 0 6px; line-height:1.15; color:var(--ivory); }
+  .panel .stat-line{ font-size:13px; color:var(--fiber-light); margin:0 0 12px; font-weight:500; }
+  .panel p.body{ font-size:13px; line-height:1.6; color:#D7CDB9; margin:0 0 12px; }
+  .panel .meta{ font-size:11.5px; color:var(--taupe-dim); border-top:1px solid var(--hair); padding-top:10px; line-height:1.5; }
+  .panel .overview-num{ font-family:'Fraunces', serif; font-size:32px; color:var(--fiber-light); line-height:1; }
+  .panel .overview-lbl{ font-size:12px; color:var(--taupe); margin-top:6px; }
+  .panel .hint{ margin-top:16px; font-size:12px; color:var(--taupe-dim); line-height:1.5; }
+  .panel .close-btn{ display:none; float:right; background:transparent; border:none; color:var(--taupe); font-size:16px; cursor:pointer; line-height:1; padding:2px 4px; }
+  .panel.node-active .close-btn{ display:block; }
+
+  footer.note{ margin-top:22px; font-size:11.5px; color:var(--taupe-dim); line-height:1.6; max-width:780px; }
+
+  @media (max-width: 900px){
+    .map-layout{ flex-direction:column; }
+    .panel{ flex:none; width:100%; position:static; max-height:none; }
+  }
+
+  @media (max-width: 760px){
+    .wrap{ padding:30px 16px 32px; }
+    header.top{ align-items:flex-start; }
+    .statrail{ gap:18px; }
+    .statrail .stat .num{ font-size:26px; }
+    .statrail .stat .lbl{ max-width:96px; }
+  }
+</style>
+
+<style>
+/* ---------- Cashmere Futures page integration ---------- */
+body{
+  background:#F2EAD9 !important;
+  color:#17140F;
+}
+.scm{
+  padding:58px 0 76px;
+}
+.scm-wrap{
+  max-width:1120px;
+}
+.scm-intro{
+  max-width:900px;
+  margin-bottom:48px;
+}
+.scm-intro h1{
+  font-size:clamp(38px,5.5vw,62px);
+}
+.map-block{
+  margin-bottom:56px;
+  padding-top:28px;
+}
+.cashmere-map-embed{
+  margin-top:28px;
+  background:#17140F;
+  border:1px solid rgba(33,37,42,.16);
+  border-radius:2px;
+  overflow:hidden;
+  box-shadow:0 18px 45px rgba(33,37,42,.10);
+}
+.cashmere-map-embed .wrap{
+  max-width:none;
+  margin:0;
+  padding:40px 34px 30px;
+}
+.cashmere-map-embed header.top{
+  margin:0 0 26px;
+  padding:0 0 28px;
+}
+.cashmere-map-embed .titleblock h1{
+  font-size:clamp(38px,5.5vw,66px);
+}
+.cashmere-map-embed .timeline{
+  margin-bottom:16px;
+}
+.cashmere-map-embed .map-layout{
+  gap:20px;
+}
+.cashmere-map-embed .panel{
+  border-radius:2px;
+}
+.cashmere-map-embed .stage-outer{
+  border-radius:2px;
+}
+.cashmere-map-embed footer.note{
+  margin-top:20px;
+}
+.map-note{
+  margin-top:16px;
+}
+.production-wrap{
+  margin-top:24px;
+}
+.scm-rule{
+  margin-top:56px;
+  padding-top:30px;
+  border-top:1px solid var(--line);
+}
+.context{
+  margin-top:56px;
+}
+.note{
+  margin-top:28px;
+}
+@media(max-width:900px){
+  .cashmere-map-embed .wrap{
+    padding:32px 24px 26px;
+  }
+}
+@media(max-width:560px){
+  .scm{
+    padding:46px 0 58px;
+  }
+  .cashmere-map-embed{
+    margin-top:22px;
+  }
+  .cashmere-map-embed .wrap{
+    padding:26px 16px 22px;
+  }
+  .cashmere-map-embed header.top{
+    padding-bottom:22px;
+  }
+}
+</style>
+<style>
+.undercoat-header-box{
+  margin:0 0 28px;
+  background:#17140F;
+  color:#F2EAD9;
+  border:1px solid rgba(33,37,42,.16);
+  border-radius:2px;
+  overflow:hidden;
+  box-shadow:0 18px 45px rgba(33,37,42,.10);
+}
+.undercoat-header-box .wrap{
+  max-width:none;
+  margin:0;
+  padding:34px 34px 30px;
+}
+.undercoat-header-box header.top{
+  margin:0;
+  padding:0;
+  border:0;
+}
+.undercoat-header-box .titleblock h1{
+  color:#F2EAD9;
+}
+.undercoat-header-box .titleblock p{
+  color:#A79C8B;
+}
+.undercoat-header-box .statrail .num,
+.undercoat-header-box .stat-num-fixed{
+  font-family:'Fraunces',serif;
+  font-weight:440;
+  font-size:34px;
+  color:#EAD3A0;
+  line-height:1;
+  font-variant-numeric:tabular-nums;
+}
+.undercoat-header-box .stat-num-fixed{
+  font-size:26px;
+}
+.undercoat-header-box .statrail .lbl{
+  color:#7A705F;
+}
+.new-sc-map-embed{
+  width:100%;
+  margin:0 0 56px;
+  background:#17140F;
+  border:1px solid rgba(33,37,42,.16);
+  border-radius:2px;
+  overflow:hidden;
+  box-shadow:0 18px 45px rgba(33,37,42,.10);
+}
+.new-sc-map-embed iframe{
+  display:block;
+  width:100%;
+  height:900px;
+  border:0;
+  background:#17140F;
+}
+@media(max-width:900px){
+  .undercoat-header-box .wrap{padding:30px 24px 26px}
+  .undercoat-header-box .statrail{flex-wrap:wrap}
+  .new-sc-map-embed iframe{height:820px}
+}
+@media(max-width:560px){
+  .undercoat-header-box .wrap{padding:26px 16px 22px}
+  .undercoat-header-box .titleblock h1{font-size:38px}
+  .undercoat-header-box .statrail{gap:18px}
+  .undercoat-header-box .statrail .num{font-size:26px}
+  .undercoat-header-box .statrail .stat-num-fixed{font-size:22px}
+  .new-sc-map-embed iframe{height:760px}
+}
+</style>
+
+</head>
+<body>
+<header class="site-header"><div class="container nav-container"><a class="brand" href="index.html" aria-label="Cashmere Futures home"><span class="brand-name">Cashmere Futures</span><span class="brand-subtitle">Cashmere Futures Lab</span></a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">Home</a><a href="about.html">About</a><a href="supply-chain.html" aria-current="page">Supply Chain</a><a href="communities.html">Communities</a><a href="sdg-hub.html">Cashmere-SDG Hub</a><a href="library.html">Library</a></nav></div></header>
+<main><section class="scm"><div class="scm-wrap">
+<div class="scm-intro"><p class="scm-kicker" style="padding:10px 12px;background:#fff3cd;border:1px solid #e0c36b;display:inline-block">PREVIEW ONLY — NOT THE LIVE PAGE</p><p class="scm-kicker">From fibre to garment</p><h1>How cashmere moves through the supply chain</h1><p class="scm-lead">Cashmere is transformed through a sequence of biological, processing, textile and commercial activities. The pathway is geographically dispersed and can vary by fibre quality, processing capability, ownership and market.</p></div>
+<section class="map-block" aria-labelledby="map-title"><p class="scm-kicker">Geographic origins</p><h2 class="map-heading" id="map-title">Where cashmere fibre is produced</h2><p class="map-sub">Cashmere production is concentrated across the cold, dry regions of Central and East Asia, with smaller volumes produced in other countries.</p>
+<div class="new-sc-map-embed" role="region" aria-label="Interactive cashmere supply chain map">
+  <iframe src="cashmere-supply-chain-map.html" title="Interactive cashmere supply chain map" loading="eager"></iframe>
+</div>
+<p class="map-note">The figures below reproduce the animation's illustrative 2025 estimates for the countries quantified in its time series. They are reconstructed estimates, not a single official national statistical series; methods and coverage may differ. Countries not quantified in the animation are identified separately.</p><div class="production-wrap"><h3 class="production-title">Indicative production volumes — 2025 animation estimates</h3><table class="production-table"><thead><tr><th>Country</th><th>Volume</th><th>Basis</th></tr></thead><tbody><tr><td><a href="map.html?region=156" class="production-country">China</a></td><td>12,000 t</td><td>2025 animation estimate</td></tr><tr><td><a href="map.html?region=496" class="production-country">Mongolia</a></td><td>9,600 t</td><td>2025 animation estimate</td></tr><tr><td><a href="map.html?region=004" class="production-country">Afghanistan</a></td><td>700 t</td><td>2025 animation estimate</td></tr><tr><td><a href="map.html?region=364" class="production-country">Iran</a></td><td>450 t</td><td>2025 animation estimate</td></tr><tr><td><a href="map.html?region=356" class="production-country">India</a></td><td>650 t</td><td>2025 animation estimate</td></tr><tr><td><a href="map.html?region=586" class="production-country">Pakistan</a></td><td>300 t</td><td>2025 animation estimate</td></tr><tr><td><a href="map.html?region=417" class="production-country">Kyrgyzstan</a></td><td>180 t</td><td>2025 animation estimate</td></tr><tr><td><a href="map.html?region=398" class="production-country">Kazakhstan</a></td><td>160 t</td><td>2025 animation estimate</td></tr><tr><td>Tajikistan</td><td>70 t</td><td>2025 animation estimate</td></tr><tr><td><a href="map.html?region=554" class="production-country">New Zealand</a></td><td>5 t</td><td>2025 animation estimate</td></tr><tr><td>Turkey</td><td>Not quantified</td><td>Not included in animation series</td></tr><tr><td>Nepal</td><td>Not quantified</td><td>Animation describes weaving and finishing, not raw-fibre production</td></tr><tr><td>Uzbekistan</td><td>Not quantified</td><td>Not included in animation series</td></tr></tbody></table><p class="production-footnote">All numeric values above match the animation's 2025 endpoint. They should be treated as illustrative estimates for consistency across this page, not as verified official 2025 national statistics. The animation's production series totals approximately 24,115 tonnes.</p></div></div></section>
+<section class="scm-rule" aria-labelledby="stages-title"><p class="scm-kicker">Supply-chain stages</p><h2 class="scm-heading" id="stages-title">One fibre · many transformations</h2><p class="scm-sub">An interactive material pathway from biological origin to market. Select a node, or let the fibre move through the chain automatically.</p>
+<div class="pathway" id="pathway"><div class="pathway-head"><div class="pathway-title-row"><h3 class="pathway-title">The cashmere transformation pathway</h3><button class="pathway-play" id="pathPlay" type="button" aria-pressed="false"><span class="pathway-play-dot"></span><span id="pathPlayLabel">Play sequence</span></button></div><span class="pathway-caption">Biological origin → material transformation → market value</span></div><div class="pathway-track" id="pathwayTrack"><div class="pathway-line"></div></div><div class="pathway-detail" aria-live="polite"><div class="pathway-detail-main"><span class="pathway-index" id="pathIndex"></span><h3 id="pathTitle"></h3><p id="pathText"></p></div><div class="pathway-side"><div><span>Activity</span><strong id="pathActivity"></strong></div><div><span>Setting</span><strong id="pathSetting"></strong></div><div><span>Typical duration</span><strong id="pathDuration"></strong></div><div class="pathway-change"><em>Material change</em><span id="pathChange"></span></div></div></div><div class="pathway-controls"><button id="pathPrev" type="button">← Previous</button><span class="pathway-progress" aria-hidden="true"></span><button id="pathNext" type="button">Next →</button></div></div>
+</section>
+<div class="context"><article class="context-card"><h3>Value creation</h3><p>Value is added unevenly across the chain. Fibre quality, processing capability, craftsmanship, technology, branding and market positioning all influence where economic and symbolic value accumulates.</p></article><article class="context-card"><h3>Transformation</h3><p>Traceability matters because material transformations can occur across multiple jurisdictions and organisations. Linking origin, processing and product information can strengthen transparency and support more responsible supply-chain decisions.</p></article></div><p class="note"><strong>Analytical note.</strong> The supply chain is not a single linear pathway. Production systems, processing locations, ownership structures and routes to market vary by country and product. The framework above provides a simplified analytical representation for examining transformation, traceability and sustainability.</p>
+</div></section></main>
+<footer class="site-footer">
+    <div class="container foot-row">
+      <p><strong>Cashmere Futures</strong> · Cashmere Futures Lab (CFL)</p>
+      <div class="foot-links">
+        <a href="about.html">About</a>
+        <a href="map.html">Global Map</a>
+        <a href="collaborate.html">Collaborate</a>
+        <a href="disclaimer.html">Disclaimer</a>
+      </div>
+    </div>
+  </footer>
+<script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script><script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
+<script>
+const mapEl=document.getElementById('cashmereMap');
+const production={'China':{v:17589,label:'17,589 t',basis:'2023'},'Mongolia':{v:10092,label:'10,092 t',basis:'2022'},'Afghanistan':{v:1900,label:'<2,000 t',basis:'2018 estimate'},'Iran':{v:1900,label:'<2,000 t',basis:'2018 estimate'},'Kazakhstan':{v:null,label:'Small; not quantified',basis:'published sources'},'Kyrgyzstan':{v:null,label:'Small; not quantified',basis:'published sources'},'Pakistan':{v:60,label:'60 t',basis:'indicative figure'},'India':{v:70,label:'70 t',basis:'historical estimate'},'Turkey':{v:null,label:'Small; not quantified',basis:'published sources'},'Nepal':{v:null,label:'Small; not quantified',basis:'published sources'},'Uzbekistan':{v:null,label:'Small; not quantified',basis:'published sources'},'New Zealand':{v:4.9,label:'<5 t',basis:'published estimate'}};const producing=new Set(Object.keys(production));const labelOffsets={China:[8,-7],Mongolia:[8,-6],Afghanistan:[-4,-12],Iran:[-2,0],Kazakhstan:[5,-10],Kyrgyzstan:[10,11],Pakistan:[-6,14],India:[-2,0],Turkey:[-8,-9],Nepal:[10,-2],Uzbekistan:[-20,-10],'New Zealand':[9,4]};function volumeClass(name){const p=production[name];if(!p)return '';if(p.v===null)return 'volume-unknown';if(p.v>=5000)return 'volume-high';if(p.v>=1000)return 'volume-medium';if(p.v>=100)return 'volume-low';return 'volume-trace'}function drawMap(world){const w=mapEl.clientWidth,h=mapEl.clientHeight;const svg=d3.select(mapEl).append('svg').attr('viewBox','0 0 '+w+' '+h).attr('preserveAspectRatio','xMidYMid meet');const projection=d3.geoNaturalEarth1().fitExtent([[12,16],[w-12,h-16]],{type:'Sphere'});const path=d3.geoPath(projection);svg.append('path').datum(d3.geoGraticule().step([20,20])()).attr('class','map-graticule').attr('d',path);const countries=topojson.feature(world,world.objects.countries).features;svg.append('g').selectAll('path').data(countries).join('path').attr('class',d=>'map-country '+volumeClass(d.properties.name)+(d.properties.name==='Mongolia'?' mongolia':'')).attr('d',path).each(function(d){const p=production[d.properties.name];d3.select(this).append('title').text(p?d.properties.name+' — '+p.label+' ('+p.basis+')':d.properties.name||'Country')});const labels=svg.append('g');countries.filter(d=>producing.has(d.properties.name)).forEach(d=>{const c=path.centroid(d);if(!isFinite(c[0])||!isFinite(c[1]))return;const o=labelOffsets[d.properties.name]||[0,0],x=c[0]+o[0],y=c[1]+o[1];if(Math.abs(o[0])+Math.abs(o[1])>6)labels.append('line').attr('class','map-leader').attr('x1',c[0]).attr('y1',c[1]).attr('x2',x+(o[0]<0?3:-3)).attr('y2',y-3);labels.append('text').attr('class','map-label '+volumeClass(d.properties.name)).attr('x',x).attr('y',y).attr('text-anchor',o[0]<-3?'end':'start').text(d.properties.name)})}fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json').then(r=>{if(!r.ok)throw new Error();return r.json()}).then(drawMap).catch(()=>{mapEl.innerHTML='<div style="height:100%;display:flex;align-items:center;justify-content:center;padding:30px;text-align:center;font:400 13px/1.6 Archivo,Arial,sans-serif;color:#4B4F55">The geographic map could not be loaded. Please refresh the page to try again.</div>'});
+const stages=[{title:'Herding',type:'Origin',activity:'Herding and farming',setting:'Cashmere-producing pastoral and farm systems',duration:'Year-round',text:'Cashmere production begins with herding and farming systems. Goat husbandry, animal health, grazing or pasture management, nutrition and local production practices shape the quantity and quality of the raw fibre.',change:'The biological source of cashmere is produced within a livestock and land-management system.'},{title:'Raw-Fibre Processing',type:'Preparation',activity:'Scouring, carding, combing and preparation',setting:'Primary fibre-processing facilities',duration:'Days to weeks',text:'Raw cashmere is processed to remove dirt and impurities and to prepare the fibre for yarn production. Processing may include scouring, drying, carding, combing and drawing; dehairing is an important part of preparing fine cashmere.',change:'Greasy raw fibre is transformed into clean, prepared fibre suitable for textile production.'},{title:'Spinning',type:'Yarn',activity:'Spinning and yarn production',setting:'Spinning mills and textile-processing facilities',duration:'Days to weeks',text:'Prepared cashmere fibre is spun into yarn. Blending, fibre preparation, machinery and technical expertise influence yarn characteristics, consistency and downstream performance.',change:'Loose fibre becomes a continuous textile yarn.'},{title:'Dyeing',type:'Colour',activity:'Dyeing and associated finishing',setting:'Yarn or fabric processing facilities',duration:'Days to weeks',text:'Cashmere may be dyed at the yarn or fabric stage, depending on the production route. Colour selection, process control, chemicals, water and energy use are important considerations for quality and sustainability.',change:'The textile material acquires the colour and selected finishing characteristics required by the product and market.'},{title:'Weaving',type:'Textile',activity:'Weaving or knitting to form fabric',setting:'Textile and knitwear manufacturing facilities',duration:'Days to weeks',text:'Yarn is converted into raw fabric through weaving or knitting. Textile construction, machinery, craftsmanship and quality control determine the structure, handle and performance of the resulting material.',change:'Yarn becomes a textile surface or fabric suitable for product manufacture.'},{title:'Garment',type:'Product',activity:'Final product and garment making',setting:'Garment and product manufacturing facilities',duration:'Weeks',text:'Fabric is transformed into finished products through cutting, sewing and related garment-making operations. Design specifications, workmanship, labour organisation and quality assurance become central to product value.',change:'Fabric becomes a finished cashmere garment or textile product.'},{title:'Retailing',type:'Market',activity:'Branding, distribution and retail',setting:'Domestic and international markets',duration:'Days to weeks',text:'Finished products move through labelling, branding, distribution and retail channels before reaching consumers. Provenance, quality, certification and brand narratives can influence market value and consumer trust.',change:'The finished product reaches the market, where commercial and symbolic value are realised.'}];
+const track=document.getElementById('pathwayTrack'),els={index:document.getElementById('pathIndex'),title:document.getElementById('pathTitle'),text:document.getElementById('pathText'),activity:document.getElementById('pathActivity'),setting:document.getElementById('pathSetting'),duration:document.getElementById('pathDuration'),change:document.getElementById('pathChange')};let current=0,timer=null;stages.forEach((s,i)=>{const b=document.createElement('button');b.className='pathway-node';b.type='button';b.innerHTML='<span class="node-core"><span class="node-num">0'+(i+1)+'</span></span><span class="node-name">'+s.title+'</span><span class="node-type">'+s.type+'</span>';b.setAttribute('aria-label','Stage '+(i+1)+': '+s.title);b.addEventListener('click',()=>{stopPath();current=i;renderPath()});track.appendChild(b)});function renderPath(){const s=stages[current];els.index.textContent='Stage '+String(current+1).padStart(2,'0')+' / '+String(stages.length).padStart(2,'0');els.title.textContent=s.title;els.text.textContent=s.text;els.activity.textContent=s.activity;els.setting.textContent=s.setting;els.duration.textContent=s.duration;els.change.textContent=s.change;[...track.querySelectorAll('.pathway-node')].forEach((b,i)=>{b.classList.toggle('active',i===current);b.setAttribute('aria-current',i===current?'step':'false')});document.getElementById('pathPrev').disabled=current===0;document.getElementById('pathNext').disabled=current===stages.length-1}function startPath(){if(timer)return;document.getElementById('pathPlay').classList.add('is-playing');document.getElementById('pathPlay').setAttribute('aria-pressed','true');document.getElementById('pathPlayLabel').textContent='Pause sequence';timer=setInterval(()=>{current=(current+1)%stages.length;renderPath()},4800)}function stopPath(){if(timer){clearInterval(timer);timer=null}document.getElementById('pathPlay').classList.remove('is-playing');document.getElementById('pathPlay').setAttribute('aria-pressed','false');document.getElementById('pathPlayLabel').textContent='Play sequence'}document.getElementById('pathPlay').addEventListener('click',()=>timer?stopPath():startPath());document.getElementById('pathPrev').addEventListener('click',()=>{stopPath();if(current>0){current--;renderPath()}});document.getElementById('pathNext').addEventListener('click',()=>{stopPath();if(current<stages.length-1){current++;renderPath()}});renderPath();
+</script>
+
+</body>
+</html>
